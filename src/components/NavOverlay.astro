@@ -18,7 +18,7 @@ const isActive = (href: string) => {
   aria-label="Menu de navigation"
   aria-hidden="true"
 >
-  <div class="flex items-start px-6 pt-4 md:px-10 md:pt-6">
+  <div class="flex items-center gap-5 px-6 pt-4 md:px-10 md:pt-6">
     <Image
       src={logoNegatif}
       alt="Au Petit Gourmet"
@@ -28,6 +28,33 @@ const isActive = (href: string) => {
       loading="eager"
       class="h-16 w-16 object-contain md:h-28 md:w-28"
     />
+    <!-- Réseaux — poussés à droite en mobile, près du logo en tablette (pill nav en haut à droite) -->
+    <div class="ml-auto flex items-center gap-3 md:ml-0 lg:hidden">
+      <a
+        href={restaurant.social.instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-cream-100/85 transition-colors hover:border-terracotta-500 hover:text-terracotta-500"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+        </svg>
+      </a>
+      <a
+        href={restaurant.social.facebook}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Facebook"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-cream-100/85 transition-colors hover:border-terracotta-500 hover:text-terracotta-500"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z" />
+        </svg>
+      </a>
+    </div>
   </div>
 
   <div class="container-content flex flex-1 flex-col justify-center py-6 md:py-12">
@@ -43,7 +70,7 @@ const isActive = (href: string) => {
               <a
                 href={item.href}
                 class:list={[
-                  "block font-serif text-[2rem] leading-tight transition-colors md:text-7xl",
+                  "block font-serif text-[2rem] leading-tight transition-colors md:text-[2.8rem]",
                   isActive(item.href) ? "text-terracotta-500" : "text-cream-50 hover:text-terracotta-500",
                 ]}
                 aria-current={isActive(item.href) ? "page" : undefined}
@@ -59,12 +86,12 @@ const isActive = (href: string) => {
   </div>
 
   <div class="border-t border-white/10">
-    <div class="container-content grid gap-5 py-5 md:grid-cols-3 md:gap-8 md:py-8">
+    <div class="container-content grid grid-cols-2 gap-x-4 gap-y-5 py-5 lg:grid-cols-3 lg:gap-8 lg:py-8">
       <div>
         <p class="text-xs uppercase tracking-[0.18em] text-terracotta-500">Téléphone</p>
         <a
           href={`tel:${restaurant.phone}`}
-          class="mt-2 block font-serif text-2xl text-cream-50 transition-colors hover:text-terracotta-500"
+          class="mt-2 block font-serif text-lg text-cream-50 transition-colors hover:text-terracotta-500 md:text-2xl"
         >
           {restaurant.phoneDisplay}
         </a>
@@ -76,7 +103,7 @@ const isActive = (href: string) => {
           {restaurant.address.postalCode} {restaurant.address.city}
         </address>
       </div>
-      <div>
+      <div class="hidden lg:block">
         <p class="text-xs uppercase tracking-[0.18em] text-terracotta-500">Suivez-nous</p>
         <div class="mt-3 flex items-center gap-3">
           <a
@@ -146,6 +173,27 @@ const isActive = (href: string) => {
 </script>
 
 <style is:global>
+  /* Scrollbar discrète assortie au thème (overlay scrollable sur petits écrans) */
+  #nav-overlay {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(176 116 57 / 0.55) transparent; /* terracotta / track transparent */
+  }
+  #nav-overlay::-webkit-scrollbar {
+    width: 8px;
+  }
+  #nav-overlay::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  #nav-overlay::-webkit-scrollbar-thumb {
+    background-color: rgb(176 116 57 / 0.55); /* terracotta-500 translucide */
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  #nav-overlay::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(176 116 57 / 0.85);
+  }
+
   #nav-overlay {
     visibility: hidden;
     opacity: 0;

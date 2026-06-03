@@ -20,6 +20,10 @@
     background-color: var(--color-bg);
     color: var(--color-text);
     font-feature-settings: "kern", "liga", "calt";
+    /* Empêche tout scroll horizontal parasite (reveal-left/right, filigranes en vw…).
+       `clip` plutôt que `hidden` : ne crée pas de conteneur de défilement,
+       donc ne casse pas le position:sticky du hero. */
+    overflow-x: clip;
   }
 
   ::selection {
@@ -163,6 +167,19 @@
   .reveal-stagger > *:nth-child(6).reveal-left,
   .reveal-stagger > *:nth-child(6).reveal-right {
     transition-delay: 500ms;
+  }
+
+  /* Sur mobile, les reveal latéraux décalent vers le bas (pas sur les côtés) :
+     un translate-x sur un bloc pleine largeur déborderait du viewport à droite. */
+  @media (max-width: 640px) {
+    .reveal-left,
+    .reveal-right {
+      transform: translate3d(0, 24px, 0);
+    }
+    .reveal-left.is-visible,
+    .reveal-right.is-visible {
+      transform: translate3d(0, 0, 0);
+    }
   }
 
   /* Respect strict de prefers-reduced-motion : tout est visible d'emblée */
