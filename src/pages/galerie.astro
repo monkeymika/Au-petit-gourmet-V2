@@ -1,0 +1,363 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Hero from "@components/Hero.astro";
+import heroGalerie from "@/assets/page-galerie/hero_galerie.webp";
+
+// Imports glob par catégorie
+const platsImports = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/galerie-plats/*.webp",
+  { eager: true }
+);
+const ambianceImports = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/galerie-restaurant/*.webp",
+  { eager: true }
+);
+const exterieurImports = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/galerie-exterieur/*.webp",
+  { eager: true }
+);
+
+const sortedImages = (imports: Record<string, { default: ImageMetadata }>) =>
+  Object.entries(imports)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([_, mod]) => mod.default);
+
+const platsImages = sortedImages(platsImports);
+const ambianceImages = sortedImages(ambianceImports);
+const exterieurImages = sortedImages(exterieurImports);
+
+// Définition des 3 catégories
+const categories = [
+  {
+    id: "cuisine",
+    label: "Les plats",
+    eyebrow: "Cuisine",
+    title: "Au cœur des saveurs",
+    text: "Dans notre cuisine, chaque plat est préparé avec des produits frais sélectionnés pour leur qualité. Nous privilégions les saveurs authentiques et le respect des ingrédients pour offrir une expérience culinaire sincère et gourmande.",
+    watermark: "Saveurs",
+    images: platsImages,
+    heroImage: platsImages[0],
+    heroAlt: "Foie gras maison au pain d'épices — Au Petit Gourmet",
+    altPrefix: "Plat signé Au Petit Gourmet",
+    layout: "image-left" as const,
+  },
+  {
+    id: "ambiance",
+    label: "Le restaurant",
+    eyebrow: "Ambiance",
+    title: "À l'intérieur du restaurant",
+    text: "Plongez dans l'atmosphère chaleureuse et authentique d'Au Petit Gourmet. Chaque détail de notre décor a été pensé pour vous offrir un cadre agréable et convivial, idéal pour partager un moment unique.",
+    watermark: "Ambiance",
+    images: ambianceImages,
+    heroImage: ambianceImages[11], // 12.webp : couronne de pampas + salle
+    heroAlt: "Couronne de pampas suspendue au-dessus de la salle — Au Petit Gourmet",
+    altPrefix: "Salle du restaurant Au Petit Gourmet",
+    layout: "image-right" as const,
+  },
+  {
+    id: "exterieur",
+    label: "Extérieur",
+    eyebrow: "Extérieur",
+    title: "L'esprit guinguette",
+    text: "Profitez de notre espace extérieur dans une ambiance guinguette, idéale pour partager un repas ou un verre en plein air. Entre convivialité et charme bucolique, notre terrasse vous invite à la détente et à la gourmandise, dans un cadre authentique et chaleureux.",
+    watermark: "Guinguette",
+    images: exterieurImages,
+    heroImage: exterieurImages[9], // 10.webp : terrasse avec auvent et meubles
+    heroAlt: "Terrasse guinguette du restaurant Au Petit Gourmet",
+    altPrefix: "Terrasse extérieure Au Petit Gourmet",
+    layout: "image-left" as const,
+  },
+];
+---
+
+<BaseLayout
+  title="AuPetitGourmet - Photos du restaurant, des plats et de la terrasse"
+  description="Galerie photos d'Au Petit Gourmet à Ville-en-Vermois : nos plats, l'ambiance du restaurant et la terrasse guinguette d'été."
+>
+  <Hero imageSrc={heroGalerie} imageAlt="Cocktail à la fleur comestible — ambiance ensoleillée du restaurant Au Petit Gourmet">
+    <Fragment slot="eyebrow">Galerie · Au Petit Gourmet</Fragment>
+    <Fragment slot="title">
+      <em class="text-terracotta-500">Galerie</em>.
+    </Fragment>
+    <Fragment slot="description">
+      <p>Découvrez en images l'ambiance et le charme du restaurant Au Petit Gourmet.</p>
+      <p>De notre cuisine authentique à notre terrasse guinguette, plongez dans l'univers chaleureux et gourmand de notre restaurant.</p>
+    </Fragment>
+  </Hero>
+
+  <!-- Sélecteur de catégories -->
+  <section data-paw class="container-content pt-16 md:pt-20">
+    <div class="flex flex-col items-start gap-8 md:flex-row md:items-center md:gap-12 reveal">
+      <p class="font-serif text-xl italic text-ink-900 md:text-2xl">
+        Sélectionnez une catégorie&nbsp;:
+      </p>
+      <nav class="flex flex-1 flex-wrap items-center justify-start gap-x-8 gap-y-3 md:justify-between md:gap-x-4" aria-label="Catégories de la galerie">
+        {categories.map((cat) => (
+          <button
+            type="button"
+            data-cat-target={cat.id}
+            class="cat-btn rounded-full px-6 py-2.5 text-sm font-medium uppercase tracking-[0.18em] text-forest-700 transition-all hover:text-forest-900 data-[active=true]:border data-[active=true]:border-forest-700 md:text-base"
+          >
+            {cat.label}
+          </button>
+        ))}
+      </nav>
+    </div>
+  </section>
+
+  <!-- Panels par catégorie -->
+  {categories.map((cat) => (
+    <section
+      id={cat.id}
+      data-cat-panel={cat.id}
+      class="cat-panel relative overflow-hidden scroll-mt-32 pb-24 pt-16 md:pb-32 md:pt-20"
+    >
+      <!-- Filigrane typographique géant en arrière-plan -->
+      <span
+        aria-hidden="true"
+        class={`pointer-events-none absolute select-none font-serif italic leading-none text-forest-900/[0.045] ${
+          cat.layout === "image-right" ? "left-[-2vw] top-8" : "right-[-2vw] top-8"
+        }`}
+        style="font-size: clamp(7rem, 22vw, 18rem);"
+      >{cat.watermark}</span>
+
+      <div class="container-content relative">
+        <!-- Bloc présentation : image + texte avec frame décoratif -->
+        <div class="grid items-center gap-12 md:grid-cols-12 md:gap-16 reveal">
+          <div class={cat.layout === "image-right" ? "md:order-2 md:col-span-5" : "md:col-span-5"}>
+            <div class="relative">
+              <!-- Frame décoratif terracotta, décalé en diagonale -->
+              <div
+                aria-hidden="true"
+                class={`absolute inset-0 rounded-3xl border-2 border-terracotta-500/45 ${
+                  cat.layout === "image-right"
+                    ? "translate-x-4 translate-y-4 md:translate-x-6 md:translate-y-6"
+                    : "-translate-x-4 translate-y-4 md:-translate-x-6 md:translate-y-6"
+                }`}
+              ></div>
+
+              <!-- Petit losange signature en coin du frame -->
+              <svg
+                aria-hidden="true"
+                width="14"
+                height="14"
+                viewBox="0 0 10 10"
+                class={`absolute z-10 text-terracotta-500 ${
+                  cat.layout === "image-right"
+                    ? "right-0 bottom-0 translate-x-[calc(1rem-7px)] translate-y-[calc(1rem-7px)] md:translate-x-[calc(1.5rem-7px)] md:translate-y-[calc(1.5rem-7px)]"
+                    : "left-0 bottom-0 -translate-x-[calc(1rem-7px)] translate-y-[calc(1rem-7px)] md:-translate-x-[calc(1.5rem-7px)] md:translate-y-[calc(1.5rem-7px)]"
+                }`}
+              >
+                <rect x="5" y="0" width="7.07" height="7.07" transform="rotate(45 5 0)" fill="currentColor" />
+              </svg>
+
+              <!-- Photo principale avec shadow renforcée -->
+              <figure class="relative overflow-hidden rounded-3xl ring-1 ring-ink-900/10 shadow-[0_40px_80px_-25px_rgba(58,86,63,0.45)] transition-transform duration-700 hover:scale-[1.01]">
+                <Image
+                  src={cat.heroImage}
+                  alt={cat.heroAlt}
+                  widths={[400, 600, 900, 1200]}
+                  sizes="(min-width: 768px) 40vw, 90vw"
+                  quality={82}
+                  loading="lazy"
+                  class="h-full w-full object-cover"
+                />
+              </figure>
+            </div>
+          </div>
+
+          <div class={cat.layout === "image-right" ? "md:order-1 md:col-span-7" : "md:col-span-7"}>
+            <p class="eyebrow">{cat.eyebrow}</p>
+            <h2 class="mt-4 font-serif text-h1 leading-[1.05] text-forest-900">
+              {cat.title}
+            </h2>
+            <!-- Petit divider sous le titre -->
+            <span aria-hidden="true" class="mt-7 block h-px w-16 bg-terracotta-500/60"></span>
+            <p class="mt-7 max-w-prose text-lead text-ink-700">{cat.text}</p>
+          </div>
+        </div>
+
+      <!-- Masonry des photos -->
+      <div class="mt-16 columns-1 gap-4 sm:columns-2 md:gap-5 lg:columns-3 xl:columns-4 md:mt-20 reveal-soft">
+        {cat.images.map((img, i) => (
+          <button
+            type="button"
+            class="group mb-4 block w-full overflow-hidden rounded-2xl bg-cream-100 ring-1 ring-ink-900/5 transition-shadow hover:shadow-xl md:mb-5"
+            style="break-inside: avoid;"
+            data-gallery-trigger
+            data-gallery-cat={cat.id}
+            data-index={i}
+            aria-label={`Voir la photo ${i + 1} en grand`}
+          >
+            <Image
+              src={img}
+              alt={`${cat.altPrefix} ${i + 1}`}
+              widths={[400, 600, 800, 1200]}
+              sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              loading="lazy"
+              quality={80}
+              class="w-full h-auto transition-transform duration-700 group-hover:scale-[1.03]"
+            />
+          </button>
+        ))}
+      </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- Lightbox commune aux 3 catégories -->
+  <div
+    id="gallery-lightbox"
+    class="fixed inset-0 z-[80] hidden items-center justify-center bg-ink-900/95 p-4 backdrop-blur-sm md:p-8"
+    role="dialog"
+    aria-modal="true"
+    aria-hidden="true"
+    aria-label="Photo en grand format"
+  >
+    <button
+      type="button"
+      id="gallery-close"
+      class="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 backdrop-blur-md transition-colors hover:bg-cream-50/20 md:right-8 md:top-8 md:h-12 md:w-12"
+      aria-label="Fermer"
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M18 6L6 18M6 6l12 12" />
+      </svg>
+    </button>
+
+    <button
+      type="button"
+      id="gallery-prev"
+      class="absolute left-4 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 backdrop-blur-md transition-colors hover:bg-cream-50/20 md:left-8 md:h-12 md:w-12"
+      aria-label="Photo précédente"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M15 18l-6-6 6-6" />
+      </svg>
+    </button>
+
+    <button
+      type="button"
+      id="gallery-next"
+      class="absolute right-4 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 backdrop-blur-md transition-colors hover:bg-cream-50/20 md:right-8 md:h-12 md:w-12"
+      aria-label="Photo suivante"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M9 18l6-6-6-6" />
+      </svg>
+    </button>
+
+    <figure class="flex max-h-[90vh] max-w-[90vw] flex-col items-center justify-center gap-3">
+      <img id="gallery-image" src="" alt="" class="max-h-[85vh] max-w-full rounded-2xl object-contain shadow-2xl" />
+      <figcaption id="gallery-counter" class="text-xs font-medium uppercase tracking-[0.2em] text-cream-50/70"></figcaption>
+    </figure>
+  </div>
+
+  <script>
+    // ─── Switch entre les 3 catégories ─────────────────────────────
+    const catButtons = document.querySelectorAll<HTMLButtonElement>(".cat-btn");
+    const panels = document.querySelectorAll<HTMLElement>(".cat-panel");
+
+    const activateCat = (id: string, scroll = false) => {
+      catButtons.forEach((btn) => {
+        btn.dataset.active = btn.dataset.catTarget === id ? "true" : "false";
+      });
+      panels.forEach((panel) => {
+        panel.classList.toggle("hidden", panel.dataset.catPanel !== id);
+      });
+      if (scroll) {
+        const panel = document.querySelector<HTMLElement>(`[data-cat-panel="${id}"]`);
+        if (panel) {
+          const top = panel.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({ top: top - 100, behavior: "smooth" });
+        }
+      }
+    };
+
+    catButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.catTarget!;
+        activateCat(id, true);
+        history.replaceState(null, "", `#${id}`);
+      });
+    });
+
+    // État initial : hash URL ou première catégorie
+    const validCats = ["cuisine", "ambiance", "exterieur"];
+    const hash = window.location.hash.replace("#", "");
+    activateCat(validCats.includes(hash) ? hash : "cuisine", false);
+
+    // ─── Lightbox (limitée aux photos de la catégorie active) ─────
+    const lightbox = document.getElementById("gallery-lightbox");
+    const image = document.getElementById("gallery-image") as HTMLImageElement | null;
+    const counter = document.getElementById("gallery-counter");
+    const closeBtn = document.getElementById("gallery-close");
+    const prevBtn = document.getElementById("gallery-prev");
+    const nextBtn = document.getElementById("gallery-next");
+
+    let currentTriggers: HTMLButtonElement[] = [];
+    let currentIndex = 0;
+
+    const getActiveTriggers = (catId: string) =>
+      Array.from(
+        document.querySelectorAll<HTMLButtonElement>(
+          `[data-gallery-trigger][data-gallery-cat="${catId}"]`
+        )
+      );
+
+    const show = (index: number) => {
+      if (!image || !counter || currentTriggers.length === 0) return;
+      const total = currentTriggers.length;
+      currentIndex = ((index % total) + total) % total;
+      const trigger = currentTriggers[currentIndex];
+      const sourceImg = trigger.querySelector("img");
+      if (!sourceImg) return;
+      image.src = sourceImg.currentSrc || sourceImg.src;
+      image.alt = sourceImg.alt;
+      counter.textContent = `${currentIndex + 1} / ${total}`;
+    };
+
+    const open = (catId: string, index: number) => {
+      if (!lightbox) return;
+      currentTriggers = getActiveTriggers(catId);
+      show(index);
+      lightbox.classList.remove("hidden");
+      lightbox.classList.add("flex");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    };
+
+    const close = () => {
+      if (!lightbox) return;
+      lightbox.classList.add("hidden");
+      lightbox.classList.remove("flex");
+      lightbox.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    };
+
+    document.querySelectorAll<HTMLButtonElement>("[data-gallery-trigger]").forEach((trigger) => {
+      trigger.addEventListener("click", () => {
+        const cat = trigger.dataset.galleryCat!;
+        const i = parseInt(trigger.dataset.index || "0", 10);
+        open(cat, i);
+      });
+    });
+
+    closeBtn?.addEventListener("click", close);
+    prevBtn?.addEventListener("click", () => show(currentIndex - 1));
+    nextBtn?.addEventListener("click", () => show(currentIndex + 1));
+
+    lightbox?.addEventListener("click", (e) => {
+      if (e.target === lightbox) close();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (lightbox?.classList.contains("hidden")) return;
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft") show(currentIndex - 1);
+      else if (e.key === "ArrowRight") show(currentIndex + 1);
+    });
+  </script>
+</BaseLayout>

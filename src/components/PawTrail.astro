@@ -1,0 +1,173 @@
+---
+/**
+ * PawTrail — effet "le hérisson marche sur le site".
+ * Traînée d'empreintes posée UNIQUEMENT sur les sections marquées `data-paw`
+ * (sélection éditoriale, pas toute la page) : 4 empreintes par section, en pas
+ * alternés droite → gauche → droite → gauche, orientées vers le bas (marche).
+ *
+ * Réutilise la patte déjà détourée du loader (public/loader/foot.png).
+ * Patte droite = même image en miroir CSS (scaleX(-1)).
+ * Pattes ajoutées au <body> en JS → non clippées par les sections overflow-hidden.
+ * Monté globalement dans BaseLayout → actif sur toute page ayant un section[data-paw].
+ * Pages légales volontairement exclues (aucune section marquée).
+ */
+---
+
+<style is:global>
+  .paw-step {
+    position: absolute;
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0;
+    transform: scale(0.5) rotate(var(--paw-rot, 0deg));
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transition-delay: var(--delay, 0s); /* pose séquentielle droite→gauche */
+  }
+  .paw-step.visible {
+    opacity: 0.55;
+    transform: scale(1) rotate(var(--paw-rot, 0deg));
+  }
+  .paw-step img {
+    width: 56px;
+    height: auto;
+    display: block;
+    filter: brightness(0); /* noir pur sur fond clair */
+  }
+  /* sur fond sombre (sections forest) : patte claire pour rester visible */
+  .paw-step.on-dark img {
+    filter: brightness(0) invert(0.92);
+  }
+  .paw-step.on-dark.visible {
+    opacity: 0.4;
+  }
+  .paw-step.flip img {
+    transform: scaleX(-1);
+  }
+  @media (max-width: 767px) {
+    .paw-step img {
+      width: 40px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .paw-step {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const FOOT = "/loader/foot.png";
+  const PER_SECTION = 4; // nombre d'empreintes par section
+
+  const initPawTrail = () => {
+    if (document.querySelector(".paw-step")) return; // évite les doublons
+
+    // sections marquées d'un data-paw (sélection éditoriale, pas toute la page)
+    const sections = Array.from(document.querySelectorAll("section[data-paw]"));
+    if (!sections.length) return;
+
+    // fond sombre = choix EXPLICITE via data-paw="dark" (patte claire dessus).
+    // Plus de détection auto de luminance : trop fragile (un bloc décoratif
+    // sombre dans une section claire faussait le verdict).
+    const isDarkSection = (sec: Element): boolean =>
+      sec.getAttribute("data-paw") === "dark";
+
+    // géométrie d'une foulée (px) : 2 paires par section ("X2"), chaque paire =
+    // 2 empreintes rapprochées décalées en diagonale (bas-droite), comme la réf.
+    const PAIRS = PER_SECTION / 2; // 2 paires
+    const DX = 34; // décalage horizontal dans une paire
+    const DY = 52; // décalage vertical dans une paire
+    const PAIR_GAP = 150; // écart vertical entre deux paires
+
+    // un "pas" : section, côté de la page, indices paire/intra-paire, déclencheur
+    const trail: {
+      el: HTMLElement;
+      sec: Element;
+      rightSide: boolean; // foulée dans la marge droite (sinon gauche)
+      pp: number; // index de la paire
+      wi: number; // index dans la paire (0 = haut, 1 = bas décalé en diagonale)
+      trigger: number;
+    }[] = [];
+
+    let step = 0; // compteur global → alternance pied droit / gauche continue
+    sections.forEach((sec, si) => {
+      const dark = isDarkSection(sec);
+      const rightSide = si % 2 === 1; // alterne le côté de la page selon la section
+      for (let pp = 0; pp < PAIRS; pp++) {
+        for (let wi = 0; wi < 2; wi++) {
+          const rightFoot = step % 2 === 0;
+          const p = document.createElement("div");
+          p.className = "paw-step" + (rightFoot ? " flip" : "") + (dark ? " on-dark" : "");
+          p.setAttribute("aria-hidden", "true");
+          // doigts dans le sens de la foulée (bas-droite à gauche, bas-gauche à droite)
+          const baseRot = rightSide ? 195 : 165;
+          p.style.setProperty("--paw-rot", baseRot + (rightFoot ? 8 : -8) + "deg");
+          // pose séquentielle droite→gauche→droite→gauche dans chaque section
+          p.style.setProperty("--delay", (pp * 2 + wi) * 0.16 + "s");
+          p.innerHTML = `<img src="${FOOT}" alt="" />`;
+          document.body.appendChild(p);
+          trail.push({ el: p, sec, rightSide, pp, wi, trigger: 0 });
+          step++;
+        }
+      }
+    });
+
+    const layout = () => {
+      const margin = Math.max(36, window.innerWidth * 0.045); // marge (px)
+      const span = (PAIRS - 1) * PAIR_GAP + DY; // hauteur totale de la foulée
+      trail.forEach((s) => {
+        const r = s.sec.getBoundingClientRect();
+        const top = r.top + window.scrollY;
+        const start = top + r.height * 0.5 - span / 2; // foulée centrée dans la section
+        const y = start + s.pp * PAIR_GAP + s.wi * DY;
+        s.el.style.top = y + "px";
+        if (s.rightSide) {
+          s.el.style.right = margin + s.wi * DX + "px";
+          s.el.style.left = "";
+        } else {
+          s.el.style.left = margin + s.wi * DX + "px";
+          s.el.style.right = "";
+        }
+        s.trigger = y - 200;
+      });
+    };
+
+    let ticking = false;
+    const tick = () => {
+      const bottom = window.scrollY + window.innerHeight * 0.8;
+      trail.forEach((s) => s.el.classList.toggle("visible", bottom >= s.trigger));
+      ticking = false;
+    };
+
+    layout();
+    tick();
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(tick);
+        }
+      },
+      { passive: true }
+    );
+
+    let rT: number | undefined;
+    const relayout = () => {
+      window.clearTimeout(rT);
+      rT = window.setTimeout(() => {
+        layout();
+        tick();
+      }, 150);
+    };
+    window.addEventListener("resize", relayout, { passive: true });
+    window.addEventListener("load", relayout, { once: true });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPawTrail);
+  } else {
+    initPawTrail();
+  }
+</script>

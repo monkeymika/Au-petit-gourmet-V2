@@ -1,0 +1,63 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { restaurant } from "@data/restaurant";
+---
+
+<BaseLayout
+  title="Politique de confidentialité — Au Petit Gourmet"
+  description="Politique de confidentialité du site Au Petit Gourmet : traitement des données personnelles et droits des utilisateurs."
+>
+  <section class="container-content py-20 md:py-28">
+    <p class="eyebrow">Données personnelles</p>
+    <h1 class="mt-6 font-serif text-h1 text-forest-900">Politique de confidentialité</h1>
+
+    <div class="mt-12 max-w-prose space-y-10 text-ink-700">
+      <p class="text-lead">
+        Le restaurant {restaurant.name} attache une grande importance à la protection de votre
+        vie privée. Cette politique vous informe de la manière dont vos données personnelles
+        sont traitées lorsque vous visitez ce site.
+      </p>
+
+      <div>
+        <h2 class="font-serif text-h2 text-forest-900">Données collectées</h2>
+        <p class="mt-4">
+          Ce site est un site vitrine statique. Il ne propose ni création de compte, ni
+          formulaire de contact, ni système de réservation en ligne. <strong>Aucune donnée
+          personnelle</strong> n'est collectée par le site lui-même.
+        </p>
+        <p class="mt-4">
+          La carte intégrée (Google Maps) est fournie par Google LLC et peut, lors de son
+          chargement, transmettre certaines informations techniques (adresse IP, type de
+          navigateur) à Google selon sa propre politique de confidentialité.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-serif text-h2 text-forest-900">Vos droits</h2>
+        <p class="mt-4">
+          Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi
+          Informatique et Libertés, vous disposez d'un droit d'accès, de rectification, de
+          suppression, de limitation et d'opposition au traitement de vos données.
+        </p>
+        <p class="mt-4">
+          Pour exercer ces droits, contactez-nous au {restaurant.phoneDisplay} ou par courrier à
+          l'adresse : {restaurant.address.street}, {restaurant.address.postalCode}
+          {restaurant.address.city}.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-serif text-h2 text-forest-900">Réclamation</h2>
+        <p class="mt-4">
+          Vous avez la possibilité d'introduire une réclamation auprès de la CNIL (Commission
+          Nationale de l'Informatique et des Libertés) : <a
+            href="https://www.cnil.fr"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-medium text-terracotta-500 link-underline">www.cnil.fr</a
+          >.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

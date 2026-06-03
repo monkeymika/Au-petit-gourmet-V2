@@ -1,0 +1,73 @@
+---
+import { restaurant } from "@data/restaurant";
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  type?: "website" | "article";
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage = "/og-default.jpg",
+  type = "website",
+} = Astro.props;
+
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, restaurant.url).toString();
+const ogImageUrl = new URL(ogImage, restaurant.url).toString();
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  name: restaurant.name,
+  description: restaurant.description,
+  url: restaurant.url,
+  telephone: restaurant.phone,
+  servesCuisine: ["Française", "Traditionnelle", "Cuisine du terroir lorrain"],
+  priceRange: "€€",
+  image: ogImageUrl,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: restaurant.address.street,
+    addressLocality: restaurant.address.city,
+    postalCode: restaurant.address.postalCode,
+    addressRegion: restaurant.address.region,
+    addressCountry: restaurant.address.countryCode,
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: restaurant.geo.latitude,
+    longitude: restaurant.geo.longitude,
+  },
+  openingHoursSpecification: restaurant.openingHoursSpecification.map((s) => ({
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: s.dayOfWeek,
+    opens: s.opens,
+    closes: s.closes,
+  })),
+  sameAs: [restaurant.social.instagram],
+};
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:locale" content="fr_FR" />
+<meta property="og:site_name" content={restaurant.name} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

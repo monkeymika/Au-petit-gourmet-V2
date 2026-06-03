@@ -1,0 +1,253 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { restaurant } from "@data/restaurant";
+
+const mapsQuery = encodeURIComponent(
+  `${restaurant.address.street}, ${restaurant.address.postalCode} ${restaurant.address.city}`
+);
+const mapsEmbed = `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
+const mapsDirections = `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`;
+---
+
+<BaseLayout
+  title="AuPetitGourmet — Contact | Réservez une table à Ville-en-Vermois"
+  description="Contactez le restaurant Au Petit Gourmet : 22 Grande Rue, 54210 Ville-en-Vermois. Réservation au 03 83 46 55 43. Privatisation possible pour vos événements à partir de 10 personnes."
+>
+  <!-- ─── HERO éditorial avec badge tournant ─── -->
+  <section class="relative overflow-hidden pt-28 pb-20 md:pt-36 md:pb-28">
+    <!-- Filigrane typographique en arrière-plan -->
+    <span
+      aria-hidden="true"
+      class="pointer-events-none absolute -right-4 top-12 select-none font-serif italic leading-none text-forest-900/[0.045] md:-right-8 md:top-20"
+      style="font-size: clamp(8rem, 26vw, 22rem);"
+    >Contact</span>
+
+    <div class="container-content relative">
+      <div class="grid items-center gap-12 md:grid-cols-12 md:gap-16 reveal-stagger">
+        <!-- Texte gauche -->
+        <div class="md:col-span-7 reveal-left">
+          <p class="eyebrow">Nous trouver · Nous appeler</p>
+          <h1 class="mt-5 font-serif text-display leading-[0.95] text-forest-900">
+            On vous attend<br /><em class="text-terracotta-500">à table</em>.
+          </h1>
+          <p class="mt-8 max-w-prose text-lead text-ink-700">
+            Pour réserver une table ou organiser un événement, appelez-nous directement.
+            On prend le temps de bien vous conseiller — c'est ce qu'on préfère.
+          </p>
+        </div>
+
+        <!-- Badge tournant cliquable -->
+        <div class="flex justify-center md:col-span-5 md:justify-end reveal-right">
+          <a
+            href={`tel:${restaurant.phone}`}
+            class="group relative inline-flex h-56 w-56 items-center justify-center md:h-64 md:w-64 lg:h-72 lg:w-72"
+            aria-label={`Appeler ${restaurant.name} au ${restaurant.phoneDisplay}`}
+          >
+            <!-- Cercle SVG rotatif avec textPath -->
+            <svg
+              class="absolute inset-0 h-full w-full text-forest-900 transition-transform duration-700 group-hover:scale-105"
+              viewBox="0 0 200 200"
+              aria-hidden="true"
+              style="animation: contactBadgeSpin 20s linear infinite;"
+            >
+              <defs>
+                <path
+                  id="contactBadgeCircle"
+                  d="M 100, 100 m -78, 0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0"
+                />
+              </defs>
+              <text
+                fill="currentColor"
+                font-size="11"
+                letter-spacing="4"
+                font-weight="500"
+                style="font-family: 'Lato', sans-serif;"
+              >
+                <textPath href="#contactBadgeCircle" startOffset="0">
+                  RÉSERVEZ · NOUS APPELER · RÉSERVEZ · NOUS APPELER ·
+                </textPath>
+              </text>
+            </svg>
+
+            <!-- Petit cercle terracotta central avec icône téléphone -->
+            <span class="relative flex h-28 w-28 items-center justify-center rounded-full bg-terracotta-500 text-cream-50 shadow-2xl shadow-terracotta-500/40 transition-all duration-500 group-hover:rotate-12 group-hover:scale-110 md:h-32 md:w-32">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="md:h-10 md:w-10">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 3 cards (téléphone / adresse / horaires) avec icônes ─── -->
+  <section data-paw class="container-content pb-24 md:pb-32">
+    <div class="grid gap-5 md:grid-cols-3 md:gap-6 reveal-stagger">
+      <!-- Téléphone -->
+      <a
+        href={`tel:${restaurant.phone}`}
+        class="reveal group relative flex flex-col rounded-3xl border border-ink-900/8 bg-cream-100/50 p-8 transition-all hover:-translate-y-1 hover:border-ink-900/15 hover:bg-cream-100 hover:shadow-xl hover:shadow-ink-900/5 md:p-10"
+      >
+        <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-forest-700 text-cream-50 transition-transform group-hover:scale-110">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+          </svg>
+        </div>
+        <p class="mt-8 text-xs font-medium uppercase tracking-[0.18em] text-ink-500">
+          Téléphone
+        </p>
+        <p class="mt-3 font-serif text-2xl text-forest-900 md:text-3xl">
+          {restaurant.phoneDisplay}
+        </p>
+        <p class="mt-3 text-sm text-ink-500">Aux heures d'ouverture du restaurant.</p>
+        <span class="mt-auto pt-6 text-xs font-medium uppercase tracking-[0.15em] text-terracotta-500 opacity-0 transition-opacity group-hover:opacity-100">
+          Appeler →
+        </span>
+      </a>
+
+      <!-- Adresse -->
+      <div class="reveal group relative flex flex-col rounded-3xl border border-ink-900/8 bg-cream-100/50 p-8 transition-colors hover:bg-cream-100 md:p-10">
+        <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-forest-700 text-cream-50">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+        </div>
+        <p class="mt-8 text-xs font-medium uppercase tracking-[0.18em] text-ink-500">
+          Adresse
+        </p>
+        <address class="mt-3 not-italic font-serif text-2xl leading-snug text-forest-900 md:text-3xl">
+          {restaurant.address.street}<br />
+          <span class="text-xl md:text-2xl">{restaurant.address.postalCode} {restaurant.address.city}</span>
+        </address>
+        <a
+          href={mapsDirections}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-auto inline-flex items-center gap-1.5 pt-6 text-xs font-medium uppercase tracking-[0.15em] text-terracotta-500 link-underline"
+        >
+          Voir l'itinéraire
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M7 17L17 7M9 7h8v8" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Horaires -->
+      <div class="reveal relative flex flex-col rounded-3xl border border-ink-900/8 bg-cream-100/50 p-8 md:p-10">
+        <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-forest-700 text-cream-50">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 6v6l4 2" />
+          </svg>
+        </div>
+        <p class="mt-8 text-xs font-medium uppercase tracking-[0.18em] text-ink-500">
+          Horaires
+        </p>
+        <ul class="mt-4 divide-y divide-ink-900/8 text-sm">
+          {
+            restaurant.hours.map((h) => (
+              <li class="flex items-center justify-between gap-3 py-2">
+                <span class:list={["font-medium", h.closed ? "text-ink-500 italic" : "text-forest-900"]}>
+                  {h.day}
+                </span>
+                <span class:list={[h.closed ? "italic text-ink-500" : "text-ink-600", "text-right"]}>
+                  {h.service}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Section Privatisation / Événements ─── -->
+  <section data-paw class="surface-cream-100-lg">
+    <div class="container-content py-20 md:py-28">
+      <div class="grid items-start gap-12 md:grid-cols-12 md:gap-16 reveal-stagger">
+        <div class="md:col-span-5 reveal-left">
+          <p class="eyebrow">Événements privés</p>
+          <h2 class="mt-5 font-serif text-h1 leading-[1.05] text-forest-900">
+            Privatisez<br /><em class="text-terracotta-500">le restaurant</em>.
+          </h2>
+          <span aria-hidden="true" class="mt-7 block h-px w-16 bg-terracotta-500/60"></span>
+        </div>
+
+        <div class="md:col-span-7 reveal-right">
+          <div class="space-y-5 text-lead text-ink-700">
+            <p>
+              Vous souhaitez organiser une réunion, un repas de famille ou un événement
+              spécial&nbsp;? Nous vous offrons la possibilité de privatiser le restaurant pour
+              profiter pleinement de votre moment en toute tranquillité. Cette option est
+              disponible les soirs en semaine ainsi que le samedi midi, à partir de
+              <strong class="font-medium text-forest-800">10 personnes</strong>.
+            </p>
+            <p>
+              Notre équipe est à votre disposition pour répondre à vos questions, discuter de
+              vos besoins spécifiques, et vous accompagner dans l'organisation de votre
+              événement. Contactez-nous dès maintenant par téléphone, nous serions ravis de
+              vous accueillir et de faire de votre moment un souvenir inoubliable.
+            </p>
+          </div>
+
+          <div class="mt-10 flex flex-wrap items-center gap-5">
+            <a href={`tel:${restaurant.phone}`} class="btn-primary">
+              {restaurant.phoneDisplay}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 5l7 7-7 7" />
+              </svg>
+            </a>
+            <p class="text-xs uppercase tracking-[0.18em] text-ink-500">
+              À partir de 10 personnes · Soirs en semaine · Samedi midi
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Google Maps pleine largeur ─── -->
+  <section class="container-content py-20 md:py-24">
+    <div class="mb-10 flex items-end justify-between gap-6 md:mb-12 reveal">
+      <div>
+        <p class="eyebrow">Plan d'accès</p>
+        <h2 class="mt-3 font-serif text-h2 text-forest-900">Nous rejoindre.</h2>
+      </div>
+      <a
+        href={mapsDirections}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden shrink-0 items-center gap-2 rounded-full border border-ink-900/15 px-5 py-2.5 text-sm font-medium uppercase tracking-[0.12em] text-forest-900 transition-all hover:border-forest-700 hover:bg-forest-700 hover:text-cream-50 sm:inline-flex"
+      >
+        Itinéraire
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M13 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="overflow-hidden rounded-3xl border border-ink-900/10 shadow-xl shadow-ink-900/10 reveal-soft">
+      <iframe
+        src={mapsEmbed}
+        width="100%"
+        height="560"
+        style="border:0;"
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Carte — Au Petit Gourmet, Ville-en-Vermois"
+        class="block h-[400px] w-full md:h-[520px]"
+      ></iframe>
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  @keyframes contactBadgeSpin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>

@@ -1,0 +1,33 @@
+---
+// Motif fleuri de la carte des vins originale, fourni en PNG (line-art transparent).
+// Utilisé en tant que CSS mask → la couleur est contrôlée par `currentColor`,
+// ce qui permet de teinter le même asset en vert / terracotta / magenta.
+
+interface Props {
+  /** Classes Tailwind appliquées au wrapper (positionnement + couleur via text-*) */
+  class?: string;
+  /** Largeur CSS du motif. La hauteur suit naturellement le ratio (~3.1×). */
+  width?: string;
+  /** Miroir horizontal */
+  flip?: boolean;
+  /** Opacité globale (0–1) */
+  opacity?: number;
+}
+
+const { class: className = "", width = "260px", flip = false, opacity = 0.85 } = Astro.props;
+---
+
+<span
+  class:list={["wine-flower pointer-events-none block select-none", className]}
+  style={`width:${width}; opacity:${opacity}; ${flip ? "transform: scaleX(-1);" : ""}`}
+  aria-hidden="true"
+></span>
+
+<style>
+  .wine-flower {
+    aspect-ratio: 284 / 878;
+    background-color: currentColor;
+    -webkit-mask: url("/decor/wine-flowers.png") top center / contain no-repeat;
+    mask: url("/decor/wine-flowers.png") top center / contain no-repeat;
+  }
+</style>

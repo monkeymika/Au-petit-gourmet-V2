@@ -1,0 +1,102 @@
+---
+import { restaurant } from "@data/restaurant";
+---
+
+<nav
+  id="pill-nav"
+  class="fixed bottom-6 inset-x-0 mx-auto w-fit z-[70] flex items-center gap-2 rounded-full p-1.5 md:bottom-auto md:left-auto md:mx-0 md:right-10 md:top-10"
+  aria-label="Navigation principale"
+  data-pill-nav
+>
+  <button
+    type="button"
+    id="nav-toggle"
+    class="group relative inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium uppercase tracking-[0.15em] text-cream-50 transition-colors hover:bg-white/10"
+    aria-label="Ouvrir la navigation"
+    aria-controls="nav-overlay"
+    aria-expanded="false"
+  >
+    <span class="relative inline-flex h-4 w-4 items-center justify-center" aria-hidden="true">
+      <span data-bar="top" class="absolute left-0 top-[4px] h-px w-full bg-current origin-center"></span>
+      <span data-bar="mid" class="absolute left-0 top-[8px] h-px w-full bg-current"></span>
+      <span data-bar="bot" class="absolute left-0 top-[12px] h-px w-full bg-current origin-center"></span>
+    </span>
+    Menu
+  </button>
+
+  <a
+    href={`tel:${restaurant.phone}`}
+    class="relative inline-flex items-center rounded-full bg-forest-600 px-5 py-2 text-sm font-medium uppercase tracking-[0.15em] text-cream-50 transition-colors hover:bg-forest-400"
+    aria-label={`Réserver au ${restaurant.phoneDisplay}`}
+  >
+    Réserver
+  </a>
+</nav>
+
+<style is:global>
+  /* Expanding pill background — right-to-left reveal */
+  #pill-nav::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: rgb(44 64 48 / 0.95);
+    border: 1px solid rgb(255 255 255 / 0.08);
+    box-shadow: 0 10px 25px -5px rgb(31 45 34 / 0.3);
+    clip-path: inset(0 0 0 100% round 9999px);
+    transition: clip-path 1200ms cubic-bezier(0.83, 0, 0.17, 1);
+    z-index: -1;
+  }
+
+  #pill-nav.pill-expanded::before,
+  #pill-nav:has(#nav-toggle[aria-expanded="true"])::before {
+    clip-path: inset(0 0 0 0 round 9999px);
+  }
+
+  /* Hamburger → cross animation */
+  #nav-toggle [data-bar="top"],
+  #nav-toggle [data-bar="bot"] {
+    transition: transform 500ms cubic-bezier(0.83, 0, 0.17, 1);
+  }
+  #nav-toggle [data-bar="mid"] {
+    transition: opacity 300ms cubic-bezier(0.83, 0, 0.17, 1);
+  }
+  #nav-toggle[aria-expanded="true"] [data-bar="top"] {
+    transform: translateY(4px) rotate(45deg);
+  }
+  #nav-toggle[aria-expanded="true"] [data-bar="mid"] {
+    opacity: 0;
+  }
+  #nav-toggle[aria-expanded="true"] [data-bar="bot"] {
+    transform: translateY(-4px) rotate(-45deg);
+  }
+</style>
+
+<script>
+  const pillNav = document.querySelector<HTMLElement>('#pill-nav');
+  if (pillNav) {
+    const isHome = !!document.querySelector('[data-hero-section]');
+    const SCROLL_THRESHOLD = 80;
+
+    if (!isHome) {
+      pillNav.classList.add('pill-expanded');
+    } else {
+      let ticking = false;
+      const update = () => {
+        if (window.scrollY > SCROLL_THRESHOLD) {
+          pillNav.classList.add('pill-expanded');
+        } else {
+          pillNav.classList.remove('pill-expanded');
+        }
+        ticking = false;
+      };
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      }, { passive: true });
+      update();
+    }
+  }
+</script>

@@ -1,0 +1,57 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { restaurant } from "@data/restaurant";
+---
+
+<BaseLayout
+  title="Mentions légales — Au Petit Gourmet"
+  description="Mentions légales du site Au Petit Gourmet : éditeur, hébergeur et propriété intellectuelle."
+>
+  <section class="container-content py-20 md:py-28">
+    <p class="eyebrow">Informations légales</p>
+    <h1 class="mt-6 font-serif text-h1 text-forest-900">Mentions légales</h1>
+
+    <div class="mt-12 max-w-prose space-y-10 text-ink-700">
+      <div>
+        <h2 class="font-serif text-h2 text-forest-900">Éditeur du site</h2>
+        <p class="mt-4">
+          {restaurant.name}<br />
+          {restaurant.address.street}<br />
+          {restaurant.address.postalCode} {restaurant.address.city}<br />
+          Téléphone : {restaurant.phoneDisplay}
+        </p>
+        <p class="mt-4 text-sm text-ink-500">
+          [SIRET, forme juridique, capital social et directeur de la publication à compléter par
+          l'établissement.]
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-serif text-h2 text-forest-900">Hébergement</h2>
+        <p class="mt-4">
+          Le site {restaurant.url} est hébergé par Cloudflare, Inc. — 101 Townsend St, San
+          Francisco, CA 94107, États-Unis.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-serif text-h2 text-forest-900">Propriété intellectuelle</h2>
+        <p class="mt-4">
+          L'ensemble des contenus de ce site (textes, images, logos, illustrations) est la
+          propriété exclusive du restaurant {restaurant.name} ou de ses partenaires, et est
+          protégé par les lois en vigueur sur la propriété intellectuelle. Toute reproduction,
+          représentation ou diffusion, totale ou partielle, sans autorisation écrite préalable,
+          est interdite.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-serif text-h2 text-forest-900">Crédits</h2>
+        <p class="mt-4">
+          Photographies : {restaurant.name}.<br />
+          Conception et réalisation du site : [à compléter].
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

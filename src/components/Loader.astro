@@ -1,0 +1,203 @@
+---
+// src/components/Loader.astro
+//
+// Au Petit Gourmet — animated loader
+// Drop in anywhere. Pass `duration` (s), `radius` (px), `count`, `footColor`, `bg`
+// as props, or use the defaults below.
+//
+// Images expected in /public/loader/  (logo.png + foot.png)
+// (Or change `logoSrc` / `footSrc` below.)
+
+interface Props {
+  /** Cycle duration in seconds */
+  duration?: number;
+  /** Number of footprints around the ring */
+  count?: number;
+  /** Ring radius in px */
+  radius?: number;
+  /** Logo size in px */
+  logoSize?: number;
+  /** Footprint size in px */
+  footSize?: number;
+  /** Footprint color (any CSS color) */
+  footColor?: string;
+  /** Background: [inner, outer] gradient stops */
+  bg?: [string, string];
+  /** "clockwise" | "counter" */
+  direction?: "clockwise" | "counter";
+  /** Path to logo image (relative to /public or full URL) */
+  logoSrc?: string;
+  /** Path to footprint image */
+  footSrc?: string;
+  /** When true, the loader covers the viewport (fixed). Default true. */
+  fullscreen?: boolean;
+}
+
+const {
+  duration = 2.5,
+  count = 14,
+  radius = 230,
+  logoSize = 280,
+  footSize = 56,
+  footColor = "#1a1a1a",
+  bg = ["#e6efe7", "#d7e3d8"],
+  direction = "clockwise",
+  logoSrc = "/loader/logo.png",
+  footSrc = "/loader/foot.png",
+  fullscreen = true,
+} = Astro.props;
+
+const dir = direction === "clockwise" ? 1 : -1;
+const feet = Array.from({ length: count }, (_, i) => {
+  const angle = -Math.PI / 2 + dir * (i / count) * Math.PI * 2;
+  const x = Math.cos(angle) * radius;
+  const y = Math.sin(angle) * radius;
+  const tangentDeg = (angle * 180) / Math.PI + 90 * dir + 35;
+  const offset = (i % 2 === 0 ? 1 : -1) * 8;
+  const ox = Math.cos(angle + Math.PI / 2) * offset;
+  const oy = Math.sin(angle + Math.PI / 2) * offset;
+  const delay = (i / count) * duration;
+  const tx = `translate(-50%,-50%) translate(${(x + ox).toFixed(2)}px, ${(y + oy).toFixed(2)}px) rotate(${tangentDeg.toFixed(2)}deg)`;
+  return { tx, delay };
+});
+
+// Scope styles with a unique id so multiple loaders on a page can coexist.
+const uid = "apg-" + Math.random().toString(36).slice(2, 8);
+---
+
+<div
+  class:list={["apg-stage", { "apg-fullscreen": fullscreen }]}
+  data-uid={uid}
+  style={`background: radial-gradient(120% 80% at 50% 40%, ${bg[0]} 0%, ${bg[1]} 100%);`}
+>
+  <div class="apg-ring">
+    {feet.map((f) => (
+      <div
+        class="apg-foot"
+        style={`
+          --apg-tx: ${f.tx};
+          width: ${footSize}px;
+          height: ${(footSize * 123) / 157}px;
+          animation: apg-foot-trail ${duration}s ${f.delay}s infinite linear;
+          -webkit-mask-image: url('${footSrc}');
+          mask-image: url('${footSrc}');
+          background: ${footColor};
+        `}
+      />
+    ))}
+    <img
+      class="apg-logo"
+      src={logoSrc}
+      alt="Au Petit Gourmet"
+      style={`width:${logoSize}px;height:${logoSize}px;`}
+    />
+  </div>
+
+  <div class="apg-caption">
+    <span class="apg-dots"><em>.</em><em>.</em><em>.</em></span>
+    <span class="apg-caption-text">Préparation de votre table</span>
+  </div>
+</div>
+
+<style is:global>
+  @keyframes apg-foot-trail {
+    0%   { opacity: 0; transform: var(--apg-tx) scale(0.6); }
+    8%   { opacity: 1; transform: var(--apg-tx) scale(1.05); }
+    14%  { opacity: 1; transform: var(--apg-tx) scale(1); }
+    55%  { opacity: 1; transform: var(--apg-tx) scale(1); }
+    80%  { opacity: 0; transform: var(--apg-tx) scale(1); }
+    100% { opacity: 0; transform: var(--apg-tx) scale(1); }
+  }
+  @keyframes apg-logo-breath {
+    0%, 100% { transform: translate(-50%,-50%) scale(1); }
+    50%      { transform: translate(-50%,-50%) scale(1.03); }
+  }
+  @keyframes apg-dot {
+    0%, 100% { opacity: 0.25; transform: translateY(0); }
+    50%      { opacity: 1;    transform: translateY(-3px); }
+  }
+
+  .apg-stage {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-family: "Source Serif Pro", Georgia, serif;
+  }
+  .apg-stage.apg-fullscreen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+  }
+  .apg-ring {
+    position: relative;
+    width: 0;
+    height: 0;
+    transform: scale(0.5);
+  }
+  @media (min-width: 400px) {
+    .apg-ring { transform: scale(0.65); }
+  }
+  @media (min-width: 550px) {
+    .apg-ring { transform: scale(0.8); }
+  }
+  @media (min-width: 700px) {
+    .apg-ring { transform: scale(1); }
+  }
+  .apg-foot {
+    position: absolute;
+    left: 0; top: 0;
+    -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+    -webkit-mask-size: contain;     mask-size: contain;
+    -webkit-mask-position: center;  mask-position: center;
+    transform-origin: center center;
+    opacity: 0;
+    will-change: opacity, transform;
+  }
+  .apg-logo {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: none;
+    user-select: none;
+    pointer-events: none;
+    animation: apg-logo-breath 4s ease-in-out infinite;
+    filter: drop-shadow(0 6px 20px rgba(58, 47, 31, 0.12));
+  }
+  .apg-caption {
+    position: absolute;
+    bottom: 8vh;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    color: rgba(26, 26, 26, 0.6);
+    font-style: italic;
+    font-size: clamp(13px, 3.5vw, 17px);
+    letter-spacing: 0.02em;
+  }
+  .apg-dots em {
+    font-style: normal;
+    display: inline-block;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+    margin-right: 4px;
+    opacity: 0.4;
+    animation: apg-dot 1.2s infinite ease-in-out;
+  }
+  .apg-dots em:nth-child(2) { animation-delay: 0.15s; }
+  .apg-dots em:nth-child(3) { animation-delay: 0.30s; }
+
+  /* Helper for using <Loader /> as a splash screen that fades out on load.
+     Add the .apg-hide class (e.g. via JS) to fade and remove it. */
+  .apg-stage.apg-hide {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 600ms ease;
+  }
+</style>

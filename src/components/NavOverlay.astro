@@ -1,0 +1,160 @@
+---
+import { Image } from "astro:assets";
+import { navigation, restaurant } from "@data/restaurant";
+import logoNegatif from "@/assets/logo/LogoNegatif_AuPetitGourmet.png";
+
+const currentPath = Astro.url.pathname;
+const isActive = (href: string) => {
+  if (href === "/") return currentPath === "/";
+  return currentPath.startsWith(href);
+};
+---
+
+<div
+  id="nav-overlay"
+  class="fixed inset-0 z-[60] flex flex-col bg-forest-900 text-cream-50"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menu de navigation"
+  aria-hidden="true"
+>
+  <div class="flex items-start px-6 pt-4 md:px-10 md:pt-6">
+    <Image
+      src={logoNegatif}
+      alt="Au Petit Gourmet"
+      width={280}
+      height={280}
+      quality={80}
+      loading="eager"
+      class="h-20 w-20 object-contain md:h-28 md:w-28"
+    />
+  </div>
+
+  <div class="container-content flex flex-1 flex-col justify-center py-12">
+    <nav aria-label="Liens du site">
+      <ul class="space-y-4 md:space-y-6">
+        {
+          navigation.map((item, idx) => (
+            <li
+              class="overflow-hidden"
+              style={`--delay: ${idx * 60}ms`}
+              data-nav-item
+            >
+              <a
+                href={item.href}
+                class:list={[
+                  "block font-serif text-5xl leading-tight transition-colors md:text-7xl",
+                  isActive(item.href) ? "text-terracotta-500" : "text-cream-50 hover:text-terracotta-500",
+                ]}
+                aria-current={isActive(item.href) ? "page" : undefined}
+              >
+                <em class="not-italic">{String(idx + 1).padStart(2, "0")}</em>
+                <span class="ml-6 italic">{item.label}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="container-content grid gap-8 py-8 md:grid-cols-3">
+      <div>
+        <p class="text-xs uppercase tracking-[0.18em] text-terracotta-500">Téléphone</p>
+        <a
+          href={`tel:${restaurant.phone}`}
+          class="mt-2 block font-serif text-2xl text-cream-50 transition-colors hover:text-terracotta-500"
+        >
+          {restaurant.phoneDisplay}
+        </a>
+      </div>
+      <div>
+        <p class="text-xs uppercase tracking-[0.18em] text-terracotta-500">Adresse</p>
+        <address class="mt-2 not-italic text-cream-100/85">
+          {restaurant.address.street}<br />
+          {restaurant.address.postalCode} {restaurant.address.city}
+        </address>
+      </div>
+      <div>
+        <p class="text-xs uppercase tracking-[0.18em] text-terracotta-500">Suivez-nous</p>
+        <a
+          href={restaurant.social.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-2 inline-block text-cream-100/85 transition-colors hover:text-terracotta-500"
+        >
+          Instagram
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const overlay = document.getElementById("nav-overlay");
+  const toggle = document.getElementById("nav-toggle");
+
+  const isOpen = () => overlay?.classList.contains("is-open") ?? false;
+
+  const open = () => {
+    document.body.style.overflow = "hidden";
+    overlay?.classList.add("is-open");
+    overlay?.setAttribute("aria-hidden", "false");
+    toggle?.setAttribute("aria-expanded", "true");
+    toggle?.setAttribute("aria-label", "Fermer la navigation");
+    requestAnimationFrame(() => {
+      document.querySelectorAll<HTMLElement>("[data-nav-item]").forEach((el) => {
+        el.style.animation = "navItemIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both";
+        el.style.animationDelay = el.style.getPropertyValue("--delay");
+      });
+    });
+  };
+
+  const closeOverlay = () => {
+    overlay?.classList.remove("is-open");
+    overlay?.setAttribute("aria-hidden", "true");
+    toggle?.setAttribute("aria-expanded", "false");
+    toggle?.setAttribute("aria-label", "Ouvrir la navigation");
+    document.body.style.overflow = "";
+  };
+
+  toggle?.addEventListener("click", () => {
+    isOpen() ? closeOverlay() : open();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && isOpen()) closeOverlay();
+  });
+</script>
+
+<style is:global>
+  #nav-overlay {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition:
+      transform 1000ms cubic-bezier(0.83, 0, 0.17, 1),
+      opacity 1000ms cubic-bezier(0.83, 0, 0.17, 1),
+      visibility 0s linear 1000ms;
+  }
+  #nav-overlay.is-open {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      transform 1000ms cubic-bezier(0.83, 0, 0.17, 1),
+      opacity 1000ms cubic-bezier(0.83, 0, 0.17, 1),
+      visibility 0s linear 0s;
+  }
+
+  @keyframes navItemIn {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

@@ -1,0 +1,55 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { restaurant } from "@data/restaurant";
+---
+
+<BaseLayout
+  title="Politique de cookies — Au Petit Gourmet"
+  description="Politique d'utilisation des cookies sur le site du restaurant Au Petit Gourmet."
+>
+  <section class="container-content py-20 md:py-28">
+    <p class="eyebrow">Cookies UE</p>
+    <h1 class="mt-6 font-serif text-h1 text-forest-900">Politique de cookies</h1>
+
+    <div class="mt-12 max-w-prose space-y-10 text-ink-700">
+      <p class="text-lead">
+        Cette page vous informe de l'usage des cookies et traceurs sur le site {restaurant.name}.
+      </p>
+
+      <div>
+        <h2 class="font-serif text-h2 text-forest-900">Cookies déposés par le site</h2>
+        <p class="mt-4">
+          Ce site est statique et <strong>ne dépose aucun cookie</strong> pour son propre
+          fonctionnement. Aucun outil de mesure d'audience n'est intégré par défaut.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-serif text-h2 text-forest-900">Cookies tiers</h2>
+        <p class="mt-4">
+          La carte interactive intégrée sur la page <a href="/contact/" class="font-medium text-terracotta-500 link-underline">Contact</a>
+          est fournie par <strong>Google Maps</strong>. Lors du chargement de cette carte, Google
+          peut déposer des cookies sur votre navigateur, conformément à sa propre politique.
+        </p>
+        <p class="mt-4">
+          Pour en savoir plus : <a
+            href="https://policies.google.com/technologies/cookies"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-medium text-terracotta-500 link-underline"
+            >policies.google.com/technologies/cookies</a
+          >.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-serif text-h2 text-forest-900">Gestion des cookies</h2>
+        <p class="mt-4">
+          Vous pouvez à tout moment configurer votre navigateur pour bloquer ou supprimer les
+          cookies. Les principaux navigateurs proposent des options dédiées dans leurs réglages
+          de confidentialité.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

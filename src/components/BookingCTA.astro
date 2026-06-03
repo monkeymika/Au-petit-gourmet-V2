@@ -1,0 +1,83 @@
+---
+import { Image } from "astro:assets";
+import { restaurant } from "@data/restaurant";
+import bgImage from "@/assets/salle-restaurant.webp";
+---
+
+<!--
+  CTA Réservation partagée — photo immersive + overlay forest profond.
+  Rounded indépendant du footer (forest-800) qui crée une continuité chromatique
+  sans chevauchement de formes.
+-->
+<section class="px-4 pb-12 md:px-6 md:pb-16 lg:px-8">
+  <div class="reveal relative isolate overflow-hidden rounded-[2rem] text-cream-50 shadow-2xl shadow-ink-900/30 md:rounded-[3rem] lg:rounded-[3.5rem]">
+    <!-- Photo de fond : vue d'ensemble de la salle (chaises médaillon + tables nappées) -->
+    <Image
+      src={bgImage}
+      alt=""
+      widths={[800, 1280, 1920, 2400]}
+      sizes="100vw"
+      quality={72}
+      loading="lazy"
+      class="absolute inset-0 -z-20 h-full w-full object-cover"
+    />
+
+    <!-- Overlay forest profond (matching footer forest-800, ton plus dramatique) -->
+    <div
+      aria-hidden="true"
+      class="absolute inset-0 -z-10 bg-gradient-to-br from-forest-900/85 via-forest-900/75 to-forest-800/80"
+    ></div>
+
+    <!-- Vignette douce sur les bords pour profondeur -->
+    <div
+      aria-hidden="true"
+      class="absolute inset-0 -z-10"
+      style="background: radial-gradient(ellipse at center, transparent 0%, rgba(20, 30, 22, 0.45) 100%);"
+    ></div>
+
+    <div class="relative container-content py-24 md:py-28 lg:py-32">
+      <div class="grid items-center gap-12 md:grid-cols-12 md:gap-10 lg:gap-16">
+        <!-- Texte gauche -->
+        <div class="md:col-span-7">
+          <p class="text-xs font-medium uppercase tracking-[0.22em] text-terracotta-500">
+            Réservation
+          </p>
+          <h2 class="mt-5 font-serif text-display leading-[0.95]">
+            On vous garde<br /><em class="italic text-terracotta-400">une place</em>&nbsp;?
+          </h2>
+          <p class="mt-7 max-w-prose text-lead text-cream-100/90">
+            Pour réserver, c'est par téléphone — on prend le temps de bien faire les choses.
+          </p>
+          <p class="mt-4 inline-flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-cream-100/65">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Tous les jours · sauf mercredi
+          </p>
+        </div>
+
+        <!-- Bouton-card droite -->
+        <div class="flex justify-center md:col-span-5 md:justify-end">
+          <a
+            href={`tel:${restaurant.phone}`}
+            class="group block w-full max-w-sm rounded-[2rem] bg-cream-50 px-8 py-8 text-forest-900 shadow-2xl shadow-ink-900/40 transition-all hover:-translate-y-1 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.55)] md:px-10 md:py-10"
+          >
+            <p class="text-xs font-medium uppercase tracking-[0.22em] text-ink-500">
+              Appelez-nous
+            </p>
+            <p class="mt-3 font-serif text-3xl leading-none text-forest-900 md:text-4xl lg:text-[2.75rem]">
+              {restaurant.phoneDisplay}
+            </p>
+            <p class="mt-5 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-terracotta-500 transition-all group-hover:gap-3">
+              Appeler maintenant
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 5l7 7-7 7" />
+              </svg>
+            </p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

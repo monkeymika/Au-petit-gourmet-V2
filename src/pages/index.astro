@@ -1,0 +1,1092 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+import Hero from "@components/Hero.astro";
+import { restaurant } from "@data/restaurant";
+import { events } from "@data/events";
+import logoPrincipal from "@/assets/logo/LogoPrincipal_AuPetitGourmet.png";
+import photoJardin from "@/assets/AuPetitGourmet-PhotoJardin-.webp";
+import mielPotsDetail from "@/assets/miel/02-pots-detail.webp";
+import { menu, formatPrice } from "@data/menu";
+import { reviews, reviewsStats } from "@data/reviews";
+import type { ImageMetadata } from "astro";
+
+const avatarToneClasses: Record<string, string> = {
+  terracotta: "bg-terracotta-500/15 text-terracotta-600",
+  forest: "bg-forest-400/25 text-forest-800",
+  amber: "bg-amber-100 text-amber-700",
+  ink: "bg-ink-500/15 text-ink-900",
+};
+
+const mapsQuery = encodeURIComponent(
+  `${restaurant.address.street}, ${restaurant.address.postalCode} ${restaurant.address.city}`
+);
+const mapsEmbed = `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
+const mapsDirections = `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`;
+
+const previewLimits: Record<string, number> = {
+  entrees: 2,
+  plats: 2,
+  fromages: 1,
+  desserts: 2,
+};
+
+const galleryImports = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/galerie/*.webp",
+  { eager: true }
+);
+
+const galleryImages = Object.entries(galleryImports)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([_, mod]) => mod.default);
+---
+
+<BaseLayout
+  title="Au Petit Gourmet — Restaurant à Ville-en-Vermois près de Nancy"
+  description="Restaurant de village près de Nancy. Cuisine locale et de saison, produits frais issus de nos producteurs lorrains. Réservation au 03 83 46 55 43."
+>
+  <Hero />
+
+  <section data-paw class="container-content py-24 md:py-32">
+    <div class="grid items-end gap-12 md:grid-cols-12 reveal">
+      <div class="md:col-span-7">
+        <p class="eyebrow">Bienvenue chez nous</p>
+        <h2 class="mt-6 font-serif text-h1 text-forest-900">
+          Une escapade <em class="text-terracotta-500">gourmande</em><br />près de Nancy.
+        </h2>
+        <p class="mt-8 max-w-prose text-lead text-ink-700">
+          À quelques pas de l'agglomération Nancéienne, notre restaurant de village est l'idée
+          de sortie parfaite pour les amateurs de découverte culinaire. Fiers de notre cuisine
+          traditionnelle du terroir, nous sélectionnons avec soin des produits frais et locaux
+          pour leur qualité et leur saveur unique. Venez savourer l'authenticité et la
+          convivialité d'un repas chez nous.
+        </p>
+        <div class="mt-10 flex flex-wrap items-center gap-4">
+          <a href={`tel:${restaurant.phone}`} class="btn-primary">
+            Réserver — {restaurant.phoneDisplay}
+          </a>
+          <a href="/la-carte/" class="btn-ghost">Voir la carte</a>
+        </div>
+      </div>
+
+      <aside class="md:col-span-5">
+        <div class="rounded-3xl border border-ink-900/10 bg-cream-100/60 p-8 backdrop-blur-sm">
+          <p class="eyebrow">Horaires</p>
+          <ul class="mt-5 divide-y divide-ink-900/10">
+            {
+              restaurant.hours.map((h) => (
+                <li class="flex items-center justify-between py-3 text-sm">
+                  <span class:list={["font-medium", h.closed ? "text-ink-500" : "text-ink-900"]}>
+                    {h.day}
+                  </span>
+                  <span class:list={[h.closed ? "italic text-ink-500" : "text-ink-700"]}>
+                    {h.service}
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="surface-cream-100-lg">
+    <div class="container-content py-24 md:py-32">
+      <div class="mb-16 flex items-center justify-center gap-5 text-terracotta-500 md:mb-20">
+        <span class="h-px w-16 bg-current opacity-30 md:w-24"></span>
+        <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true" class="opacity-70">
+          <rect x="2" y="2" width="4" height="4" transform="rotate(45 4 4)" />
+        </svg>
+        <span class="h-px w-16 bg-current opacity-30 md:w-24"></span>
+      </div>
+      <div class="grid items-center gap-12 md:grid-cols-12 reveal">
+        <div class="md:col-span-6">
+          <p class="eyebrow">Vu sur Instagram</p>
+        <h2 class="mt-6 font-serif text-h1 text-forest-900">
+          Ils <em class="text-terracotta-500">parlent</em> de nous.
+        </h2>
+        <div class="mt-8 max-w-prose space-y-5 text-lead text-ink-700">
+          <p>
+            Nous avons eu le plaisir de recevoir récemment deux créatrices de contenu
+            issues de l'équipe <strong class="text-forest-800">Find Nancy</strong>, dans
+            le cadre d'une visite au sein de l'une de nos guinguettes.
+          </p>
+          <p>
+            À cette occasion, elles ont réalisé une vidéo mettant en lumière l'atmosphère
+            unique et conviviale de notre établissement. Nous les remercions sincèrement
+            pour leur passage ainsi que pour cette belle valorisation de notre lieu à
+            travers leur contenu.
+          </p>
+          <p>Nous vous invitons à découvrir leur vidéo.</p>
+        </div>
+        <a
+          href="https://www.instagram.com/reels/DLnHth0CeD7/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-ghost mt-10 inline-flex items-center gap-2"
+        >
+          Voir le reel sur Instagram
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M7 17L17 7M9 7h8v8" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="md:col-span-6 flex justify-center md:justify-end">
+        <figure class="relative w-full max-w-[320px]">
+          <div class="relative aspect-[9/16] overflow-hidden rounded-[2rem] bg-ink-900 shadow-2xl shadow-forest-900/25 ring-1 ring-ink-900/5">
+            <video
+              class="absolute inset-0 h-full w-full object-cover"
+              playsinline
+              preload="none"
+              poster="/videos/find-nancy-poster.webp"
+              aria-label="Reportage @find.nancy au restaurant Au Petit Gourmet"
+              data-insta-video
+              data-src="/videos/find-nancy-reel.mp4"
+            ></video>
+            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-ink-900/70 to-transparent" data-insta-overlay></div>
+            <a
+              href="https://www.instagram.com/find.nancy/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full bg-cream-50/90 px-3 py-1.5 text-xs font-medium text-forest-900 backdrop-blur-md transition-colors hover:bg-cream-50"
+              data-insta-badge
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
+              </svg>
+              @find.nancy
+            </a>
+            <button
+              type="button"
+              class="group absolute inset-0 z-10 flex items-center justify-center"
+              data-insta-play
+              aria-label="Lancer la vidéo"
+            >
+              <span class="inline-flex h-20 w-20 items-center justify-center rounded-full bg-cream-50/95 text-forest-900 shadow-2xl shadow-ink-900/40 backdrop-blur-md transition-transform group-hover:scale-110 md:h-24 md:w-24">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="md:h-8 md:w-8 ml-1">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </span>
+            </button>
+          </div>
+        </figure>
+      </div>
+
+      <script>
+        const instaVideo = document.querySelector<HTMLVideoElement>("[data-insta-video]");
+        const playBtn = document.querySelector<HTMLButtonElement>("[data-insta-play]");
+        const overlay = document.querySelector<HTMLElement>("[data-insta-overlay]");
+        const badge = document.querySelector<HTMLElement>("[data-insta-badge]");
+
+        if (instaVideo && playBtn) {
+          playBtn.addEventListener("click", () => {
+            const src = instaVideo.dataset.src;
+            if (src && !instaVideo.src) {
+              instaVideo.src = src;
+            }
+            instaVideo.controls = true;
+            instaVideo.play().catch(() => {});
+            playBtn.classList.add("hidden");
+            overlay?.classList.add("hidden");
+            badge?.classList.add("hidden");
+          });
+        }
+      </script>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-content py-24 md:py-32">
+    <div class="flex flex-col items-center text-center reveal">
+      <p class="eyebrow">À l'affiche</p>
+      <h2 class="mt-6 font-serif text-h1 text-forest-900">
+        Nos <em class="text-terracotta-500">événements.</em>
+      </h2>
+    </div>
+
+    <div class="mt-16 grid gap-10 md:grid-cols-3 md:gap-8 reveal">
+      {
+        events.map((event) => (
+          <article class="group flex flex-col">
+            <button
+              type="button"
+              class="relative aspect-[3/4] overflow-hidden rounded-2xl bg-cream-100 ring-1 ring-ink-900/5 transition-shadow hover:shadow-xl"
+              data-lightbox-trigger
+              data-poster={event.poster}
+              data-poster-alt={event.posterAlt}
+              aria-label={`Voir l'affiche : ${event.title}`}
+            >
+              <img
+                src={event.poster}
+                alt={event.posterAlt}
+                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                loading="lazy"
+              />
+              <span class="pointer-events-none absolute inset-x-4 bottom-4 inline-flex items-center justify-between gap-2 rounded-full bg-cream-50/90 px-4 py-2 text-xs font-medium uppercase tracking-[0.15em] text-forest-900 opacity-0 backdrop-blur-md transition-opacity group-hover:opacity-100">
+                Voir l'affiche
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M7 17L17 7M9 7h8v8" />
+                </svg>
+              </span>
+            </button>
+            <div class="mt-6">
+              <h3 class="font-serif text-2xl text-forest-900 md:text-3xl">{event.title}</h3>
+              <p class="mt-2 text-xs font-medium uppercase tracking-[0.18em] text-terracotta-500">
+                {event.period}
+              </p>
+              <p class="mt-3 text-base text-ink-700">{event.excerpt}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <div
+    id="event-lightbox"
+    class="fixed inset-0 z-[80] hidden items-center justify-center bg-ink-900/90 p-6 backdrop-blur-sm md:p-10"
+    role="dialog"
+    aria-modal="true"
+    aria-hidden="true"
+    aria-label="Affiche en grand format"
+  >
+    <button
+      type="button"
+      id="lightbox-close"
+      class="absolute right-6 top-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 backdrop-blur-md transition-colors hover:bg-cream-50/20 md:right-10 md:top-10"
+      aria-label="Fermer"
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M18 6L6 18M6 6l12 12" />
+      </svg>
+    </button>
+    <img
+      id="lightbox-image"
+      src=""
+      alt=""
+      class="max-h-[90vh] max-w-[90vw] rounded-2xl object-contain shadow-2xl"
+    />
+  </div>
+
+  <script>
+    const lightbox = document.getElementById("event-lightbox");
+    const lightboxImage = document.getElementById("lightbox-image") as HTMLImageElement | null;
+    const lightboxClose = document.getElementById("lightbox-close");
+
+    const openLightbox = (poster: string, alt: string) => {
+      if (!lightbox || !lightboxImage) return;
+      lightboxImage.src = poster;
+      lightboxImage.alt = alt;
+      lightbox.classList.remove("hidden");
+      lightbox.classList.add("flex");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    };
+
+    const closeLightbox = () => {
+      if (!lightbox) return;
+      lightbox.classList.add("hidden");
+      lightbox.classList.remove("flex");
+      lightbox.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    };
+
+    document.querySelectorAll<HTMLElement>("[data-lightbox-trigger]").forEach((trigger) => {
+      trigger.addEventListener("click", () => {
+        const poster = trigger.dataset.poster;
+        const alt = trigger.dataset.posterAlt;
+        if (poster) openLightbox(poster, alt ?? "");
+      });
+    });
+
+    lightboxClose?.addEventListener("click", closeLightbox);
+    lightbox?.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && lightbox && !lightbox.classList.contains("hidden")) {
+        closeLightbox();
+      }
+    });
+  </script>
+
+  <section data-paw="dark" class="px-4 md:px-6 lg:px-8">
+    <div class="overflow-hidden rounded-[2rem] bg-forest-700 text-cream-50 md:rounded-[2.5rem] lg:rounded-[3rem]">
+    <div class="container-content py-24 md:py-32">
+      <div class="mb-16 flex items-center justify-center gap-5 text-terracotta-500 md:mb-20">
+        <span class="h-px w-16 bg-current opacity-40 md:w-24"></span>
+        <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true" class="opacity-80">
+          <rect x="2" y="2" width="4" height="4" transform="rotate(45 4 4)" />
+        </svg>
+        <span class="h-px w-16 bg-current opacity-40 md:w-24"></span>
+      </div>
+      <div class="grid items-center gap-12 md:grid-cols-12 md:gap-16 reveal">
+        <div class="flex justify-center md:col-span-5 md:justify-start">
+          <Image
+            src={logoPrincipal}
+            alt=""
+            width={640}
+            height={640}
+            quality={85}
+            loading="lazy"
+            class="h-72 w-72 object-contain md:h-96 md:w-96 lg:h-[28rem] lg:w-[28rem]"
+          />
+        </div>
+        <div class="md:col-span-7">
+          <p class="eyebrow text-terracotta-500">Le midi en semaine</p>
+          <h2 class="mt-6 font-serif text-h1">
+            Nos <em class="text-terracotta-500">formules</em>.
+          </h2>
+          <p class="mt-4 text-sm uppercase tracking-[0.18em] text-cream-100/70">
+            {restaurant.formulesMidi.schedule}
+          </p>
+
+          <ul class="mt-10 space-y-6">
+            {
+              restaurant.formulesMidi.items.map((formule) => (
+                <li class="border-b border-cream-100/15 pb-6 last:border-b-0 last:pb-0">
+                  <div class="flex items-baseline justify-between gap-4">
+                    <h3 class="font-serif text-xl text-cream-50 md:text-2xl">
+                      {formule.name}
+                    </h3>
+                    <span class="shrink-0 font-serif text-2xl text-terracotta-500 md:text-3xl">
+                      {formule.price}
+                    </span>
+                  </div>
+                  {formule.details && (
+                    <p class="mt-2 text-sm text-cream-100/70">{formule.details}</p>
+                  )}
+                </li>
+              ))
+            }
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <section class="relative overflow-hidden">
+    <span
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-x-0 top-16 select-none text-center font-serif italic leading-none text-forest-900/[0.045] md:top-24"
+      style="font-size: clamp(8rem, 28vw, 22rem);"
+    >
+      Carte
+    </span>
+
+    <div class="relative container-content py-24 md:py-32">
+      <div class="flex flex-col items-center text-center reveal">
+        <p class="eyebrow">À la carte</p>
+        <h2 class="mt-6 font-serif text-h1 text-forest-900">
+          Notre <em class="text-terracotta-500">cuisine</em>, en détail.
+        </h2>
+        <p class="mt-6 max-w-prose text-lead text-ink-700">
+          Quelques signatures de la carte — qui évolue au fil des saisons.
+        </p>
+      </div>
+
+      <div class="mt-20 grid gap-x-16 gap-y-16 md:grid-cols-2 md:gap-y-20 reveal">
+        {
+          menu.sections.map((section) => (
+            <div>
+              <div class="text-center">
+                <h3 class="font-serif text-base uppercase tracking-[0.3em] text-forest-900 md:text-lg">
+                  {section.title}
+                </h3>
+                <span class="mx-auto mt-3 block h-px w-12 bg-ink-900/30" />
+              </div>
+
+              <ul class="mt-8 space-y-7">
+                {section.items
+                  .slice(0, previewLimits[section.slug] ?? 2)
+                  .map((item) => (
+                    <li>
+                      <div class="flex items-baseline gap-3">
+                        <h4 class="font-serif italic text-lg text-forest-900 md:text-xl">
+                          {item.name}
+                        </h4>
+                        <span
+                          aria-hidden="true"
+                          class="-translate-y-1 flex-1 border-b border-dotted border-ink-900/35"
+                        />
+                        <span class="shrink-0 font-serif text-base text-terracotta-500 md:text-lg">
+                          {item.prices.length === 1
+                            ? formatPrice(item.prices[0].amount)
+                            : `${formatPrice(item.prices[0].amount)} / ${formatPrice(item.prices[1].amount)}`}
+                        </span>
+                      </div>
+                      {item.description && (
+                        <p class="mt-1.5 text-sm text-ink-600">
+                          {item.description}
+                        </p>
+                      )}
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-20 flex justify-center">
+        <a
+          href="/la-carte/"
+          class="inline-flex items-center gap-3 rounded-full bg-forest-700 px-8 py-4 text-sm font-medium uppercase tracking-[0.15em] text-cream-50 transition-all hover:gap-4 hover:bg-forest-800"
+        >
+          Voir la carte complète
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="surface-cream-100-lg">
+    <div class="container-content py-24 md:py-32">
+      <div class="mb-16 flex items-center justify-center gap-5 text-terracotta-500 md:mb-20">
+        <span class="h-px w-16 bg-current opacity-30 md:w-24"></span>
+        <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true" class="opacity-70">
+          <rect x="2" y="2" width="4" height="4" transform="rotate(45 4 4)" />
+        </svg>
+        <span class="h-px w-16 bg-current opacity-30 md:w-24"></span>
+      </div>
+
+      <div class="flex flex-col items-center text-center reveal">
+        <p class="eyebrow">Galerie</p>
+        <h2 class="mt-6 font-serif text-h1 text-forest-900">
+          Pour vous mettre <em class="text-terracotta-500">en appétit…</em>
+        </h2>
+      </div>
+
+      <div class="mt-16 columns-2 gap-4 md:columns-3 md:gap-5 lg:columns-4 reveal-soft">
+        {
+          galleryImages.map((img, i) => (
+            <button
+              type="button"
+              class="group mb-4 block w-full overflow-hidden rounded-2xl bg-cream-50 ring-1 ring-ink-900/5 transition-shadow hover:shadow-xl md:mb-5"
+              style="break-inside: avoid;"
+              data-home-gallery-trigger
+              data-index={i}
+              aria-label={`Voir la photo ${i + 1} en grand`}
+            >
+              <Image
+                src={img}
+                alt={`Au Petit Gourmet — photo ${i + 1}`}
+                widths={[300, 500, 700, 1000]}
+                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                loading="lazy"
+                quality={80}
+                class="w-full h-auto transition-transform duration-700 group-hover:scale-[1.03]"
+              />
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="mt-12 flex justify-center md:mt-16">
+        <a
+          href="/galerie/"
+          class="inline-flex items-center gap-3 rounded-full bg-forest-700 px-8 py-4 text-sm font-medium uppercase tracking-[0.15em] text-cream-50 transition-all hover:gap-4 hover:bg-forest-800"
+        >
+          Voir la galerie complète
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div
+      id="home-gallery-lightbox"
+      class="fixed inset-0 z-[80] hidden items-center justify-center bg-ink-900/95 p-4 backdrop-blur-sm md:p-8"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden="true"
+      aria-label="Photo en grand format"
+    >
+      <button
+        type="button"
+        id="home-gallery-close"
+        class="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 backdrop-blur-md transition-colors hover:bg-cream-50/20 md:right-8 md:top-8 md:h-12 md:w-12"
+        aria-label="Fermer"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        id="home-gallery-prev"
+        class="absolute left-4 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 backdrop-blur-md transition-colors hover:bg-cream-50/20 md:left-8 md:h-12 md:w-12"
+        aria-label="Photo précédente"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        id="home-gallery-next"
+        class="absolute right-4 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 backdrop-blur-md transition-colors hover:bg-cream-50/20 md:right-8 md:h-12 md:w-12"
+        aria-label="Photo suivante"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 18l6-6-6-6" />
+        </svg>
+      </button>
+      <figure class="flex max-h-[90vh] max-w-[90vw] flex-col items-center justify-center gap-3">
+        <img id="home-gallery-image" src="" alt="" class="max-h-[85vh] max-w-full rounded-2xl object-contain shadow-2xl" />
+        <figcaption id="home-gallery-counter" class="text-xs font-medium uppercase tracking-[0.2em] text-cream-50/70"></figcaption>
+      </figure>
+    </div>
+
+    <script>
+      const homeTriggers = Array.from(
+        document.querySelectorAll<HTMLButtonElement>("[data-home-gallery-trigger]")
+      );
+      const homeLightbox = document.getElementById("home-gallery-lightbox");
+      const homeImage = document.getElementById("home-gallery-image") as HTMLImageElement | null;
+      const homeCounter = document.getElementById("home-gallery-counter");
+      const homeCloseBtn = document.getElementById("home-gallery-close");
+      const homePrevBtn = document.getElementById("home-gallery-prev");
+      const homeNextBtn = document.getElementById("home-gallery-next");
+
+      let homeIndex = 0;
+      const homeTotal = homeTriggers.length;
+
+      const homeShow = (index: number) => {
+        if (!homeImage || !homeCounter || homeTotal === 0) return;
+        homeIndex = ((index % homeTotal) + homeTotal) % homeTotal;
+        const sourceImg = homeTriggers[homeIndex].querySelector("img");
+        if (!sourceImg) return;
+        homeImage.src = sourceImg.currentSrc || sourceImg.src;
+        homeImage.alt = sourceImg.alt;
+        homeCounter.textContent = `${homeIndex + 1} / ${homeTotal}`;
+      };
+
+      const homeOpen = (index: number) => {
+        if (!homeLightbox) return;
+        homeShow(index);
+        homeLightbox.classList.remove("hidden");
+        homeLightbox.classList.add("flex");
+        homeLightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      };
+
+      const homeClose = () => {
+        if (!homeLightbox) return;
+        homeLightbox.classList.add("hidden");
+        homeLightbox.classList.remove("flex");
+        homeLightbox.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      };
+
+      homeTriggers.forEach((trigger) => {
+        trigger.addEventListener("click", () => {
+          homeOpen(parseInt(trigger.dataset.index || "0", 10));
+        });
+      });
+
+      homeCloseBtn?.addEventListener("click", homeClose);
+      homePrevBtn?.addEventListener("click", () => homeShow(homeIndex - 1));
+      homeNextBtn?.addEventListener("click", () => homeShow(homeIndex + 1));
+      homeLightbox?.addEventListener("click", (e) => {
+        if (e.target === homeLightbox) homeClose();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (homeLightbox?.classList.contains("hidden")) return;
+        if (e.key === "Escape") homeClose();
+        else if (e.key === "ArrowLeft") homeShow(homeIndex - 1);
+        else if (e.key === "ArrowRight") homeShow(homeIndex + 1);
+      });
+    </script>
+  </section>
+
+  <!-- Section Miel : Au Rucher des Noires Terres -->
+  <section id="miel" data-paw class="relative overflow-hidden py-24 md:py-32 scroll-mt-32">
+    <div class="container-content relative">
+      <!-- En-tête de section -->
+      <div class="grid items-end gap-12 md:grid-cols-12 md:gap-16 reveal">
+        <div class="md:col-span-7">
+          <p class="eyebrow">Au Rucher des Noires Terres</p>
+          <h2 class="mt-4 font-serif text-display leading-[0.95] text-forest-900">
+            Notre miel,<br /><em class="text-terracotta-500">récolté ici</em>.
+          </h2>
+        </div>
+        <div class="md:col-span-5">
+          <p class="text-lead text-ink-700">
+            Issu de nos propres ruchers, notre miel artisanal est récolté avec soin dans le
+            respect des abeilles et de leur environnement. Naturel, authentique et local, il
+            révèle toute la richesse de notre terroir et est disponible à la vente directement
+            au restaurant.
+          </p>
+        </div>
+      </div>
+
+      <!-- Composition visuelle : vidéo + photo en grille éditoriale -->
+      <div class="mt-16 grid grid-cols-1 gap-5 md:mt-20 md:grid-cols-12 md:gap-6 reveal">
+        <!-- Vidéo (paysage, prend 2/3 de la largeur sur desktop) -->
+        <figure class="md:col-span-8">
+          <div class="relative aspect-video overflow-hidden rounded-[2rem] bg-ink-900 ring-1 ring-ink-900/10 shadow-[0_30px_80px_-30px_rgba(58,86,63,0.4)]">
+            <video
+              class="absolute inset-0 h-full w-full object-cover"
+              playsinline
+              preload="none"
+              poster="/videos/miel-rucher-poster.webp"
+              aria-label="Présentation du miel artisanal Au Rucher des Noires Terres"
+              data-miel-video
+              data-src="/videos/miel-rucher.mp4"
+            ></video>
+            <button
+              type="button"
+              class="group absolute inset-0 z-10 flex items-center justify-center"
+              data-miel-play
+              aria-label="Lancer la vidéo du miel"
+            >
+              <span class="inline-flex h-20 w-20 items-center justify-center rounded-full bg-cream-50/95 text-forest-900 shadow-2xl shadow-ink-900/40 backdrop-blur-md transition-transform group-hover:scale-110 md:h-24 md:w-24">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="md:h-8 md:w-8 ml-1">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </span>
+            </button>
+          </div>
+        </figure>
+
+        <!-- Photo portrait (prend 1/3 de la largeur, alignée) -->
+        <figure class="md:col-span-4">
+          <div class="relative h-full overflow-hidden rounded-[2rem] ring-1 ring-ink-900/10 shadow-[0_30px_80px_-30px_rgba(58,86,63,0.4)]">
+            <Image
+              src={mielPotsDetail}
+              alt="Détail des pots de miel Au Rucher des Noires Terres avec l'ardoise"
+              widths={[300, 500, 700]}
+              sizes="(min-width: 768px) 33vw, 90vw"
+              quality={82}
+              loading="lazy"
+              class="h-full w-full object-cover"
+            />
+          </div>
+        </figure>
+      </div>
+
+      <!-- Les 3 variétés en grille premium -->
+      <div class="mt-16 md:mt-20 reveal">
+        <div class="mb-10 flex flex-col items-center text-center">
+          <p class="text-xs font-medium uppercase tracking-[0.22em] text-terracotta-500">
+            Disponibles au restaurant
+          </p>
+          <h3 class="mt-4 font-serif text-h2 text-forest-900">
+            Nos <em class="text-terracotta-500">trois</em> miels.
+          </h3>
+        </div>
+
+        <div class="grid gap-5 sm:grid-cols-3 md:gap-6">
+          <article class="group relative flex flex-col rounded-3xl border border-ink-900/8 bg-cream-100/50 p-8 transition-all hover:-translate-y-1 hover:border-ink-900/15 hover:bg-cream-100 hover:shadow-xl hover:shadow-ink-900/5 md:p-10">
+            <p class="text-xs font-medium uppercase tracking-[0.18em] text-ink-500">Format 500 g</p>
+            <h4 class="mt-4 font-serif text-2xl italic text-forest-900 md:text-3xl">
+              Miel crémeux
+            </h4>
+            <p class="mt-3 text-sm text-ink-600">
+              Doux et onctueux, parfait pour les tartines du matin et les pâtisseries maison.
+            </p>
+            <p class="mt-auto pt-6 font-serif text-3xl text-terracotta-500 md:text-4xl">8&nbsp;€</p>
+          </article>
+
+          <article class="group relative flex flex-col rounded-3xl border border-ink-900/8 bg-cream-100/50 p-8 transition-all hover:-translate-y-1 hover:border-ink-900/15 hover:bg-cream-100 hover:shadow-xl hover:shadow-ink-900/5 md:p-10">
+            <p class="text-xs font-medium uppercase tracking-[0.18em] text-ink-500">Format 1 kg</p>
+            <h4 class="mt-4 font-serif text-2xl italic text-forest-900 md:text-3xl">
+              Miel de printemps
+            </h4>
+            <p class="mt-3 text-sm text-ink-600">
+              Floral et délicat, récolté en début de saison, aux notes claires et subtiles.
+            </p>
+            <p class="mt-auto pt-6 font-serif text-3xl text-terracotta-500 md:text-4xl">14&nbsp;€</p>
+          </article>
+
+          <article class="group relative flex flex-col rounded-3xl border border-ink-900/8 bg-cream-100/50 p-8 transition-all hover:-translate-y-1 hover:border-ink-900/15 hover:bg-cream-100 hover:shadow-xl hover:shadow-ink-900/5 md:p-10">
+            <p class="text-xs font-medium uppercase tracking-[0.18em] text-ink-500">Format 500 g</p>
+            <h4 class="mt-4 font-serif text-2xl italic text-forest-900 md:text-3xl">
+              Miel d'été
+            </h4>
+            <p class="mt-3 text-sm text-ink-600">
+              Ambré et caractérisé, gorgé de soleil, idéal pour parfumer fromages et tisanes.
+            </p>
+            <p class="mt-auto pt-6 font-serif text-3xl text-terracotta-500 md:text-4xl">7&nbsp;€</p>
+          </article>
+        </div>
+
+        <p class="mt-10 text-center text-sm italic text-ink-500">
+          Demandez à notre équipe lors de votre venue — quantités limitées selon la saison.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      const mielVideo = document.querySelector<HTMLVideoElement>("[data-miel-video]");
+      const mielPlay = document.querySelector<HTMLButtonElement>("[data-miel-play]");
+
+      if (mielVideo && mielPlay) {
+        mielPlay.addEventListener("click", () => {
+          const src = mielVideo.dataset.src;
+          if (src && !mielVideo.src) {
+            mielVideo.src = src;
+          }
+          mielVideo.controls = true;
+          mielVideo.play().catch(() => {});
+          mielPlay.classList.add("hidden");
+        });
+      }
+    </script>
+  </section>
+
+  <section class="relative isolate overflow-hidden">
+    <Image
+      src={photoJardin}
+      alt=""
+      widths={[800, 1280, 1920, 2560]}
+      sizes="100vw"
+      quality={62}
+      loading="lazy"
+      class="absolute inset-0 -z-10 h-full w-full object-cover"
+    />
+    <div class="absolute inset-0 -z-10 bg-forest-900/60" aria-hidden="true"></div>
+
+    <div class="relative container-content py-24 md:py-32">
+      <h2 class="reveal text-center font-serif italic text-cream-50" style="font-size: clamp(3rem, 7vw, 5rem);">
+        Avis
+      </h2>
+
+      <div class="mt-12 grid items-stretch gap-5 md:mt-16 md:grid-cols-12 md:gap-6 reveal">
+        <aside class="md:col-span-4 lg:col-span-3">
+          <div class="flex h-full flex-col items-center justify-center gap-3 rounded-2xl bg-cream-50 px-6 py-6 text-center shadow-xl shadow-ink-900/30">
+            <p class="text-sm font-bold uppercase tracking-[0.22em] text-ink-900">
+              Excellent
+            </p>
+            <p class="font-serif text-4xl leading-none text-forest-900 md:text-5xl">
+              {String(reviewsStats.rating).replace(".", ",")}<span class="text-ink-500/60">/5</span>
+            </p>
+            <div class="flex items-center gap-0.5 text-amber-400" aria-label={`${reviewsStats.rating} sur 5`}>
+              {
+                [0, 1, 2, 3, 4].map((i) => (
+                  <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                    {i < 4 ? (
+                      <path fill="currentColor" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    ) : (
+                      <>
+                        <defs>
+                          <linearGradient id="halfStarHome" x1="0" x2="1" y1="0" y2="0">
+                            <stop offset="50%" stop-color="currentColor" />
+                            <stop offset="50%" stop-color="currentColor" stop-opacity="0.25" />
+                          </linearGradient>
+                        </defs>
+                        <path fill="url(#halfStarHome)" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                      </>
+                    )}
+                  </svg>
+                ))
+              }
+            </div>
+            <p class="text-xs text-ink-600">
+              Basé sur <span class="font-medium text-ink-900">{reviewsStats.count} avis</span>
+            </p>
+            <svg class="mt-2 h-5 w-auto" viewBox="0 0 272 92" aria-hidden="true">
+              <path fill="#4285F4" d="M115.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18C71.25 34.32 81.24 25 93.5 25s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44S80.99 39.2 80.99 47.18c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z" />
+              <path fill="#EA4335" d="M163.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18c0-12.85 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44s-12.51 5.46-12.51 13.44c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z" />
+              <path fill="#FBBC05" d="M209.75 26.34v39.82c0 16.38-9.66 23.07-21.08 23.07-10.75 0-17.22-7.19-19.66-13.07l8.48-3.53c1.51 3.61 5.21 7.87 11.17 7.87 7.31 0 11.84-4.51 11.84-13v-3.19h-.34c-2.18 2.69-6.38 5.04-11.68 5.04-11.09 0-21.25-9.66-21.25-22.09 0-12.52 10.16-22.26 21.25-22.26 5.29 0 9.49 2.35 11.68 4.96h.34v-3.61h9.25zm-8.56 20.92c0-7.81-5.21-13.52-11.84-13.52-6.72 0-12.35 5.71-12.35 13.52 0 7.73 5.63 13.36 12.35 13.36 6.63 0 11.84-5.63 11.84-13.36z" />
+              <path fill="#34A853" d="M225 3v65h-9.5V3h9.5z" />
+              <path fill="#EA4335" d="M262.02 54.48l7.56 5.04c-2.44 3.61-8.32 9.83-18.48 9.83-12.6 0-22.01-9.74-22.01-22.18 0-13.19 9.49-22.18 20.92-22.18 11.51 0 17.14 9.16 18.98 14.11l1.01 2.52-29.65 12.28c2.27 4.45 5.8 6.72 10.75 6.72 4.96 0 8.4-2.44 10.92-6.14zm-23.27-7.98l19.82-8.23c-1.09-2.77-4.37-4.7-8.23-4.7-4.95 0-11.84 4.37-11.59 12.93z" />
+              <path fill="#4285F4" d="M35.29 41.41V32H67c.31 1.64.47 3.58.47 5.68 0 7.06-1.93 15.79-8.15 22.01-6.05 6.3-13.78 9.66-24.02 9.66C16.32 69.35.36 53.89.36 34.91.36 15.93 16.32.47 35.3.47c10.5 0 17.98 4.12 23.6 9.49l-6.64 6.64c-4.03-3.78-9.49-6.72-16.97-6.72-13.86 0-24.7 11.17-24.7 25.03 0 13.86 10.84 25.03 24.7 25.03 8.99 0 14.11-3.61 17.39-6.89 2.66-2.66 4.41-6.46 5.1-11.65l-22.49.01z" />
+            </svg>
+          </div>
+        </aside>
+
+        <div class="relative min-w-0 md:col-span-8 lg:col-span-9">
+          <div
+            class="scrollbar-hide -mx-6 h-full overflow-x-auto scroll-smooth px-6 md:mx-0 md:px-0"
+            style="scroll-snap-type: x mandatory;"
+            data-reviews-viewport
+          >
+            <ul class="flex h-full gap-4 md:gap-5">
+              {
+                reviews.map((review) => (
+                  <li
+                    class="flex shrink-0 basis-[min(20rem,82vw)] lg:basis-[calc((100%-1.25rem)/2)]"
+                    style="scroll-snap-align: start;"
+                    data-review-card
+                  >
+                    <article class="flex h-full w-full flex-col rounded-2xl bg-cream-50 p-5 shadow-xl shadow-ink-900/25">
+                      <header class="flex items-start justify-between gap-3">
+                        <div class="flex min-w-0 items-center gap-3">
+                          <div class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${avatarToneClasses[review.avatarTone]}`}>
+                            {review.initials}
+                          </div>
+                          <div class="min-w-0">
+                            <p class="truncate text-sm font-medium text-ink-900">{review.author}</p>
+                            <p class="text-xs text-ink-500">{review.date}</p>
+                          </div>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" class="shrink-0">
+                          <path fill="#4285F4" d="M22.5 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.9c-.3 1.4-1 2.5-2.2 3.3v2.7h3.5c2-1.9 3.3-4.7 3.3-7.8z" />
+                          <path fill="#34A853" d="M12 23c3 0 5.5-1 7.3-2.7l-3.5-2.7c-1 .6-2.2 1-3.8 1-2.9 0-5.4-2-6.3-4.6H2v2.8C3.8 20.5 7.6 23 12 23z" />
+                          <path fill="#FBBC04" d="M5.7 14c-.2-.6-.4-1.3-.4-2s.1-1.4.4-2V7.2H2C1.4 8.6 1 10.2 1 12s.4 3.4 1 4.8L5.7 14z" />
+                          <path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.6l3.1-3.1C17.4 2.1 14.9 1 12 1 7.6 1 3.8 3.5 2 7.2L5.7 10c.9-2.6 3.4-4.6 6.3-4.6z" />
+                        </svg>
+                      </header>
+
+                      <div class="mt-3 flex items-center gap-0.5 text-amber-400" aria-label="5 sur 5 étoiles">
+                        {[0, 1, 2, 3, 4].map(() => (
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                          </svg>
+                        ))}
+                      </div>
+
+                      <p class="mt-3 text-sm leading-relaxed text-ink-700">
+                        {review.text}
+                      </p>
+                    </article>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 flex items-center justify-between gap-4 md:mt-10">
+        <div class="flex items-center gap-1.5" data-reviews-dots>
+          {
+            reviews.map((_, i) => (
+              <button
+                type="button"
+                class="h-1.5 w-5 rounded-full bg-cream-50/25 transition-colors data-[active=true]:bg-cream-50 md:w-6"
+                data-active={i === 0 ? "true" : "false"}
+                data-reviews-dot={i}
+                aria-label={`Aller à l'avis ${i + 1}`}
+              />
+            ))
+          }
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream-50/30 text-cream-50 transition-all hover:border-cream-50/70 hover:bg-cream-50/10 disabled:cursor-not-allowed disabled:opacity-25"
+            data-reviews-prev
+            aria-label="Avis précédent"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream-50/30 text-cream-50 transition-all hover:border-cream-50/70 hover:bg-cream-50/10 disabled:cursor-not-allowed disabled:opacity-25"
+            data-reviews-next
+            aria-label="Avis suivant"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const viewport = document.querySelector<HTMLElement>("[data-reviews-viewport]");
+      const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-review-card]"));
+      const dots = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-reviews-dot]"));
+      const prevBtn = document.querySelector<HTMLButtonElement>("[data-reviews-prev]");
+      const nextBtn = document.querySelector<HTMLButtonElement>("[data-reviews-next]");
+
+      if (viewport && cards.length > 0) {
+        const getStep = () => {
+          if (cards.length < 2) return cards[0].getBoundingClientRect().width;
+          const a = cards[0].getBoundingClientRect();
+          const b = cards[1].getBoundingClientRect();
+          return b.left - a.left;
+        };
+
+        const getMaxIndex = () => {
+          const step = getStep();
+          if (step === 0) return cards.length - 1;
+          const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+          return Math.max(0, Math.round(maxScroll / step));
+        };
+
+        const getActiveIndex = () => {
+          const step = getStep();
+          if (step === 0) return 0;
+          const raw = Math.round(viewport.scrollLeft / step);
+          return Math.min(raw, getMaxIndex());
+        };
+
+        const updateDots = () => {
+          const maxIdx = getMaxIndex();
+          const active = getActiveIndex();
+          dots.forEach((dot, i) => {
+            dot.style.display = i > maxIdx ? "none" : "";
+            dot.dataset.active = i === active ? "true" : "false";
+          });
+        };
+
+        const updateButtons = () => {
+          if (!prevBtn || !nextBtn) return;
+          const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+          prevBtn.disabled = viewport.scrollLeft <= 1;
+          nextBtn.disabled = viewport.scrollLeft >= maxScroll - 1;
+        };
+
+        const goTo = (index: number) => {
+          const clamped = Math.max(0, Math.min(getMaxIndex(), index));
+          viewport.scrollTo({ left: clamped * getStep(), behavior: "smooth" });
+        };
+
+        prevBtn?.addEventListener("click", () => goTo(getActiveIndex() - 1));
+        nextBtn?.addEventListener("click", () => goTo(getActiveIndex() + 1));
+
+        dots.forEach((dot, i) => {
+          dot.addEventListener("click", () => goTo(i));
+        });
+
+        let scrollTimer: number | null = null;
+        viewport.addEventListener("scroll", () => {
+          if (scrollTimer) window.cancelAnimationFrame(scrollTimer);
+          scrollTimer = window.requestAnimationFrame(() => {
+            updateDots();
+            updateButtons();
+          });
+        });
+
+        window.addEventListener("resize", () => {
+          updateDots();
+          updateButtons();
+        });
+
+        updateDots();
+        updateButtons();
+      }
+    </script>
+  </section>
+
+  <section data-paw class="bg-cream-50">
+    <div class="container-content py-24 md:py-32">
+      <div class="mx-auto max-w-3xl text-center reveal">
+        <p class="eyebrow">Nous trouver</p>
+        <h2 class="mt-6 font-serif text-h1 text-forest-900">Contact.</h2>
+        <p class="mt-8 text-base text-ink-700 md:text-lg">
+          Vous voulez réserver pour une réunion, un repas de famille ? Nous pouvons privatiser
+          le restaurant pour vous les soirs en semaine ainsi que le samedi midi (à partir de
+          10 personnes).
+        </p>
+        <p class="mt-4 text-base text-ink-700 md:text-lg">
+          N'hésitez pas à prendre contact avec notre équipe par téléphone, nous serions ravis
+          de vous accueillir.
+        </p>
+      </div>
+
+      <div class="mt-14 grid gap-5 md:mt-16 md:grid-cols-3 md:gap-6">
+        <a
+          href={`tel:${restaurant.phone}`}
+          class="group relative flex flex-col rounded-3xl border border-ink-900/8 bg-cream-100/50 p-8 transition-all hover:-translate-y-1 hover:border-ink-900/15 hover:bg-cream-100 hover:shadow-xl hover:shadow-ink-900/5 md:p-10"
+        >
+          <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-forest-700 text-cream-50 transition-transform group-hover:scale-110">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+          </div>
+          <p class="mt-8 text-xs font-medium uppercase tracking-[0.18em] text-ink-500">
+            Téléphone
+          </p>
+          <p class="mt-3 font-serif text-2xl text-forest-900 md:text-3xl">
+            {restaurant.phoneDisplay}
+          </p>
+          <span class="mt-auto pt-6 text-xs font-medium uppercase tracking-[0.15em] text-terracotta-500 opacity-0 transition-opacity group-hover:opacity-100">
+            Appeler →
+          </span>
+        </a>
+
+        <div class="group relative flex flex-col rounded-3xl border border-ink-900/8 bg-cream-100/50 p-8 transition-colors hover:bg-cream-100 md:p-10">
+          <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-forest-700 text-cream-50">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+          </div>
+          <p class="mt-8 text-xs font-medium uppercase tracking-[0.18em] text-ink-500">
+            Adresse
+          </p>
+          <address class="mt-3 not-italic font-serif text-2xl leading-snug text-forest-900 md:text-3xl">
+            {restaurant.address.street}<br />
+            <span class="text-xl md:text-2xl">{restaurant.address.postalCode} {restaurant.address.city}</span>
+          </address>
+          <a
+            href={mapsDirections}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-auto inline-flex items-center gap-1.5 pt-6 text-xs font-medium uppercase tracking-[0.15em] text-terracotta-500 link-underline"
+          >
+            Voir l'itinéraire
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7 17L17 7M9 7h8v8" />
+            </svg>
+          </a>
+        </div>
+
+        <div class="relative flex flex-col rounded-3xl border border-ink-900/8 bg-cream-100/50 p-8 md:p-10">
+          <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-forest-700 text-cream-50">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" />
+            </svg>
+          </div>
+          <p class="mt-8 text-xs font-medium uppercase tracking-[0.18em] text-ink-500">
+            Horaires d'ouverture
+          </p>
+          <ul class="mt-4 divide-y divide-ink-900/8 text-sm">
+            <li class="flex items-center justify-between gap-3 py-1.5">
+              <span class="font-medium text-forest-900">Lun · Mar · Jeu</span>
+              <span class="text-ink-600">12h — 13h30</span>
+            </li>
+            <li class="flex items-center justify-between gap-3 py-1.5">
+              <span class="font-medium text-forest-900">Vendredi</span>
+              <span class="text-right text-ink-600">12h — 13h30<br />19h — 21h</span>
+            </li>
+            <li class="flex items-center justify-between gap-3 py-1.5">
+              <span class="font-medium text-forest-900">Samedi</span>
+              <span class="text-ink-600">19h — 21h</span>
+            </li>
+            <li class="flex items-center justify-between gap-3 py-1.5">
+              <span class="font-medium text-forest-900">Dimanche</span>
+              <span class="text-ink-600">12h — 13h30</span>
+            </li>
+            <li class="flex items-center justify-between gap-3 py-1.5">
+              <span class="italic text-ink-500">Mercredi</span>
+              <span class="italic text-ink-500">Fermé</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-5 overflow-hidden rounded-3xl border border-ink-900/8 shadow-xl shadow-ink-900/10 md:mt-6">
+        <iframe
+          src={mapsEmbed}
+          width="100%"
+          height="500"
+          style="border:0;"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Carte — Au Petit Gourmet, Ville-en-Vermois"
+          class="block h-[360px] w-full md:h-[480px]"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

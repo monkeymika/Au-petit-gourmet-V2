@@ -1,0 +1,140 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+import { restaurant } from "@data/restaurant";
+import Hero from "@components/Hero.astro";
+import PartnersCarousel from "@components/PartnersCarousel.astro";
+import gerants from "@/assets/page-le-restaurant/GerantAuPetitGourmet.png";
+import heroLeRestaurant from "@/assets/page-le-restaurant/hero_leRestaurant.webp";
+import BookingCTA from "@components/BookingCTA.astro";
+---
+
+<BaseLayout
+  title="AuPetitGourmet — Le restaurant | Cuisine locale et authentique"
+  description="Au Petit Gourmet : une histoire d'amitié entre Isabelle et Julie, une cuisine du terroir signée Alexandre Gessaga, et des producteurs lorrains au cœur de notre carte."
+>
+  <!-- Hero cinématique partagé avec la home, image au lieu de vidéo -->
+  <Hero imageSrc={heroLeRestaurant} imageAlt="Salle du restaurant Au Petit Gourmet — voûtes en pierre et décor floral suspendu">
+    <Fragment slot="title">
+      Au Petit Gourmet,<br />
+      <em class="text-terracotta-500">à propos de nous.</em>
+    </Fragment>
+  </Hero>
+
+  <!-- Bienvenue : photo Isabelle/Julie à côté du texte + 4 paragraphes intégraux + CTA -->
+  <section data-paw class="relative overflow-hidden py-20 md:py-28">
+    <!-- Marqueur de chapitre 01 en filigrane -->
+    <span
+      aria-hidden="true"
+      class="pointer-events-none absolute -left-2 top-16 select-none font-serif italic text-terracotta-500/[0.07] leading-none md:-left-4 md:top-24"
+      style="font-size: clamp(12rem, 28vw, 24rem);"
+    >01</span>
+
+    <div class="container-content relative">
+      <div class="grid items-center gap-12 md:grid-cols-12 md:gap-16">
+        <!-- Photo gérantes à gauche, centrée verticalement et horizontalement dans sa colonne -->
+        <div class="md:col-span-6 reveal">
+          <div class="gerants-float mx-auto max-w-[540px] overflow-hidden rounded-[2rem] ring-1 ring-ink-900/10 shadow-[0_30px_80px_-30px_rgba(58,86,63,0.4)]">
+            <Image
+              src={gerants}
+              alt="Isabelle et Julie, propriétaires du restaurant Au Petit Gourmet"
+              widths={[480, 700, 899]}
+              sizes="(min-width: 1024px) 540px, (min-width: 768px) 460px, 90vw"
+              class="h-auto w-full"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <!-- Texte client à droite -->
+        <div class="md:col-span-6 reveal">
+          <p class="eyebrow">Bienvenue,</p>
+          <h2 class="mt-4 font-serif text-h1 leading-[1.05] text-forest-900">
+            Le restaurant fait <em class="text-terracotta-500">peau neuve</em>&nbsp;!
+          </h2>
+
+          <div class="mt-10 space-y-6 text-lead text-ink-700">
+            <p>
+              Fruit de l'association entre Isabelle et Julie, amies depuis 20 ans et ayant
+              comme passion commune, un amour inconditionnel des plaisirs de la table.
+            </p>
+            <p>
+              Le chef Alexandre Gessaga, mettra vos papilles en éveil en mariant subtilement
+              une cuisine faite de produits frais, de saisons et issus de nos producteurs
+              locaux.
+            </p>
+            <p>
+              «&nbsp;Au Petit Gourmet&nbsp;» se renouvelle et vous propose un cadre apaisant
+              et authentique, qui fera sa mue lors des soirées estivales, pour devenir une
+              guinguette et qui vous fera voir le restaurant sous son plus beau jour.
+            </p>
+            <p>
+              Le savoir faire et le service de la nouvelle équipe seront mis à votre
+              disposition afin que vous puissiez passer un agréable moment en notre compagnie.
+            </p>
+          </div>
+
+          <div class="mt-10">
+            <a href={`tel:${restaurant.phone}`} class="btn-primary">
+              Réservez une table
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Producteurs partenaires : layout asymétrique avec marqueur 02 + carousel -->
+  <section data-paw class="surface-cream-100-lg relative overflow-hidden py-20 md:py-28">
+    <!-- Marqueur de chapitre 02 en filigrane -->
+    <span
+      aria-hidden="true"
+      class="pointer-events-none absolute right-0 top-12 select-none font-serif italic text-terracotta-500/[0.07] leading-none"
+      style="font-size: clamp(12rem, 28vw, 24rem);"
+    >02</span>
+
+    <div class="container-content relative reveal">
+      <div class="grid items-end gap-12 md:grid-cols-12 md:gap-16">
+        <div class="md:col-span-7">
+          <p class="eyebrow">Nos fournisseurs</p>
+          <h2 class="mt-4 font-serif text-display leading-[0.95] text-forest-900">
+            Nos fournisseurs<br /><em class="text-terracotta-500">locaux</em>.
+          </h2>
+        </div>
+        <div class="md:col-span-5">
+          <p class="text-lead text-ink-700">
+            Au Petit Gourmet, nous sommes fiers de collaborer avec des fournisseurs locaux
+            d'exception qui partagent notre passion pour la qualité et l'authenticité. Chacun
+            de nos plats est le fruit d'une étroite collaboration avec ces artisans du goût,
+            qui nous fournissent les ingrédients les plus frais et de saison.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Le carousel sort du container pour défiler pleine largeur -->
+    <div class="mt-16 md:mt-24">
+      <PartnersCarousel duration={50} fadeColor="#F7F3EB" />
+    </div>
+  </section>
+
+  <BookingCTA />
+</BaseLayout>
+
+<style>
+  /* ─── Photo gérantes : flottement doux ─── */
+  .gerants-float {
+    animation: gerants-float 8s ease-in-out infinite;
+    will-change: transform;
+  }
+  @keyframes gerants-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gerants-float { animation: none; }
+  }
+</style>

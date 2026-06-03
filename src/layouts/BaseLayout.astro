@@ -1,0 +1,107 @@
+---
+import "../styles/global.css";
+import SEO from "@components/SEO.astro";
+import PillNav from "@components/PillNav.astro";
+import NavOverlay from "@components/NavOverlay.astro";
+import Footer from "@components/Footer.astro";
+import Loader from "@components/Loader.astro";
+import PawTrail from "@components/PawTrail.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+}
+
+const { title, description, canonical, ogImage } = Astro.props;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#3A563F" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Source+Serif+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+    />
+    <SEO title={title} description={description} canonical={canonical} ogImage={ogImage} />
+  </head>
+  <body class="min-h-screen font-sans antialiased">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[70] focus:rounded-md focus:bg-forest-800 focus:px-4 focus:py-2 focus:text-cream-50">
+      Aller au contenu
+    </a>
+    <Loader duration={1.0} />
+    <PillNav />
+    <NavOverlay />
+    <main id="main">
+      <slot />
+    </main>
+    <PawTrail />
+    <Footer />
+    <script>
+      const splash = document.querySelector(".apg-stage");
+      if (splash) {
+        const startedAt = performance.now();
+        const MIN_DISPLAY = 1100; // un tour complet de cercle (duration 1.0s + petite marge)
+        const hide = () => {
+          const remaining = Math.max(0, MIN_DISPLAY - (performance.now() - startedAt));
+          setTimeout(() => {
+            splash.classList.add("apg-hide");
+            setTimeout(() => splash.remove(), 700);
+          }, remaining);
+        };
+        if (document.readyState === "complete") hide();
+        else window.addEventListener("load", hide, { once: true });
+      }
+    </script>
+
+    <script>
+      // ─── Reveal au scroll : observer global pour toutes les pages ───
+      // IntersectionObserver natif, unobserve après reveal pour libérer la mémoire.
+      // CSS gère la prefers-reduced-motion en bypass total — ici on observe quand même
+      // mais l'animation est désactivée, donc aucun cost visuel.
+      const initReveal = () => {
+        const els = document.querySelectorAll<HTMLElement>(
+          ".reveal, .reveal-soft, .reveal-left, .reveal-right"
+        );
+        if (els.length === 0) return;
+
+        if (!("IntersectionObserver" in window)) {
+          els.forEach((el) => el.classList.add("is-visible"));
+          return;
+        }
+
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+        );
+
+        els.forEach((el) => io.observe(el));
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initReveal);
+      } else {
+        initReveal();
+      }
+    </script>
+  </body>
+</html>
