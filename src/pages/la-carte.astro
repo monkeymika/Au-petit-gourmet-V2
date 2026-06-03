@@ -412,11 +412,11 @@ const accentClasses: Record<"forest" | "terracotta" | "magenta", { text: string 
       activateTab("carte", false);
       return;
     }
-    const activeBtn = document.querySelector<HTMLElement>('.tab-btn[data-active="true"]');
-    if (activeBtn) {
-      activeBtn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-    }
     if (scroll) {
+      const activeBtn = document.querySelector<HTMLElement>('.tab-btn[data-active="true"]');
+      if (activeBtn) {
+        activeBtn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      }
       requestAnimationFrame(() => {
         const panel = document.getElementById(id);
         if (panel) {

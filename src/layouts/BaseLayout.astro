@@ -6,6 +6,7 @@ import NavOverlay from "@components/NavOverlay.astro";
 import Footer from "@components/Footer.astro";
 import Loader from "@components/Loader.astro";
 import PawTrail from "@components/PawTrail.astro";
+import BackToTop from "@components/BackToTop.astro";
 
 interface Props {
   title: string;
@@ -48,6 +49,7 @@ const { title, description, canonical, ogImage } = Astro.props;
       <slot />
     </main>
     <PawTrail />
+    <BackToTop />
     <Footer />
     <script>
       const splash = document.querySelector(".apg-stage");
