@@ -44,8 +44,16 @@
     transform: scaleX(-1);
   }
   @media (max-width: 767px) {
+    /* Mobile : empreintes plus petites et plus discrètes (espace étroit,
+       elles passent par-dessus le texte → on baisse l'opacité). */
     .paw-step img {
-      width: 40px;
+      width: 32px;
+    }
+    .paw-step.visible {
+      opacity: 0.28;
+    }
+    .paw-step.on-dark.visible {
+      opacity: 0.34;
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -113,7 +121,11 @@
     });
 
     const layout = () => {
-      const margin = Math.max(36, window.innerWidth * 0.045); // marge (px)
+      // Mobile : collées au bord (marge réduite) + paire plus resserrée → moins
+      // de chevauchement avec le texte dans l'espace étroit.
+      const isMobile = window.innerWidth < 768;
+      const margin = isMobile ? 6 : Math.max(36, window.innerWidth * 0.045); // marge (px)
+      const dx = isMobile ? 16 : DX; // décalage horizontal intra-paire
       const span = (PAIRS - 1) * PAIR_GAP + DY; // hauteur totale de la foulée
       trail.forEach((s) => {
         const r = s.sec.getBoundingClientRect();
@@ -122,10 +134,10 @@
         const y = start + s.pp * PAIR_GAP + s.wi * DY;
         s.el.style.top = y + "px";
         if (s.rightSide) {
-          s.el.style.right = margin + s.wi * DX + "px";
+          s.el.style.right = margin + s.wi * dx + "px";
           s.el.style.left = "";
         } else {
-          s.el.style.left = margin + s.wi * DX + "px";
+          s.el.style.left = margin + s.wi * dx + "px";
           s.el.style.right = "";
         }
         s.trigger = y - 200;
