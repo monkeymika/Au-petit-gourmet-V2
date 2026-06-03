@@ -98,9 +98,9 @@ const isActive = (href: string) => {
       </div>
       <div>
         <p class="text-xs uppercase tracking-[0.18em] text-terracotta-500">Adresse</p>
-        <address class="mt-2 not-italic text-cream-100/85">
+        <address class="mt-2 text-sm not-italic text-cream-100/85 md:text-base">
           {restaurant.address.street}<br />
-          {restaurant.address.postalCode} {restaurant.address.city}
+          <span class="whitespace-nowrap">{restaurant.address.postalCode} {restaurant.address.city}</span>
         </address>
       </div>
       <div class="hidden lg:block">
