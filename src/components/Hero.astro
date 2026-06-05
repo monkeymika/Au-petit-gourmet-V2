@@ -20,11 +20,11 @@ const { imageSrc, imageAlt = "" } = Astro.props;
 >
   <div class="sticky top-0 h-screen w-full" data-hero-stage>
     <div
-      class="absolute inset-x-0 top-0 overflow-hidden"
+      class="absolute inset-x-0 top-0 h-full overflow-hidden"
       data-hero-video-area
-      style="height:100%;border-bottom-left-radius:0px;border-bottom-right-radius:0px;"
+      style="clip-path:inset(0 0 0% 0 round 0 0 0px 0px);will-change:clip-path;"
     >
-      <div class="absolute inset-0 overflow-hidden" data-hero-video-wrap>
+      <div class="absolute inset-0 overflow-hidden" data-hero-video-wrap style="will-change:transform;">
         {imageSrc ? (
           <Image
             src={imageSrc}
@@ -33,6 +33,7 @@ const { imageSrc, imageAlt = "" } = Astro.props;
             sizes="100vw"
             class="h-full w-full object-cover"
             loading="eager"
+            fetchpriority="high"
           />
         ) : (
           <video
@@ -42,9 +43,10 @@ const { imageSrc, imageAlt = "" } = Astro.props;
             loop
             playsinline
             preload="auto"
+            poster="/videos/hero-poster.webp"
             aria-hidden="true"
           >
-            <source src="/videos/hero-placeholder.mp4" type="video/mp4" />
+            <source src="/videos/hero.mp4" type="video/mp4" />
           </video>
         )}
       </div>
@@ -220,19 +222,21 @@ const { imageSrc, imageAlt = "" } = Astro.props;
       }
 
       // Video area: starts revealing cream + rounding only after REVEAL_START
-      // so the CTA pill (anchored on the boundary) stays off-screen until then
+      // so the CTA pill (anchored on the boundary) stays off-screen until then.
+      // clip-path (compositor-friendly) instead of height/border-radius:
+      // no layout/repaint of the playing video on every scroll frame.
       const revealP = Math.max(0, Math.min((progress - REVEAL_START) / (1 - REVEAL_START), 1));
       const radius = revealP * MAX_RADIUS;
-      const videoHeight = 100 - revealP * MAX_CREAM_REVEAL;
-      videoArea.style.borderBottomLeftRadius = `${radius}px`;
-      videoArea.style.borderBottomRightRadius = `${radius}px`;
-      videoArea.style.height = `${videoHeight}%`;
+      const clipBottom = revealP * MAX_CREAM_REVEAL;
+      videoArea.style.clipPath = `inset(0 0 ${clipBottom}% 0 round 0 0 ${radius}px ${radius}px)`;
 
       // CTA pill: anchored to the video/cream boundary, hidden below viewport
-      // at rest (extra px offset so its top half doesn't peek above the screen edge)
+      // at rest (extra px offset so its top half doesn't peek above the screen
+      // edge). Moved via transform only — `top` would trigger layout.
       if (cta) {
         const hideOffset = (1 - revealP) * 90;
-        cta.style.top = `calc(${videoHeight}% + ${hideOffset}px)`;
+        const offsetY = -(clipBottom / 100) * vh + hideOffset;
+        cta.style.transform = `translate(-50%, calc(-50% + ${offsetY}px))`;
       }
 
       ticking = false;

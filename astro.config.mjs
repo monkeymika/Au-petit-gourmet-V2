@@ -10,7 +10,9 @@ export default defineConfig({
   },
   integrations: [
     tailwind({ applyBaseStyles: false }),
-    sitemap(),
+    sitemap({
+      filter: (page) => !page.includes("/404"),
+    }),
   ],
   image: {
     responsiveStyles: true,

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+import MapEmbed from "@components/MapEmbed.astro";
 import { restaurant } from "@data/restaurant";
 
 const mapsQuery = encodeURIComponent(
@@ -229,17 +230,11 @@ const mapsDirections = `https://www.google.com/maps/dir/?api=1&destination=${map
     </div>
 
     <div class="overflow-hidden rounded-3xl border border-ink-900/10 shadow-xl shadow-ink-900/10 reveal-soft">
-      <iframe
-        src={mapsEmbed}
-        width="100%"
-        height="560"
-        style="border:0;"
-        loading="lazy"
-        allowfullscreen
-        referrerpolicy="no-referrer-when-downgrade"
+      <MapEmbed
+        embedUrl={mapsEmbed}
         title="Carte — Au Petit Gourmet, Ville-en-Vermois"
-        class="block h-[400px] w-full md:h-[520px]"
-      ></iframe>
+        heightClass="h-[400px] w-full md:h-[520px]"
+      />
     </div>
   </section>
 </BaseLayout>

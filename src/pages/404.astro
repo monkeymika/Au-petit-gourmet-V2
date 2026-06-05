@@ -1,0 +1,39 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { restaurant } from "@data/restaurant";
+---
+
+<BaseLayout
+  title="Page introuvable — Au Petit Gourmet"
+  description="La page que vous cherchez n'existe pas ou a été déplacée. Retrouvez la carte, la galerie et les informations du restaurant Au Petit Gourmet."
+>
+  <!-- Robots : une 404 ne doit pas être indexée -->
+  <meta slot="head" name="robots" content="noindex" />
+
+  <section class="relative flex min-h-screen items-center overflow-hidden">
+    <!-- Filigrane typographique géant, cohérent avec les autres pages -->
+    <span
+      aria-hidden="true"
+      class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none font-serif italic leading-none text-forest-900/[0.045]"
+      style="font-size: clamp(14rem, 40vw, 34rem);"
+    >404</span>
+
+    <div class="container-content relative py-32 text-center">
+      <p class="eyebrow">Erreur 404</p>
+      <h1 class="mt-6 font-serif text-display leading-[0.95] text-forest-900">
+        Cette page n'est pas<br /><em class="text-terracotta-500">au menu.</em>
+      </h1>
+      <p class="mx-auto mt-8 max-w-prose text-lead text-ink-700">
+        La page que vous cherchez n'existe pas ou a été déplacée.
+        Pas d'inquiétude — la table reste mise.
+      </p>
+      <div class="mt-12 flex flex-wrap items-center justify-center gap-4">
+        <a href="/" class="btn-primary">Retour à l'accueil</a>
+        <a href="/la-carte/" class="btn-ghost">Voir la carte</a>
+        <a href={`tel:${restaurant.phone}`} class="btn-ghost">
+          Réserver — {restaurant.phoneDisplay}
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

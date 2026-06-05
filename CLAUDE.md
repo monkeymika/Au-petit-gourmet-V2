@@ -98,7 +98,7 @@ Section 220vh/260vh avec `sticky top-0 h-screen` → **scroll pin**.
 | `src/assets/evenements/` | 3 affiches sources |
 | `src/assets/miel/` | 01-pots-ardoise.webp (88 Ko) + 02-pots-detail.webp (79 Ko) |
 | `public/affiches/` | 3 affiches WebP optimisées (147 Ko total) |
-| `public/videos/` | hero-placeholder.mp4 + find-nancy-reel.mp4 + miel-rucher.mp4 (569 Ko) + posters WebP |
+| `public/videos/` | hero.mp4 (vidéo cliente, 5,25 Mo) + hero-poster.webp + find-nancy-reel.mp4 + miel-rucher.mp4 (569 Ko) + posters WebP |
 | `public/menu/` | PDF carte (vide, en attente) |
 | `Img/` | Boîte de réception : utilisateur dépose ici, je trie |
 
@@ -131,9 +131,10 @@ Section 220vh/260vh avec `sticky top-0 h-screen` → **scroll pin**.
 
 ## Ce qu'il reste à faire
 - [ ] **Empreintes hérisson au scroll** (`src/components/PawTrail.astro`, home only) : effet en place (paires diagonales, côtés alternés, pose séquentielle droite→gauche, asset `public/loader/foot.png`). **À retravailler** + étendre aux autres pages quand validé. Détails : mémoire `paw-trail.md`.
-- [ ] Recevoir vidéo hero définitive (cliente) → remplacer `public/videos/hero-placeholder.mp4`
+- [x] ~~Recevoir vidéo hero définitive~~ → reçue et en place (`hero.mp4`, compressée 52 Mo → 5,25 Mo, original dans `Img/video_hero-original.mp4`). Reste à supprimer `hero-placeholder.mp4` si validé.
 - [ ] Recevoir PDF carte (cliente) → bonus téléchargeable sur `/la-carte/`
 - [ ] Refondre éventuellement `/le-restaurant/` et `/contact/`
-- [ ] Mentions légales à compléter
-- [ ] Tests perf finaux (Lighthouse)
+- [x] Mentions légales + politique de confidentialité complétées (2026-06-05, textes officiels cliente). Hébergeur indiqué : **Hostinger** (choix confirmé par monke). Confidentialité **adaptée au site statique** (pas de copie du texte WordPress). Reste : `politique-de-cookies-ue` encore générique.
+- [x] Audit perf + SEO complet (2026-06-05) : fonts auto-hébergées (@fontsource), loader 1×/session, og-default.jpg créé, page 404, schema.org enrichi, `_headers` Cloudflare — détails : mémoire `perf-seo-audit.md`
+- [ ] Tests perf finaux (Lighthouse) sur l'URL de prod après déploiement
 - [ ] Migration DNS vers Cloudflare Pages

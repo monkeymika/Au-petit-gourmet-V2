@@ -19,17 +19,41 @@ import { restaurant } from "@data/restaurant";
       <div>
         <h2 class="font-serif text-h2 text-forest-900">Cookies déposés par le site</h2>
         <p class="mt-4">
-          Ce site est statique et <strong>ne dépose aucun cookie</strong> pour son propre
-          fonctionnement. Aucun outil de mesure d'audience n'est intégré par défaut.
+          Ce site est statique et <strong>ne dépose aucun cookie</strong>&nbsp;: pas de cookie
+          publicitaire, pas de mesure d'audience, pas de traceur de réseaux sociaux.
+        </p>
+        <p class="mt-4">
+          Une simple préférence d'affichage (ne pas rejouer l'écran d'accueil animé à chaque
+          page) est mémorisée dans le stockage de session de votre navigateur
+          (<em>sessionStorage</em>). Ce n'est pas un cookie&nbsp;: cette information ne contient
+          aucune donnée personnelle, n'est jamais transmise à quiconque et disparaît
+          automatiquement à la fermeture de l'onglet. Elle relève des traceurs strictement
+          fonctionnels, exemptés de consentement.
         </p>
       </div>
 
       <div>
-        <h2 class="font-serif text-h2 text-forest-900">Cookies tiers</h2>
+        <h2 class="font-serif text-h2 text-forest-900">Pourquoi n'y a-t-il pas de bandeau cookies&nbsp;?</h2>
         <p class="mt-4">
-          La carte interactive intégrée sur la page <a href="/contact/" class="font-medium text-terracotta-500 link-underline">Contact</a>
-          est fournie par <strong>Google Maps</strong>. Lors du chargement de cette carte, Google
-          peut déposer des cookies sur votre navigateur, conformément à sa propre politique.
+          Un bandeau de consentement n'est obligatoire que lorsqu'un site dépose des traceurs
+          non essentiels avant votre accord. Ce site n'en dépose aucun&nbsp;: il n'a donc pas
+          besoin de bandeau. Le seul service tiers susceptible de déposer des cookies — la
+          carte Google Maps — ne se charge qu'après votre clic explicite (voir ci-dessous).
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-serif text-h2 text-forest-900">Cookies tiers — Google Maps</h2>
+        <p class="mt-4">
+          La carte interactive proposée sur les pages
+          <a href="/" class="font-medium text-terracotta-500 link-underline">Accueil</a> et
+          <a href="/contact/" class="font-medium text-terracotta-500 link-underline">Contact</a>
+          est fournie par <strong>Google Maps</strong>. Elle
+          <strong>ne se charge qu'après votre clic</strong> sur le bouton
+          «&nbsp;Afficher la carte&nbsp;»&nbsp;: tant que vous ne cliquez pas, aucun cookie
+          Google n'est déposé et aucune donnée n'est transmise. En cliquant, vous consentez au
+          chargement de la carte et au dépôt éventuel de cookies par Google, conformément à sa
+          propre politique.
         </p>
         <p class="mt-4">
           Pour en savoir plus : <a
@@ -47,9 +71,12 @@ import { restaurant } from "@data/restaurant";
         <p class="mt-4">
           Vous pouvez à tout moment configurer votre navigateur pour bloquer ou supprimer les
           cookies. Les principaux navigateurs proposent des options dédiées dans leurs réglages
-          de confidentialité.
+          de confidentialité. Les cookies éventuellement déposés par Google après affichage de
+          la carte peuvent être supprimés de la même manière.
         </p>
       </div>
+
+      <p class="text-sm text-ink-500">Dernière mise à jour&nbsp;: juin 2026.</p>
     </div>
   </section>
 </BaseLayout>

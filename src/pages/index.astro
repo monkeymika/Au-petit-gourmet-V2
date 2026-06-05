@@ -2,6 +2,7 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { Image } from "astro:assets";
 import Hero from "@components/Hero.astro";
+import MapEmbed from "@components/MapEmbed.astro";
 import { restaurant } from "@data/restaurant";
 import { events } from "@data/events";
 import logoPrincipal from "@/assets/logo/LogoPrincipal_AuPetitGourmet.png";
@@ -45,6 +46,14 @@ const galleryImages = Object.entries(galleryImports)
   title="Au Petit Gourmet — Restaurant à Ville-en-Vermois près de Nancy"
   description="Restaurant de village près de Nancy. Cuisine locale et de saison, produits frais issus de nos producteurs lorrains. Réservation au 03 83 46 55 43."
 >
+  <!-- Poster du hero vidéo = LCP de la page : on le précharge en priorité haute -->
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    href="/videos/hero-poster.webp"
+    fetchpriority="high"
+  />
   <Hero />
 
   <section data-paw class="container-content py-24 md:py-32">
@@ -1075,17 +1084,11 @@ const galleryImages = Object.entries(galleryImports)
       </div>
 
       <div class="mt-5 overflow-hidden rounded-3xl border border-ink-900/8 shadow-xl shadow-ink-900/10 md:mt-6">
-        <iframe
-          src={mapsEmbed}
-          width="100%"
-          height="500"
-          style="border:0;"
-          loading="lazy"
-          allowfullscreen
-          referrerpolicy="no-referrer-when-downgrade"
+        <MapEmbed
+          embedUrl={mapsEmbed}
           title="Carte — Au Petit Gourmet, Ville-en-Vermois"
-          class="block h-[360px] w-full md:h-[480px]"
-        ></iframe>
+          heightClass="h-[360px] w-full md:h-[480px]"
+        />
       </div>
     </div>
   </section>

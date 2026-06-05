@@ -15,49 +15,129 @@ import { restaurant } from "@data/restaurant";
       <p class="text-lead">
         Le restaurant {restaurant.name} attache une grande importance à la protection de votre
         vie privée. Cette politique vous informe de la manière dont vos données personnelles
-        sont traitées lorsque vous visitez ce site.
+        sont traitées lorsque vous visitez le site https://aupetitgourmet.fr/.
       </p>
 
       <div>
-        <h2 class="font-serif text-h2 text-forest-900">Données collectées</h2>
+        <h2 class="font-serif text-h2 text-forest-900">Qui sommes-nous&nbsp;?</h2>
+        <p class="mt-4">
+          Le site https://aupetitgourmet.fr/ est édité par la SAS Au Petit Gourmet,
+          {restaurant.address.street}, {restaurant.address.postalCode} {restaurant.address.city}.
+        </p>
+        <ul class="mt-4 space-y-2">
+          <li>
+            <strong>Responsable du traitement</strong>&nbsp;: SAS Au Petit Gourmet, représentée par
+            Julie Moille, sa représentante légale.
+          </li>
+          <li>
+            <strong>Délégué à la protection des données (DPO)</strong>&nbsp;: Aubras Michael —
+            <a href="mailto:monkeysdev.contact@gmail.com" class="text-terracotta-600 link-underline">monkeysdev.contact@gmail.com</a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="font-serif text-h2 text-forest-900">Données collectées par le site</h2>
         <p class="mt-4">
           Ce site est un site vitrine statique. Il ne propose ni création de compte, ni
-          formulaire de contact, ni système de réservation en ligne. <strong>Aucune donnée
-          personnelle</strong> n'est collectée par le site lui-même.
+          formulaire de contact, ni espace de commentaires, ni système de réservation en
+          ligne&nbsp;: les réservations se font uniquement par téléphone. <strong>Le site ne
+          collecte donc par lui-même aucune donnée personnelle</strong> vous concernant.
         </p>
         <p class="mt-4">
-          La carte intégrée (Google Maps) est fournie par Google LLC et peut, lors de son
-          chargement, transmettre certaines informations techniques (adresse IP, type de
-          navigateur) à Google selon sa propre politique de confidentialité.
+          Comme pour tout site internet, notre hébergeur (Hostinger — 61 Lordou Vironos Street,
+          6023 Larnaca, Chypre, infrastructure conforme au RGPD) génère des journaux techniques
+          de connexion (adresse IP, date et heure d'accès, pages consultées, type de
+          navigateur). Ces journaux servent exclusivement à assurer la sécurité et le bon
+          fonctionnement du service, et sont conservés pour une durée limitée.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-serif text-h2 text-forest-900">Cookies et stockage local</h2>
+        <p class="mt-4">
+          Le site ne dépose <strong>aucun cookie publicitaire ni cookie de mesure
+          d'audience</strong>, et n'utilise aucun outil de suivi statistique tiers.
+        </p>
+        <p class="mt-4">
+          Une simple préférence d'affichage (ne pas rejouer l'écran d'accueil animé à chaque
+          page) est mémorisée dans le stockage de session de votre navigateur
+          (<em>sessionStorage</em>). Cette information ne contient aucune donnée personnelle, ne
+          quitte jamais votre navigateur et est automatiquement supprimée à la fermeture de
+          l'onglet.
+        </p>
+        <p class="mt-4">
+          Pour plus de détails, consultez notre
+          <a href="/politique-de-cookies-ue/" class="text-terracotta-600 link-underline">politique de cookies</a>.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-serif text-h2 text-forest-900">Contenu embarqué de sites tiers</h2>
+        <p class="mt-4">
+          Les pages «&nbsp;Accueil&nbsp;» et «&nbsp;Contact&nbsp;» proposent une carte
+          <strong>Google Maps</strong> fournie par Google LLC. Cette carte
+          <strong>ne se charge qu'après votre clic</strong> sur le bouton
+          «&nbsp;Afficher la carte&nbsp;»&nbsp;: tant que vous ne cliquez pas, aucune donnée
+          n'est échangée avec Google. Si vous choisissez de l'afficher, Google peut alors
+          collecter certaines informations techniques (adresse IP, type de navigateur) et
+          déposer ses propres cookies, selon ses
+          <a
+            href="https://policies.google.com/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-terracotta-600 link-underline">règles de confidentialité</a>.
+        </p>
+        <p class="mt-4">
+          Le site contient également des liens vers nos pages Instagram et Facebook. Il s'agit
+          de simples liens&nbsp;: aucun module social, pixel ou traceur de ces plateformes n'est
+          intégré au site. Ces réseaux ne collectent des données que si vous visitez leurs
+          sites.
+        </p>
+        <p class="mt-4">
+          Les vidéos présentes sur le site sont hébergées directement sur notre serveur, sans
+          recours à une plateforme tierce.
         </p>
       </div>
 
       <div>
         <h2 class="font-serif text-h2 text-forest-900">Vos droits</h2>
         <p class="mt-4">
-          Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi
-          Informatique et Libertés, vous disposez d'un droit d'accès, de rectification, de
-          suppression, de limitation et d'opposition au traitement de vos données.
+          Conformément au Règlement Général sur la Protection des Données (RGPD&nbsp;:
+          n°&nbsp;2016-679) et à la loi Informatique et Libertés, vous disposez des droits
+          d'accès (art. 15), de rectification (art. 16), d'effacement (art. 17), de limitation
+          (art. 18), d'opposition (art. 21) et de portabilité (art. 20) concernant vos données
+          personnelles, ainsi que du droit de retirer à tout moment un consentement
+          (art. 13-2c) et de définir le sort de vos données après votre décès.
+        </p>
+        <p class="mt-4">Pour exercer ces droits, vous pouvez contacter&nbsp;:</p>
+        <p class="mt-4">
+          <strong>Au Petit Gourmet — DPO, Aubras Michael</strong><br />
+          {restaurant.address.street}, {restaurant.address.postalCode} {restaurant.address.city}<br />
+          <a href="mailto:monkeysdev.contact@gmail.com" class="text-terracotta-600 link-underline">monkeysdev.contact@gmail.com</a>
+          — ou par téléphone au {restaurant.phoneDisplay}
         </p>
         <p class="mt-4">
-          Pour exercer ces droits, contactez-nous au {restaurant.phoneDisplay} ou par courrier à
-          l'adresse : {restaurant.address.street}, {restaurant.address.postalCode}
-          {restaurant.address.city}.
+          Votre demande doit permettre de vous identifier précisément&nbsp;; une copie d'une
+          pièce d'identité pourra vous être demandée.
         </p>
       </div>
 
       <div>
         <h2 class="font-serif text-h2 text-forest-900">Réclamation</h2>
         <p class="mt-4">
-          Vous avez la possibilité d'introduire une réclamation auprès de la CNIL (Commission
-          Nationale de l'Informatique et des Libertés) : <a
-            href="https://www.cnil.fr"
+          Si vous estimez que vos droits ne sont pas respectés, vous avez la possibilité
+          d'introduire une réclamation auprès de la CNIL (Commission Nationale de
+          l'Informatique et des Libertés)&nbsp;: <a
+            href="https://www.cnil.fr/fr/plaintes"
             target="_blank"
             rel="noopener noreferrer"
-            class="font-medium text-terracotta-500 link-underline">www.cnil.fr</a
+            class="font-medium text-terracotta-500 link-underline">www.cnil.fr/fr/plaintes</a
           >.
         </p>
       </div>
+
+      <p class="text-sm text-ink-500">Dernière mise à jour&nbsp;: juin 2026.</p>
     </div>
   </section>
 </BaseLayout>

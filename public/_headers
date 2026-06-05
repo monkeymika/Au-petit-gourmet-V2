@@ -1,0 +1,12 @@
+# Cloudflare Pages — règles de cache
+# Assets fingerprintés par Astro (hash dans le nom) : cache long immuable
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Médias versionnés manuellement (on change le nom de fichier si on remplace)
+/videos/*
+  Cache-Control: public, max-age=2592000
+/affiches/*
+  Cache-Control: public, max-age=2592000
+/loader/*
+  Cache-Control: public, max-age=2592000

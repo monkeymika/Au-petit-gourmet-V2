@@ -1,4 +1,13 @@
 ---
+// Fonts auto-hébergées (fontsource) : zéro requête externe, zéro CSS bloquant
+// tiers. Seules les graisses réellement utilisées sont chargées.
+import "@fontsource/lato/400.css";
+import "@fontsource/lato/400-italic.css";
+import "@fontsource/lato/700.css";
+import "@fontsource/source-serif-pro/400.css";
+import "@fontsource/source-serif-pro/400-italic.css";
+import "@fontsource/source-serif-pro/600.css";
+import "@fontsource/source-serif-pro/700.css";
 import "../styles/global.css";
 import SEO from "@components/SEO.astro";
 import PillNav from "@components/PillNav.astro";
@@ -30,13 +39,21 @@ const { title, description, canonical, ogImage } = Astro.props;
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Source+Serif+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap"
-    />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <SEO title={title} description={description} canonical={canonical} ogImage={ogImage} />
+    <slot name="head" />
+    <script is:inline>
+      // Loader : plein écran à la 1ère visite uniquement. Sur les navigations
+      // suivantes (sessionStorage), il est masqué AVANT le premier paint.
+      if (sessionStorage.getItem("apg-visited")) {
+        document.documentElement.classList.add("apg-skip-loader");
+      }
+    </script>
+    <style is:global>
+      .apg-skip-loader .apg-stage {
+        display: none;
+      }
+    </style>
   </head>
   <body class="min-h-screen font-sans antialiased">
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[70] focus:rounded-md focus:bg-forest-800 focus:px-4 focus:py-2 focus:text-cream-50">
@@ -53,7 +70,13 @@ const { title, description, canonical, ogImage } = Astro.props;
     <Footer />
     <script>
       const splash = document.querySelector(".apg-stage");
-      if (splash) {
+      const alreadyVisited = sessionStorage.getItem("apg-visited");
+      sessionStorage.setItem("apg-visited", "1");
+      if (splash && alreadyVisited) {
+        // Navigation interne : le loader est déjà masqué par .apg-skip-loader,
+        // on le retire du DOM sans délai.
+        splash.remove();
+      } else if (splash) {
         const startedAt = performance.now();
         const MIN_DISPLAY = 1100; // un tour complet de cercle (duration 1.0s + petite marge)
         const hide = () => {

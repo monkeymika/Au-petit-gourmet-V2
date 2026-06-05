@@ -1,0 +1,77 @@
+---
+/**
+ * MapEmbed — façade RGPD pour Google Maps (pattern CNIL "click-to-load").
+ * L'iframe Google n'est injectée qu'au clic : aucun cookie/traceur tiers
+ * n'est déposé tant que l'utilisateur n'a pas explicitement demandé la carte.
+ * Même logique que les vidéos click-to-play du site. Bonus perf : le JS
+ * Google Maps (~1 Mo) n'est plus jamais chargé sans interaction.
+ */
+import { restaurant } from "@data/restaurant";
+
+interface Props {
+  /** URL d'embed Google Maps (sera chargée au clic) */
+  embedUrl: string;
+  /** Titre accessible de l'iframe */
+  title: string;
+  /** Classes de hauteur du bloc (doit matcher l'ancienne iframe) */
+  heightClass?: string;
+}
+
+const { embedUrl, title, heightClass = "h-[400px] w-full md:h-[520px]" } = Astro.props;
+---
+
+<div
+  class={`relative ${heightClass} bg-cream-100`}
+  data-map-embed
+  data-src={embedUrl}
+  data-title={title}
+>
+  <div
+    class="absolute inset-0 flex flex-col items-center justify-center gap-5 px-6 py-10 text-center"
+    data-map-facade
+  >
+    <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-forest-700 text-cream-50">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+        <circle cx="12" cy="10" r="3" />
+      </svg>
+    </span>
+
+    <address class="not-italic font-serif text-xl leading-snug text-forest-900 md:text-2xl">
+      {restaurant.address.street}<br />
+      <span class="text-lg md:text-xl">{restaurant.address.postalCode} {restaurant.address.city}</span>
+    </address>
+
+    <button type="button" class="btn-primary" data-map-load>
+      Afficher la carte
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h14M13 5l7 7-7 7" />
+      </svg>
+    </button>
+
+    <p class="max-w-md text-xs leading-relaxed text-ink-500">
+      La carte interactive est fournie par Google Maps. En l'affichant, vous acceptez que des
+      données (adresse IP, cookies) soient échangées avec Google.
+      <a href="/politique-de-confidentialite/" class="text-terracotta-600 underline underline-offset-2">
+        En savoir plus
+      </a>
+    </p>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-map-embed]").forEach((wrap) => {
+    const btn = wrap.querySelector<HTMLButtonElement>("[data-map-load]");
+    btn?.addEventListener("click", () => {
+      const iframe = document.createElement("iframe");
+      iframe.src = wrap.dataset.src ?? "";
+      iframe.title = wrap.dataset.title ?? "Carte Google Maps";
+      iframe.allowFullscreen = true;
+      iframe.referrerPolicy = "no-referrer-when-downgrade";
+      iframe.className = "absolute inset-0 h-full w-full";
+      iframe.style.border = "0";
+      wrap.querySelector("[data-map-facade]")?.remove();
+      wrap.appendChild(iframe);
+    });
+  });
+</script>
