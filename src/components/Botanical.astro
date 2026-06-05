@@ -1,0 +1,140 @@
+---
+/**
+ * Botanical — motifs « terroir » dessinés au trait (esprit gravure botanique).
+ * SVG inline en currentColor : la couleur/opacité se règlent via la classe
+ * (ex. text-forest-700/15). Zéro requête réseau, zéro poids image.
+ *
+ * Motifs : ble, tomate, carotte, radis, abeille, raisin, brin, fleur.
+ * Usage :
+ *   <Botanical name="ble" class="absolute -top-4 right-8 h-32 w-32 text-cream-100/20 rotate-12" />
+ */
+interface Props {
+  name: "ble" | "tomate" | "carotte" | "radis" | "abeille" | "raisin" | "brin" | "fleur";
+  class?: string;
+  /** Épaisseur du trait (unités viewBox 100) */
+  strokeWidth?: number;
+}
+
+const { name, class: className = "", strokeWidth = 1.6 } = Astro.props;
+
+const motifs: Record<Props["name"], string> = {
+  // Épi de blé — tige, grains par paires, barbes au sommet
+  ble: `
+    <path d="M50 96 C49 78 49 60 50 24" />
+    <path d="M50 70 C42 68 39 62 42 55 C47 58 50 64 50 70 Z" />
+    <path d="M50 70 C58 68 61 62 58 55 C53 58 50 64 50 70 Z" />
+    <path d="M50 60 C42 58 39 52 42 45 C47 48 50 54 50 60 Z" />
+    <path d="M50 60 C58 58 61 52 58 45 C53 48 50 54 50 60 Z" />
+    <path d="M50 50 C42 48 39 42 42 35 C47 38 50 44 50 50 Z" />
+    <path d="M50 50 C58 48 61 42 58 35 C53 38 50 44 50 50 Z" />
+    <path d="M50 40 C43 38 40 33 43 27 C47 30 50 35 50 40 Z" />
+    <path d="M50 40 C57 38 60 33 57 27 C53 30 50 35 50 40 Z" />
+    <path d="M50 30 C44 28 42 24 44 19 C48 22 50 26 50 30 Z" />
+    <path d="M50 30 C56 28 58 24 56 19 C52 22 50 26 50 30 Z" />
+    <path d="M50 24 L45 8" />
+    <path d="M50 22 L50 6" />
+    <path d="M50 24 L55 8" />
+  `,
+  // Tomate + tomate cerise — calice à sépales, tige feuillue, reflet
+  tomate: `
+    <path d="M29 60 a19 19 0 1 0 38 0 a19 19 0 1 0 -38 0" />
+    <path d="M48 41 C48 36 50 31 54 28" />
+    <path d="M54 28 C60 22 68 21 74 24 C71 31 63 33 56 30 Z" />
+    <path d="M48 41 C42 40 37 42 33 46" />
+    <path d="M48 41 C44 37 42 33 42 28" />
+    <path d="M48 41 C54 40 58 42 62 46" />
+    <path d="M36 68 C38 73 42 76 47 78" />
+    <path d="M70.5 73 a8.5 8.5 0 1 0 17 0 a8.5 8.5 0 1 0 -17 0" />
+    <path d="M79 64.5 C78 60 76 57 72 55" />
+    <path d="M79 64.5 L74 61.5" />
+    <path d="M79 64.5 L83.5 61" />
+  `,
+  // Carotte — racine striée, fanes en éventail
+  carotte: `
+    <path d="M44 38 C42 56 45 74 50 90 C55 74 58 56 56 38" />
+    <path d="M44 38 Q50 42 56 38" />
+    <path d="M46 52 L52 53" />
+    <path d="M47 62 L53 63" />
+    <path d="M48 72 L52 73" />
+    <path d="M50 36 C48 28 44 22 38 16" />
+    <path d="M50 36 C50 26 50 19 50 12" />
+    <path d="M50 36 C52 28 56 22 62 16" />
+    <path d="M38 16 L32 14" />
+    <path d="M38 16 L37 9" />
+    <path d="M50 12 L46 7" />
+    <path d="M50 12 L54 7" />
+    <path d="M62 16 L63 9" />
+    <path d="M62 16 L68 14" />
+  `,
+  // Botte de radis — racine ronde, queue, trois feuilles
+  radis: `
+    <path d="M50 44 C38 44 32 52 33 61 C34 71 41 77 50 77 C59 77 66 71 67 61 C68 52 62 44 50 44 Z" />
+    <path d="M52 77 C53 83 51 88 48 92" />
+    <path d="M49 44 C45 34 46 24 51 15 C55 24 53 35 51 44" />
+    <path d="M46 44 C40 38 36 31 36 23 C42 28 46 35 48 43" />
+    <path d="M54 44 C58 36 62 30 66 25 C67 33 61 40 56 44" />
+  `,
+  // Abeille — corps rayé, ailes, antennes, trajectoire pointillée
+  abeille: `
+    <path d="M37 60 a14 10 0 1 0 28 0 a14 10 0 1 0 -28 0" />
+    <path d="M46 51 C45 57 45 63 46 69" />
+    <path d="M52 50 C51 57 51 63 52 70" />
+    <path d="M58 52 C57 57 57 63 58 68" />
+    <path d="M27 57 a5 5 0 1 0 10 0 a5 5 0 1 0 -10 0" />
+    <path d="M30 53 C28 49 26 47 22 46" />
+    <path d="M34 52 C33 47 34 44 36 41" />
+    <path d="M48 50 C44 38 50 31 58 33 C62 40 57 47 48 50 Z" />
+    <path d="M57 51 C57 40 64 36 71 39 C72 45 66 50 57 51 Z" />
+    <path d="M65 64 L71 67" />
+    <path d="M12 84 C22 89 33 87 40 78" stroke-dasharray="1 5" />
+  `,
+  // Grappe de raisin — stem, feuille, vrille, grains
+  raisin: `
+    <path d="M50 38 C51 30 55 24 62 18" />
+    <path d="M62 18 C74 12 84 18 82 30 C72 34 63 28 62 18 Z" />
+    <path d="M56 22 C50 18 46 20 47 26 C52 27 54 24 53 21" />
+    <path d="M38.5 44 a5.5 5.5 0 1 0 11 0 a5.5 5.5 0 1 0 -11 0" />
+    <path d="M50.5 44 a5.5 5.5 0 1 0 11 0 a5.5 5.5 0 1 0 -11 0" />
+    <path d="M32.5 54 a5.5 5.5 0 1 0 11 0 a5.5 5.5 0 1 0 -11 0" />
+    <path d="M44.5 54 a5.5 5.5 0 1 0 11 0 a5.5 5.5 0 1 0 -11 0" />
+    <path d="M56.5 54 a5.5 5.5 0 1 0 11 0 a5.5 5.5 0 1 0 -11 0" />
+    <path d="M38.5 64 a5.5 5.5 0 1 0 11 0 a5.5 5.5 0 1 0 -11 0" />
+    <path d="M50.5 64 a5.5 5.5 0 1 0 11 0 a5.5 5.5 0 1 0 -11 0" />
+    <path d="M44.5 74 a5.5 5.5 0 1 0 11 0 a5.5 5.5 0 1 0 -11 0" />
+  `,
+  // Rameau — tige courbe, feuilles alternées
+  brin: `
+    <path d="M18 82 C38 66 58 48 82 20" />
+    <path d="M30 73 C22 70 18 64 19 56 C27 59 31 65 30 73 Z" />
+    <path d="M41 63 C42 55 48 50 56 50 C54 58 49 63 41 63 Z" />
+    <path d="M52 54 C44 51 41 44 42 37 C50 40 53 46 52 54 Z" />
+    <path d="M63 43 C64 35 70 30 78 31 C76 39 71 43 63 43 Z" />
+    <path d="M71 34 C68 27 69 20 74 14 C79 19 78 27 73 33 Z" />
+  `,
+  // Fleur simple — 5 pétales autour d'un cœur
+  fleur: `
+    <path d="M46 50 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0" />
+    <g>
+      <path d="M50 44 C46 38 46 30 50 25 C54 30 54 38 50 44 Z" />
+      <path d="M50 44 C46 38 46 30 50 25 C54 30 54 38 50 44 Z" transform="rotate(72 50 50)" />
+      <path d="M50 44 C46 38 46 30 50 25 C54 30 54 38 50 44 Z" transform="rotate(144 50 50)" />
+      <path d="M50 44 C46 38 46 30 50 25 C54 30 54 38 50 44 Z" transform="rotate(216 50 50)" />
+      <path d="M50 44 C46 38 46 30 50 25 C54 30 54 38 50 44 Z" transform="rotate(288 50 50)" />
+    </g>
+    <path d="M50 54 C50 64 50 74 50 84" />
+    <path d="M50 70 C44 68 40 63 40 57" />
+  `,
+};
+---
+
+<svg
+  viewBox="0 0 100 100"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={strokeWidth}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  class={`pointer-events-none select-none ${className}`}
+  set:html={motifs[name]}
+/>

@@ -8,6 +8,7 @@ import { boissons, boissonsFooter } from "@data/boissons";
 import { vins, formatWinePrice } from "@data/vins";
 import Hero from "@components/Hero.astro";
 import BookingCTA from "@components/BookingCTA.astro";
+import Botanical from "@components/Botanical.astro";
 import heroLaCarte from "@/assets/page-lacarte/hero-lacarte.webp";
 
 const tabs = [
@@ -58,6 +59,14 @@ const accentClasses: Record<"forest" | "terracotta" | "magenta", { text: string 
 
   <!-- Onglet 1 : La carte -->
   <section id="carte" data-tab="carte" class="tab-panel relative">
+    <Botanical
+      name="tomate"
+      class="absolute right-8 top-32 hidden h-28 w-28 rotate-6 text-forest-700/25 lg:block"
+    />
+    <Botanical
+      name="carotte"
+      class="absolute left-8 top-[55%] hidden h-28 w-28 -rotate-12 text-forest-700/25 lg:block"
+    />
     <div class="container-content pt-12 md:pt-16">
       <nav class="flex flex-wrap justify-center gap-3" aria-label="Sommaire de la carte">
         {menu.sections.map((section) => (
@@ -239,7 +248,11 @@ const accentClasses: Record<"forest" | "terracotta" | "magenta", { text: string 
   </section>
 
   <!-- Onglet 4 : Vins -->
-  <section id="vins" data-tab="vins" class="tab-panel hidden">
+  <section id="vins" data-tab="vins" class="tab-panel relative hidden">
+    <Botanical
+      name="raisin"
+      class="absolute right-8 top-28 hidden h-32 w-32 rotate-6 text-forest-700/25 lg:block"
+    />
     <div class="container-content pt-12 md:pt-16">
       <nav class="flex flex-wrap justify-center gap-3" aria-label="Sommaire de la carte des vins">
         {vins.map((cat) => (

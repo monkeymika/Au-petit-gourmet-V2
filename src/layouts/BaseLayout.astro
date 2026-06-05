@@ -77,17 +77,14 @@ const { title, description, canonical, ogImage } = Astro.props;
         // on le retire du DOM sans délai.
         splash.remove();
       } else if (splash) {
-        const startedAt = performance.now();
-        const MIN_DISPLAY = 1100; // un tour complet de cercle (duration 1.0s + petite marge)
-        const hide = () => {
-          const remaining = Math.max(0, MIN_DISPLAY - (performance.now() - startedAt));
-          setTimeout(() => {
-            splash.classList.add("apg-hide");
-            setTimeout(() => splash.remove(), 700);
-          }, remaining);
-        };
-        if (document.readyState === "complete") hide();
-        else window.addEventListener("load", hide, { once: true });
+        // 1 tour de cercle (1.0s + marge) puis on libère la page SANS attendre
+        // l'événement `load` : sur mobile/connexion lente, attendre le
+        // chargement complet gardait le splash affiché plusieurs secondes.
+        const MIN_DISPLAY = 1100;
+        setTimeout(() => {
+          splash.classList.add("apg-hide");
+          setTimeout(() => splash.remove(), 700);
+        }, MIN_DISPLAY);
       }
     </script>
 

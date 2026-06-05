@@ -88,6 +88,10 @@ Section 220vh/260vh avec `sticky top-0 h-screen` → **scroll pin**.
 - Bords rounded-2xl, ring-1 subtil
 - Lightbox avec prev/next + compteur + navigation clavier (← → Esc)
 
+## Motifs botaniques « terroir »
+
+`src/components/Botanical.astro` : 8 motifs SVG line-art (esprit gravure) dessinés au trait — `ble, tomate, carotte, radis, abeille, raisin, brin, fleur`. Inline, currentColor, zéro poids. Posés en absolu dans les marges des sections (un motif lié au contenu de chaque section : abeille→miel, blé→formules, raisin→vins…), opacité /20-25, masqués sur mobile. Détails : mémoire `motifs-botaniques.md`.
+
 ## Organisation des assets
 
 | Dossier | Usage |
@@ -98,7 +102,7 @@ Section 220vh/260vh avec `sticky top-0 h-screen` → **scroll pin**.
 | `src/assets/evenements/` | 3 affiches sources |
 | `src/assets/miel/` | 01-pots-ardoise.webp (88 Ko) + 02-pots-detail.webp (79 Ko) |
 | `public/affiches/` | 3 affiches WebP optimisées (147 Ko total) |
-| `public/videos/` | hero.mp4 (vidéo cliente, 5,25 Mo) + hero-poster.webp + find-nancy-reel.mp4 + miel-rucher.mp4 (569 Ko) + posters WebP |
+| `public/videos/` | hero.mp4 (vidéo cliente 1600×900, 4,84 Mo) + hero-mobile.mp4 (960×540, 1,88 Mo, servie via `<source media>`) + hero-poster.webp + find-nancy-reel.mp4 + miel-rucher.mp4 (569 Ko) + posters WebP |
 | `public/menu/` | PDF carte (vide, en attente) |
 | `Img/` | Boîte de réception : utilisateur dépose ici, je trie |
 
@@ -134,7 +138,7 @@ Section 220vh/260vh avec `sticky top-0 h-screen` → **scroll pin**.
 - [x] ~~Recevoir vidéo hero définitive~~ → reçue et en place (`hero.mp4`, compressée 52 Mo → 5,25 Mo, original dans `Img/video_hero-original.mp4`). Reste à supprimer `hero-placeholder.mp4` si validé.
 - [ ] Recevoir PDF carte (cliente) → bonus téléchargeable sur `/la-carte/`
 - [ ] Refondre éventuellement `/le-restaurant/` et `/contact/`
-- [x] Mentions légales + politique de confidentialité complétées (2026-06-05, textes officiels cliente). Hébergeur indiqué : **Hostinger** (choix confirmé par monke). Confidentialité **adaptée au site statique** (pas de copie du texte WordPress). Reste : `politique-de-cookies-ue` encore générique.
+- [x] Mentions légales + politique de confidentialité complétées (2026-06-05, textes officiels cliente). Hébergeur indiqué : **Hostinger** (choix confirmé par monke). Confidentialité **adaptée au site statique** (pas de copie du texte WordPress). Politique de cookies complétée. **Pas de bandeau cookies nécessaire** : Google Maps derrière façade click-to-load (`MapEmbed.astro`, pattern CNIL) sur home + contact.
 - [x] Audit perf + SEO complet (2026-06-05) : fonts auto-hébergées (@fontsource), loader 1×/session, og-default.jpg créé, page 404, schema.org enrichi, `_headers` Cloudflare — détails : mémoire `perf-seo-audit.md`
 - [ ] Tests perf finaux (Lighthouse) sur l'URL de prod après déploiement
 - [ ] Migration DNS vers Cloudflare Pages

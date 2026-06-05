@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import MapEmbed from "@components/MapEmbed.astro";
+import Botanical from "@components/Botanical.astro";
 import { restaurant } from "@data/restaurant";
 
 const mapsQuery = encodeURIComponent(
@@ -22,6 +23,11 @@ const mapsDirections = `https://www.google.com/maps/dir/?api=1&destination=${map
       class="pointer-events-none absolute -right-4 top-12 select-none font-serif italic leading-none text-forest-900/[0.045] md:-right-8 md:top-20"
       style="font-size: clamp(8rem, 26vw, 22rem);"
     >Contact</span>
+
+    <Botanical
+      name="fleur"
+      class="absolute bottom-8 left-8 hidden h-24 w-24 -rotate-6 text-forest-700/25 lg:block"
+    />
 
     <div class="container-content relative">
       <div class="grid items-center gap-12 md:grid-cols-12 md:gap-16 reveal-stagger">

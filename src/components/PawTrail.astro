@@ -128,16 +128,25 @@
       const dx = isMobile ? 16 : DX; // décalage horizontal intra-paire
       const span = (PAIRS - 1) * PAIR_GAP + DY; // hauteur totale de la foulée
       trail.forEach((s) => {
-        const r = s.sec.getBoundingClientRect();
+        // Sections "dark" : le fond visible est une carte arrondie EN RETRAIT
+        // du viewport (1er enfant de la section). On cale les pattes sur les
+        // bords de cette carte — calées sur le viewport, elles sortaient du cadre.
+        const darkBox = isDarkSection(s.sec) ? s.sec.firstElementChild : null;
+        const r = (darkBox ?? s.sec).getBoundingClientRect();
         const top = r.top + window.scrollY;
         const start = top + r.height * 0.5 - span / 2; // foulée centrée dans la section
         const y = start + s.pp * PAIR_GAP + s.wi * DY;
         s.el.style.top = y + "px";
+        // Décalage horizontal : uniquement pour les cartes dark en retrait.
+        // Les sections claires gardent le calage sur les bords du viewport.
+        const vw = document.documentElement.clientWidth;
+        const insetRight = darkBox ? Math.max(0, vw - r.right) : 0;
+        const insetLeft = darkBox ? Math.max(0, r.left) : 0;
         if (s.rightSide) {
-          s.el.style.right = margin + s.wi * dx + "px";
+          s.el.style.right = insetRight + margin + s.wi * dx + "px";
           s.el.style.left = "";
         } else {
-          s.el.style.left = margin + s.wi * dx + "px";
+          s.el.style.left = insetLeft + margin + s.wi * dx + "px";
           s.el.style.right = "";
         }
         s.trigger = y - 200;

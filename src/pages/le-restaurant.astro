@@ -4,6 +4,7 @@ import { Image } from "astro:assets";
 import { restaurant } from "@data/restaurant";
 import Hero from "@components/Hero.astro";
 import PartnersCarousel from "@components/PartnersCarousel.astro";
+import Botanical from "@components/Botanical.astro";
 import gerants from "@/assets/page-le-restaurant/GerantAuPetitGourmet.png";
 import heroLeRestaurant from "@/assets/page-le-restaurant/hero_leRestaurant.webp";
 import BookingCTA from "@components/BookingCTA.astro";
@@ -95,6 +96,11 @@ import BookingCTA from "@components/BookingCTA.astro";
       class="pointer-events-none absolute right-0 top-12 select-none font-serif italic text-terracotta-500/[0.07] leading-none"
       style="font-size: clamp(12rem, 28vw, 24rem);"
     >02</span>
+
+    <Botanical
+      name="ble"
+      class="absolute left-6 top-24 hidden h-32 w-32 -rotate-6 text-forest-700/25 lg:block"
+    />
 
     <div class="container-content relative reveal">
       <div class="grid items-end gap-12 md:grid-cols-12 md:gap-16">
