@@ -94,11 +94,8 @@ const galleryImages = Object.entries(galleryImports)
                     {h.day}
                   </span>
                   <span class:list={["text-right", h.closed ? "italic text-ink-500" : "text-ink-700"]}>
-                    {h.service.split(" · ").map((part, i) => (
-                      <>
-                        {i > 0 && <span> · </span>}
-                        <span class="inline-block whitespace-nowrap">{part}</span>
-                      </>
+                    {h.service.split(" · ").map((part) => (
+                      <span class="block whitespace-nowrap">{part}</span>
                     ))}
                   </span>
                 </li>
