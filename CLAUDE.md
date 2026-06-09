@@ -12,7 +12,7 @@ Refonte du site WordPress du restaurant **Au Petit Gourmet** (Ville-en-Vermois, 
 - **Tailwind CSS** + **TypeScript** léger
 - **astro:image** (optimisation auto AVIF/WebP)
 - **@astrojs/sitemap** (sitemap auto)
-- **Hébergement prévu** : Cloudflare Pages
+- **Hébergement** : **Vercel** (décision verrouillée 2026-06-09) — déploiement auto depuis Git. Config cache dans `vercel.json` (le `_headers` Cloudflare est ignoré par Vercel mais conservé). Hébergeur déclaré dans les mentions légales : **Vercel Inc.**
 
 ## Structure du site (5 pages + 3 légales)
 
@@ -141,4 +141,4 @@ Section 220vh/260vh avec `sticky top-0 h-screen` → **scroll pin**.
 - [x] Mentions légales + politique de confidentialité complétées (2026-06-05, textes officiels cliente). Hébergeur indiqué : **Hostinger** (choix confirmé par monke). Confidentialité **adaptée au site statique** (pas de copie du texte WordPress). Politique de cookies complétée. **Pas de bandeau cookies nécessaire** : Google Maps derrière façade click-to-load (`MapEmbed.astro`, pattern CNIL) sur home + contact.
 - [x] Audit perf + SEO complet (2026-06-05) : fonts auto-hébergées (@fontsource), loader 1×/session, og-default.jpg créé, page 404, schema.org enrichi, `_headers` Cloudflare — détails : mémoire `perf-seo-audit.md`
 - [ ] Tests perf finaux (Lighthouse) sur l'URL de prod après déploiement
-- [ ] Migration DNS vers Cloudflare Pages
+- [ ] Migration DNS vers **Vercel** : ajouter le domaine dans Vercel → pointer A `aupetitgourmet.fr` vers `76.76.21.21` + CNAME `www` vers `cname.vercel-dns.com` dans la zone DNS Hostinger. **Garder les MX** (email). Vérifier les 8 pages sur le vrai domaine AVANT de supprimer le WordPress.
