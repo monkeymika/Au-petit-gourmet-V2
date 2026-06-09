@@ -102,7 +102,7 @@ Section 220vh/260vh avec `sticky top-0 h-screen` → **scroll pin**.
 | `src/assets/evenements/` | 3 affiches sources |
 | `src/assets/miel/` | 01-pots-ardoise.webp (88 Ko) + 02-pots-detail.webp (79 Ko) |
 | `public/affiches/` | 3 affiches WebP optimisées (147 Ko total) |
-| `public/videos/` | hero.mp4 (vidéo cliente 1600×900, 4,84 Mo) + hero-mobile.mp4 (960×540, 1,88 Mo, servie via `<source media>`) + hero-poster.webp + find-nancy-reel.mp4 + miel-rucher.mp4 (569 Ko) + posters WebP |
+| `public/videos/` | hero.mp4 (vidéo cliente 1600×900 24fps, 5,67 Mo, muette — màj 2026-06-09) + hero-mobile.mp4 (960×540, 1,88 Mo, servie via `<source media>`) + hero-poster.webp + find-nancy-reel.mp4 + miel-rucher.mp4 (569 Ko) + posters WebP |
 | `public/menu/` | PDF carte (vide, en attente) |
 | `Img/` | Boîte de réception : utilisateur dépose ici, je trie |
 
@@ -135,7 +135,7 @@ Section 220vh/260vh avec `sticky top-0 h-screen` → **scroll pin**.
 
 ## Ce qu'il reste à faire
 - [ ] **Empreintes hérisson au scroll** (`src/components/PawTrail.astro`, home only) : effet en place (paires diagonales, côtés alternés, pose séquentielle droite→gauche, asset `public/loader/foot.png`). **À retravailler** + étendre aux autres pages quand validé. Détails : mémoire `paw-trail.md`.
-- [x] ~~Recevoir vidéo hero définitive~~ → reçue et en place (`hero.mp4`, compressée 52 Mo → 5,25 Mo, original dans `Img/video_hero-original.mp4`). Reste à supprimer `hero-placeholder.mp4` si validé.
+- [x] ~~Recevoir vidéo hero définitive~~ → **nouvelle vidéo reçue le 2026-06-09** et en place (`hero.mp4` 1600×900 24fps, compressée 52,7 Mo → 5,67 Mo, muette ; mobile 960×540 2,2 Mo ; poster q65 78 Ko). Original conservé dans `Img/hero-nouveau.mp4`. Anciens fichiers (`hero-placeholder.mp4`, `video_hero-original.mp4`) supprimés.
 - [ ] Recevoir PDF carte (cliente) → bonus téléchargeable sur `/la-carte/`
 - [ ] Refondre éventuellement `/le-restaurant/` et `/contact/`
 - [x] Mentions légales + politique de confidentialité complétées (2026-06-05, textes officiels cliente). Hébergeur indiqué : **Hostinger** (choix confirmé par monke). Confidentialité **adaptée au site statique** (pas de copie du texte WordPress). Politique de cookies complétée. **Pas de bandeau cookies nécessaire** : Google Maps derrière façade click-to-load (`MapEmbed.astro`, pattern CNIL) sur home + contact.
