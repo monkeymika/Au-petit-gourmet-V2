@@ -23,7 +23,7 @@ export const events: EventItem[] = [
     title: "Programme des concerts",
     period: "Été 2026",
     excerpt:
-      "Huit soirées live dans le jardin, du 5 juin au 28 août. Au programme : Pop Lollie's & 50 Cat's, The Crakers, BSOB, Driving Soul, SOHO, Toniskall, Crossroad et Petocask.",
+      "Huit soirées live dans le jardin, du 5 juin au 28 août. Au programme : Pop Lollie's & 50 Cat's, Les crakers, BSOB, Driving soul, SOHO, Toniskall, Crossroads et Petocask.",
     poster: "/affiches/programme-concerts.webp",
     posterAlt:
       "Programme détaillé des concerts des soirées guinguettes pop-rock, été 2026",
