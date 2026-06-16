@@ -25,42 +25,35 @@ export const menu: { sections: MenuSection[] } = {
         {
           name: "Foie gras de canard Français",
           description:
-            "Au Whisky de Rozelieures, pain d'épices, gelée au Gris de Toul et mini crème brûlée au foie gras.",
-          prices: [{ amount: 18.5 }],
+            "Au Whisky de Rozelieures, pain d'épices, chutney à l'abricot, pointe de crème de framboise et combava et sa mini crème brûlée.",
+          prices: [{ amount: 19 }],
           allergens: "12/1/3/7",
         },
         {
-          name: "Salade printanière",
-          description:
-            "Copeaux de parmesan, croûtons, chips de lard, radis, pignons de pin, asperges vertes, œuf dur et vinaigrette aux agrumes.",
-          prices: [
-            { amount: 9.5, variant: "Entrée" },
-            { amount: 17, variant: "Plat" },
-          ],
-          allergens: "7/1/8/10",
+          name: "Carpaccio de bœuf",
+          description: "Pesto aux agrumes, pétales de parmesan et câpres frits.",
+          prices: [{ amount: 11.8 }],
+          allergens: "7/8",
         },
         {
-          name: "Asperges blanches",
+          name: "Magret séché maison",
           description:
-            "Mousse à la ricotta et citron, saumon gravlax à l'estragon et pickles.",
-          prices: [{ amount: 14.5 }],
-          allergens: "7/5",
+            "Billes de melon, dés de fêta, baby poivrons, pointe de vinaigre poivrons/piments et pickles d'oignons rouges.",
+          prices: [{ amount: 13.5 }],
+          allergens: "7/8",
         },
         {
-          name: "Ravioles ricotta et épinards",
-          description:
-            "Crème à la ricotta/citron, pointes d'asperges vertes et tuile parmesan.",
-          prices: [
-            { amount: 12, variant: "Entrée" },
-            { amount: 23, variant: "Plat" },
-          ],
-          allergens: "7/1/8/10",
+          name: "Assiette dégustation de jambon cru d'Auvergne IGP",
+          description: "Beurre et condiments.",
+          prices: [{ amount: 12 }],
+          allergens: "7",
         },
         {
-          name: "Tataki de bœuf aux graines de sésame",
-          description: "Émincé de radis, crumble de bacon et huile de cacahuète.",
-          prices: [{ amount: 15 }],
-          allergens: "8/11/4",
+          name: "Gaspacho de tomates jaunes",
+          description:
+            "Gambas snackées, filet d'huile d'olive extra vierge au basilic et chorizo croustillant.",
+          prices: [{ amount: 13 }],
+          allergens: "poivrons",
         },
       ],
     },
@@ -76,16 +69,15 @@ export const menu: { sections: MenuSection[] } = {
           allergens: "10/8",
         },
         {
-          name: "Carré d'agneau",
+          name: "Filet de bœuf Français",
           description:
-            "Jus réduit miel et thym, écrasé de petits pois à la menthe fraîche.",
-          prices: [{ amount: 25 }],
-          allergens: "7",
+            "Carottes et pommes de terre rôties au four, tomates cerises confites et son jus réduit au romarin.",
+          prices: [{ amount: 34 }],
         },
         {
           name: "Burger ou version Veggie",
           description:
-            "Steak haché ou steak végétal, tomme à l'ail des ours, lard grillé, crème aux herbes, oignons caramélisés, frites fraîches maison et salade verte.",
+            "Steak haché ou steak végétal, tomme à l'italienne, coppa, crème au pesto, pickles d'oignons, frites fraîches maison et salade verte.",
           prices: [
             { amount: 19, variant: "Simple" },
             { amount: 22, variant: "Double" },
@@ -93,32 +85,31 @@ export const menu: { sections: MenuSection[] } = {
           allergens: "1/7/8/11/4",
         },
         {
-          name: "Faux filet Français",
-          description:
-            "Gratin dauphinois, mini légumes et sauce chimichurri.",
+          name: "Picanha de bœuf",
+          description: "Polenta crémeuse et jus court au thym.",
           prices: [{ amount: 28.5 }],
-          allergens: "6/4/8",
+          allergens: "7/1",
         },
         {
-          name: "Épeautre façon risotto",
+          name: "Filet de dorade royale",
           description:
-            "Dés de chorizo, huile d'olive extra vierge citronnée et son bar.",
+            "Sauce vierge tomates, citron et herbes du jardin et ses petits légumes d'été.",
           prices: [{ amount: 26 }],
-          allergens: "7/8/1",
+          allergens: "5",
         },
         {
-          name: "Ravioles ricotta et épinards",
+          name: "Salade façon Vosgienne",
           description:
-            "Crème à la ricotta/citron, pointes d'asperges vertes et tuile parmesan.",
-          prices: [{ amount: 23 }],
-          allergens: "7",
+            "Pommes de terre, jambon cru, oignons, croûtons, œuf, crème et tomates cerises.",
+          prices: [{ amount: 18 }],
+          allergens: "7/3",
         },
         {
-          name: "Salade printanière",
+          name: "Salade gourmande",
           description:
-            "Copeaux de parmesan, croûtons, chips de lard, radis, pignons de pin, asperges vertes, œuf dur et vinaigrette aux agrumes.",
-          prices: [{ amount: 17 }],
-          allergens: "7/1/8/10",
+            "Tomates cerises, saumon gravlax, parmesan, croûtons, billes de mozzarella, maïs et vinaigrette aux agrumes.",
+          prices: [{ amount: 19.5 }],
+          allergens: "7/1",
         },
       ],
     },
@@ -141,33 +132,33 @@ export const menu: { sections: MenuSection[] } = {
         {
           name: "Moelleux au chocolat",
           description:
-            "Cœur pistache, mousse à la pistache, éclats de noix de pécan caramélisé et glace madeleine.",
+            "Cœur fruits rouges, sorbet framboise, crème fouettée vanillée et tuile aux amandes.",
           prices: [{ amount: 11 }],
           allergens: "1/3/4/7/8",
         },
         {
           name: "Café ou thé gourmand",
-          description: "Trio de desserts du moment.",
+          description: "Trio de dessert du moment.",
           prices: [{ amount: 8.5 }],
           allergens: "1/7/3/8",
         },
         {
-          name: "Coupe printanière",
+          name: "Mirabelle melba",
           description:
-            "Sorbet framboise/violette, sorbet citron kalamansi, coulis de fruits rouges, fruits frais et chantilly.",
+            "Sorbet mirabelle, glace vanille, coulis de mirabelles, fruits frais rôtis et crème fouettée vanillée.",
           prices: [{ amount: 9.5 }],
           allergens: "7",
         },
         {
-          name: "O'tour du nougat",
-          description:
-            "Coque en chocolat, mousse mascarpone amandée, éclats de nougats et glace au nougat.",
+          name: "Figues rôties au romarin",
+          description: "Glace bulgare, brisures de meringue et fruits confits.",
           prices: [{ amount: 10 }],
           allergens: "7/8/1",
         },
         {
-          name: "Crème brûlée infusée à la fève de tonka",
-          prices: [{ amount: 8 }],
+          name: "Pavlova aux fruits de saison",
+          description: "Coulis de fruits rouges et mousse mascarpone vanillée.",
+          prices: [{ amount: 9.5 }],
           allergens: "7",
         },
       ],
@@ -180,5 +171,6 @@ export const menuFooter = {
 };
 
 export const formatPrice = (amount: number): string => {
-  return amount.toString().replace(".", ",") + " €";
+  const decimals = Number.isInteger(amount) ? 0 : 2;
+  return amount.toFixed(decimals).replace(".", ",") + " €";
 };
