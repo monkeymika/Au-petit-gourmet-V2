@@ -9,16 +9,6 @@ export type EventItem = {
 
 export const events: EventItem[] = [
   {
-    id: "soirees-guinguettes",
-    title: "Soirées Guinguettes Pop-Rock",
-    period: "05 juin → 28 août 2026",
-    excerpt:
-      "Concerts live dans le jardin du restaurant. Soirées Braséro, Moules-frites et Cochon à la broche au programme.",
-    poster: "/affiches/soirees-guinguettes.webp",
-    posterAlt:
-      "Affiche des soirées guinguettes pop-rock au restaurant Au Petit Gourmet, du 5 juin au 28 août 2026",
-  },
-  {
     id: "programme-concerts",
     title: "Programme des concerts",
     period: "Été 2026",
@@ -27,6 +17,16 @@ export const events: EventItem[] = [
     poster: "/affiches/programme-concerts.webp",
     posterAlt:
       "Programme détaillé des concerts des soirées guinguettes pop-rock, été 2026",
+  },
+  {
+    id: "foie-gras-a-emporter",
+    title: "Foie gras à emporter",
+    period: "Disponible à la vente",
+    excerpt:
+      "Foie gras de canard maison au whisky de Rozelieures, préparé à la demande dans la quantité de votre choix. 128€ le kilo, 64€ les 500g, 32€ les 250g.",
+    poster: "/affiches/foie-gras-a-emporter.webp",
+    posterAlt:
+      "Affiche de vente à emporter du foie gras de canard maison au whisky de Rozelieures, Au Petit Gourmet",
   },
   {
     id: "depot-de-pain",

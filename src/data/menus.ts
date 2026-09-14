@@ -39,26 +39,26 @@ export const menus: FixedMenu[] = [
       {
         label: "Entrées",
         items: [
-          "Magret séché maison, billes de melon, dés de fêta, baby poivrons, pointe de vinaigre piment/poivron et pickles d'oignons rouges.",
-          "Œuf poché, crémeux de maïs doux au paprika fumé et parmesan.",
+          "Oeuf cocotte, crémeux à la châtaigne et éclats de châtaignes.",
+          "Tartare de betteraves du jardin, ricotta fouettée, pickles de légumes, pesto aux éclats de pistaches et vinaigrette aux piments et poivrons.",
         ],
-        allergens: "*/7 · *7/5/10",
+        allergens: "*7/3 · *7/8",
       },
       {
         label: "Plats",
         items: [
-          "Filet de dorade royale, sauce vierge tomate, citron et herbes du jardin et ses petits légumes d'été.",
-          "Pluma de porc, polenta crémeuse et sa sauce chimichuri.",
+          "Noix de joue de porc confite au vin rouge et sa polenta crémeuse.",
+          "Dos de lieu noir, purée de courges et sauce beurre blanc au cidre.",
         ],
-        allergens: "*7/5 · *10/3/7",
+        allergens: "*7/10/1 · *7/5",
       },
       {
         label: "Desserts",
         items: [
-          "Mirabelle Melba — sorbet mirabelle, glace vanille, fruits frais rôtis, coulis de mirabelle et crème fouettée vanillée.",
-          "Fromage blanc fermier, fruits de saison, coulis de fruits et crumble.",
+          "Crème brûlée infusée à la bergamote.",
+          "Coupe automnale — sorbet pomme, glace vanille macadamia caramel, pommes caramélisées et chantilly.",
         ],
-        allergens: "*1/7/8/3 · *7/8/3/1",
+        allergens: "*7/3 · *7/8",
       },
     ],
   },
@@ -71,17 +71,18 @@ export const menus: FixedMenu[] = [
       {
         label: "Entrées",
         items: [
-          "Duo de foie gras — foie gras de canard au whisky de Rozelieures, pain d'épices, chutney aux abricots, mini crème brûlée au foie gras et pointe de crème de framboise et combava.",
-          "Bruschetta toastée à l'ail, jaune d'œuf confit, jambon d'Auvergne, figues rôties, éclats de noisettes et pointe de vinaigre aux agrumes.",
+          "Duo de foie gras — foie gras de canard au whisky de Rozelieures, pain d'épices, gelée de groseilles, mini crème brûlée au foie gras et pointe de crème de framboise-combava.",
+          "Houmous de butternut au paprika fumé, noix de saint jacques snackées et huile de cacahuète.",
         ],
-        allergens: "*12/1/3/7 · *7/3",
+        allergens: "*12/1/3/7 · *7/11/14",
       },
       {
         label: "Plats",
         items: [
-          "Filet de bœuf français, carottes et pommes de terre rôties au four, tomates cerises confites et jus réduit au romarin.",
-          "Gambas snackées, risotto crémeux et ses chips de chorizo.",
+          "Filet de bœuf français, carottes et pommes de terre rôties au four et jus réduit au romarin.",
+          "Dos de cabillaud, purée de choux fleur, et sauce au beurre blanc aux câpres.",
         ],
+        allergens: "*5/7",
       },
       {
         label: "Fromage",
@@ -91,10 +92,10 @@ export const menus: FixedMenu[] = [
       {
         label: "Desserts",
         items: [
-          "Pavlova aux fruits de saison, coulis de fruits rouges et mousse mascarpone vanillée.",
-          "Coupe « Verger d'été » — sorbet abricot, abricots infusés, glace bulgare, sirop verveine et crumble.",
+          "O'tour du chocolat — muffin au chocolat noir, mousse au chocolat au lait et glace au chocolat blanc.",
+          "Moelleux aux châtaignes, glace au miel, éclats de noix de pécan caramélisées et mousse mascarpone vanillée.",
         ],
-        allergens: "*7/8/1/3",
+        allergens: "*7/1/3 · *7/1/8/3",
       },
     ],
   },

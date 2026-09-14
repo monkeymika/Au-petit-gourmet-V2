@@ -25,35 +25,35 @@ export const menu: { sections: MenuSection[] } = {
         {
           name: "Foie gras de canard Français",
           description:
-            "Au Whisky de Rozelieures, pain d'épices, chutney à l'abricot, pointe de crème de framboise et combava et sa mini crème brûlée.",
+            "Au Whisky de Rozelieures, pain d'épices, gelée de groseille, pointe de crème de framboise et combava et sa mini crème brûlée.",
           prices: [{ amount: 19 }],
           allergens: "12/1/3/7",
         },
         {
-          name: "Carpaccio de bœuf",
-          description: "Pesto aux agrumes, pétales de parmesan et câpres frits.",
-          prices: [{ amount: 11.8 }],
-          allergens: "7/8",
+          name: "Salade automnale",
+          description:
+            "Foie gras, parmesan, croûtons, oeuf, dés de courges rôtis et magret séché maison.",
+          prices: [{ amount: 14 }],
+          allergens: "7/8/3",
         },
         {
-          name: "Magret séché maison",
+          name: "Ravioles forestières",
+          description: "Crème aux girolles ail et persil et tuile au sésame.",
+          prices: [{ amount: 13 }],
+          allergens: "7/11",
+        },
+        {
+          name: "Tartare de betteraves du jardin",
           description:
-            "Billes de melon, dés de fêta, baby poivrons, pointe de vinaigre poivrons/piments et pickles d'oignons rouges.",
+            "Ricotta fouettée, pickles de légumes, pesto aux éclats de pistaches et vinaigrette au piment et poivrons.",
+          prices: [{ amount: 9.5 }],
+          allergens: "7/8/10",
+        },
+        {
+          name: "Mini camembert 150gr au four",
+          description: "Miel, noix et jambon cru.",
           prices: [{ amount: 13.5 }],
           allergens: "7/8",
-        },
-        {
-          name: "Assiette dégustation de jambon cru d'Auvergne IGP",
-          description: "Beurre et condiments.",
-          prices: [{ amount: 12 }],
-          allergens: "7",
-        },
-        {
-          name: "Gaspacho de tomates jaunes",
-          description:
-            "Gambas snackées, filet d'huile d'olive extra vierge au basilic et chorizo croustillant.",
-          prices: [{ amount: 13 }],
-          allergens: "poivrons",
         },
       ],
     },
@@ -62,22 +62,9 @@ export const menu: { sections: MenuSection[] } = {
       title: "Plats",
       items: [
         {
-          name: "Tartare de bœuf coupé au couteau",
-          description:
-            "Préparé par nos soins, accompagné de frites et salade verte.",
-          prices: [{ amount: 21 }],
-          allergens: "10/8",
-        },
-        {
-          name: "Filet de bœuf Français",
-          description:
-            "Carottes et pommes de terre rôties au four, tomates cerises confites et son jus réduit au romarin.",
-          prices: [{ amount: 34 }],
-        },
-        {
           name: "Burger ou version Veggie",
           description:
-            "Steak haché ou steak végétal, tomme à l'italienne, coppa, crème au pesto, pickles d'oignons, frites fraîches maison et salade verte.",
+            "Steak haché ou steak végétal, munster, coppa, sauce barbecue, confit d'oignons, frites fraîches maison et salade verte.",
           prices: [
             { amount: 19, variant: "Simple" },
             { amount: 22, variant: "Double" },
@@ -85,31 +72,41 @@ export const menu: { sections: MenuSection[] } = {
           allergens: "1/7/8/11/4",
         },
         {
-          name: "Picanha de bœuf",
-          description: "Polenta crémeuse et jus court au thym.",
-          prices: [{ amount: 28.5 }],
-          allergens: "7/1",
+          name: "Noix de joue de porc confite",
+          description: "Au vin rouge et sa polenta crémeuse.",
+          prices: [{ amount: 21 }],
+          allergens: "7/12",
         },
         {
-          name: "Filet de dorade royale",
-          description:
-            "Sauce vierge tomates, citron et herbes du jardin et ses petits légumes d'été.",
+          name: "Dos de cabillaud",
+          description: "Purée de choux fleur, sauce beurre blanc aux câpres.",
           prices: [{ amount: 26 }],
-          allergens: "5",
+          allergens: "7/1/4/5",
         },
         {
-          name: "Salade façon Vosgienne",
+          name: "Entrecôte",
           description:
-            "Pommes de terre, jambon cru, oignons, croûtons, œuf, crème et tomates cerises.",
-          prices: [{ amount: 18 }],
-          allergens: "7/3",
+            "Pommes de terre rôties et carottes fanes, jus réduit au romarin.",
+          prices: [{ amount: 32 }],
         },
         {
-          name: "Salade gourmande",
+          name: "Côte de veau",
+          description: "Courges rôties au cumin et sauce aux girolles.",
+          prices: [{ amount: 28 }],
+          allergens: "7",
+        },
+        {
+          name: "Salade automnale",
           description:
-            "Tomates cerises, saumon gravlax, parmesan, croûtons, billes de mozzarella, maïs et vinaigrette aux agrumes.",
-          prices: [{ amount: 19.5 }],
-          allergens: "7/1",
+            "Foie gras, parmesan, croûtons, oeuf, dés de courges rôtis et magret séché maison.",
+          prices: [{ amount: 22 }],
+          allergens: "7/1/3/10",
+        },
+        {
+          name: "Ravioles forestières",
+          description: "Crème aux girolles ail et persil et tuile au sésame.",
+          prices: [{ amount: 24 }],
+          allergens: "7/11",
         },
       ],
     },
@@ -130,36 +127,37 @@ export const menu: { sections: MenuSection[] } = {
       title: "Desserts",
       items: [
         {
-          name: "Moelleux au chocolat",
+          name: "Brioche façon pain perdu",
           description:
-            "Cœur fruits rouges, sorbet framboise, crème fouettée vanillée et tuile aux amandes.",
-          prices: [{ amount: 11 }],
-          allergens: "1/3/4/7/8",
+            "Glace au Grand Marnier, caramel et mousse mascarponne vanillée.",
+          prices: [{ amount: 9.5 }],
+          allergens: "1/7/3",
         },
         {
           name: "Café ou thé gourmand",
-          description: "Trio de dessert du moment.",
+          description: "Trio de minis desserts du moment.",
           prices: [{ amount: 8.5 }],
           allergens: "1/7/3/8",
         },
         {
-          name: "Mirabelle melba",
+          name: "Coupe automnale",
           description:
-            "Sorbet mirabelle, glace vanille, coulis de mirabelles, fruits frais rôtis et crème fouettée vanillée.",
-          prices: [{ amount: 9.5 }],
-          allergens: "7",
-        },
-        {
-          name: "Figues rôties au romarin",
-          description: "Glace bulgare, brisures de meringue et fruits confits.",
+            "Sorbet pomme, glace vanille macadamia caramel, pommes caramélisées et chantilly.",
           prices: [{ amount: 10 }],
-          allergens: "7/8/1",
+          allergens: "7/8",
         },
         {
-          name: "Pavlova aux fruits de saison",
-          description: "Coulis de fruits rouges et mousse mascarpone vanillée.",
-          prices: [{ amount: 9.5 }],
-          allergens: "7",
+          name: "O'tour du chocolat",
+          description:
+            "Muffin au chocolat noir, mousse chocolat au lait et glace au chocolat blanc.",
+          prices: [{ amount: 11 }],
+          allergens: "7/3/1",
+        },
+        {
+          name: "Mousse de poire",
+          description: "Sur biscuit sablé et poire rôtie.",
+          prices: [{ amount: 9 }],
+          allergens: "7/1",
         },
       ],
     },

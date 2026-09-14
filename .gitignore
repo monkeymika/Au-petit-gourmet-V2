@@ -1,5 +1,6 @@
 # boîte de réception (sources brutes à trier, hors site)
 Img/
+modifs-client/
 
 # build output
 dist/
