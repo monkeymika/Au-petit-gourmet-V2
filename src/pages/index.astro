@@ -224,10 +224,10 @@ const galleryImages = Object.entries(galleryImports)
       </h2>
     </div>
 
-    <div class="mt-16 grid gap-10 md:grid-cols-3 md:gap-8 reveal">
+    <div class="mt-16 flex flex-wrap justify-center gap-10 md:gap-8 reveal">
       {
         events.map((event) => (
-          <article class="group flex h-full flex-col">
+          <article class="group flex h-full w-full flex-col md:w-[calc(33.333%-1.334rem)]">
             <div class="mb-6">
               <h3 class="font-serif text-2xl text-forest-900 md:text-3xl">{event.title}</h3>
               <p class="mt-2 text-xs font-medium uppercase tracking-[0.18em] text-terracotta-500">
