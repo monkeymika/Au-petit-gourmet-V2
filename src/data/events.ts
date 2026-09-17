@@ -9,6 +9,24 @@ export type EventItem = {
 
 export const events: EventItem[] = [
   {
+    id: "soiree-paella",
+    title: "Soirée Paella",
+    period: "Samedi 17 octobre",
+    excerpt:
+      "Assiette de tapas, paella et crème catalane pour une soirée aux saveurs du Sud. 35€/pers, sur réservation.",
+    poster: "/affiches/soiree-paella.webp",
+    posterAlt: "Affiche de la soirée paella du samedi 17 octobre au restaurant Au Petit Gourmet",
+  },
+  {
+    id: "soiree-moules-frites",
+    title: "Soirée Moules-Frites",
+    period: "Samedi 31 octobre 2026, 19h",
+    excerpt:
+      "La soirée conviviale et gourmande ! 22€/pers, sur réservation.",
+    poster: "/affiches/soiree-moules-frites.webp",
+    posterAlt: "Affiche de la soirée moules-frites du samedi 31 octobre 2026 au restaurant Au Petit Gourmet",
+  },
+  {
     id: "foie-gras-a-emporter",
     title: "Foie gras à emporter",
     period: "Disponible à la vente",
