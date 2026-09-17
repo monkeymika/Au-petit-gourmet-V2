@@ -224,7 +224,7 @@ const galleryImages = Object.entries(galleryImports)
       </h2>
     </div>
 
-    <div class="mt-16 flex flex-wrap items-stretch justify-center gap-10 md:gap-8 reveal">
+    <div class={`mt-16 flex flex-wrap items-stretch gap-10 md:gap-8 reveal ${events.length < 3 ? "justify-center" : "justify-center md:justify-start"}`}>
       {
         events.map((event) => (
           <article class="group flex w-full flex-col md:w-[calc(33.333%-1.334rem)]">
