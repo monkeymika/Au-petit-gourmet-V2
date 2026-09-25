@@ -61,7 +61,7 @@ Section 220vh/260vh avec `sticky top-0 h-screen` → **scroll pin**.
 |---|---|---|---|
 | 1 | Bienvenue chez nous + horaires | cream-50 | — |
 | 2 | Vu sur Instagram (find.nancy) | cream-100 | ◇ |
-| 3 | Nos événements (3 affiches + lightbox) | cream-50 | — |
+| 3 | Nos événements (5 affiches + lightbox) | cream-50 | — |
 | 4 | Formules du midi (forest, logo principal + 3 prix) | forest-700 | ◇ |
 | 5 | À la carte (extraits menu + filigrane "Carte") | cream-50 | — |
 | 6 | Galerie (17 photos masonry + lightbox locale) | cream-100 | ◇ |
@@ -75,7 +75,7 @@ Section 220vh/260vh avec `sticky top-0 h-screen` → **scroll pin**.
 |---|---|
 | `src/data/restaurant.ts` | Infos établissement + `formulesMidi` + partenaires |
 | `src/data/menu.ts` | Carte 4 sections / 18 plats typés + `formatPrice()` helper |
-| `src/data/events.ts` | 3 événements (affiches) |
+| `src/data/events.ts` | 5 événements (affiches) |
 
 ## Page `/la-carte/`
 - Hero + intro + **nav d'ancres** (Entrées/Plats/Fromages/Desserts, scroll-mt-32)
@@ -101,7 +101,7 @@ Section 220vh/260vh avec `sticky top-0 h-screen` → **scroll pin**.
 | `src/assets/a-la-carte/` | 3 PNG sources de la carte (conservés pour référence) |
 | `src/assets/evenements/` | 3 affiches sources |
 | `src/assets/miel/` | 01-pots-ardoise.webp (88 Ko) + 02-pots-detail.webp (79 Ko) |
-| `public/affiches/` | 3 affiches WebP optimisées (147 Ko total) |
+| `public/affiches/` | 5 affiches WebP optimisées (468 Ko total, ~1000px de large, WebP q75-78) |
 | `public/videos/` | hero.mp4 (vidéo cliente 1600×900 24fps, 5,67 Mo, muette — màj 2026-06-09) + hero-mobile.mp4 (960×540, 1,88 Mo, servie via `<source media>`) + hero-poster.webp + find-nancy-reel.mp4 + miel-rucher.mp4 (569 Ko) + posters WebP |
 | `public/menu/` | PDF carte (vide, en attente) |
 | `Img/` | Boîte de réception : utilisateur dépose ici, je trie |
