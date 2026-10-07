@@ -147,7 +147,7 @@ const isActive = (href: string) => {
     overlay?.classList.add("is-open");
     overlay?.setAttribute("aria-hidden", "false");
     toggle?.setAttribute("aria-expanded", "true");
-    toggle?.setAttribute("aria-label", "Fermer la navigation");
+    toggle?.setAttribute("aria-label", "Menu : fermer la navigation");
     requestAnimationFrame(() => {
       document.querySelectorAll<HTMLElement>("[data-nav-item]").forEach((el) => {
         el.style.animation = "navItemIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both";
@@ -160,7 +160,7 @@ const isActive = (href: string) => {
     overlay?.classList.remove("is-open");
     overlay?.setAttribute("aria-hidden", "true");
     toggle?.setAttribute("aria-expanded", "false");
-    toggle?.setAttribute("aria-label", "Ouvrir la navigation");
+    toggle?.setAttribute("aria-label", "Menu : ouvrir la navigation");
     document.body.style.overflow = "";
   };
 
