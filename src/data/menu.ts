@@ -62,6 +62,18 @@ export const menu: { sections: MenuSection[] } = {
       title: "Plats",
       items: [
         {
+          name: "Noix de joue de porc confite",
+          description: "Au vin rouge et sa polenta crémeuse.",
+          prices: [{ amount: 23 }],
+          allergens: "7/12",
+        },
+        {
+          name: "Côte de veau",
+          description: "Courges rôties au cumin et sauce aux girolles.",
+          prices: [{ amount: 29 }],
+          allergens: "7",
+        },
+        {
           name: "Burger ou version Veggie",
           description:
             "Steak haché ou steak végétal, munster, coppa, sauce barbecue, confit d'oignons, frites fraîches maison et salade verte.",
@@ -72,28 +84,22 @@ export const menu: { sections: MenuSection[] } = {
           allergens: "1/7/8/11/4",
         },
         {
-          name: "Noix de joue de porc confite",
-          description: "Au vin rouge et sa polenta crémeuse.",
-          prices: [{ amount: 21 }],
-          allergens: "7/12",
-        },
-        {
           name: "Dos de cabillaud",
           description: "Purée de choux fleur, sauce beurre blanc aux câpres.",
           prices: [{ amount: 26 }],
           allergens: "7/1/4/5",
         },
         {
+          name: "Ravioles forestières",
+          description: "Crème aux girolles ail et persil et tuile au sésame.",
+          prices: [{ amount: 24 }],
+          allergens: "7/11",
+        },
+        {
           name: "Entrecôte",
           description:
             "Pommes de terre rôties et carottes fanes, jus réduit au romarin.",
-          prices: [{ amount: 32 }],
-        },
-        {
-          name: "Côte de veau",
-          description: "Courges rôties au cumin et sauce aux girolles.",
           prices: [{ amount: 28 }],
-          allergens: "7",
         },
         {
           name: "Salade automnale",
@@ -101,12 +107,6 @@ export const menu: { sections: MenuSection[] } = {
             "Foie gras, parmesan, croûtons, oeuf, dés de courges rôtis et magret séché maison.",
           prices: [{ amount: 22 }],
           allergens: "7/1/3/10",
-        },
-        {
-          name: "Ravioles forestières",
-          description: "Crème aux girolles ail et persil et tuile au sésame.",
-          prices: [{ amount: 24 }],
-          allergens: "7/11",
         },
       ],
     },

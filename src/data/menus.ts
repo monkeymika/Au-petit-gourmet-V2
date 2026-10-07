@@ -71,10 +71,10 @@ export const menus: FixedMenu[] = [
       {
         label: "Entrées",
         items: [
+          "Houmous de butternut au paprika fumé, tataki de thon au sésame et fenouil croquant.",
           "Duo de foie gras — foie gras de canard au whisky de Rozelieures, pain d'épices, gelée de groseilles, mini crème brûlée au foie gras et pointe de crème de framboise-combava.",
-          "Houmous de butternut au paprika fumé, noix de saint jacques snackées et huile de cacahuète.",
         ],
-        allergens: "*12/1/3/7 · *7/11/14",
+        allergens: "*7/11/14 · *12/1/3/7",
       },
       {
         label: "Plats",
