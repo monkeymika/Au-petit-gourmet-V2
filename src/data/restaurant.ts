@@ -36,17 +36,17 @@ export const restaurant = {
     items: [
       {
         name: "Plat du jour",
-        price: "13,50€",
+        price: "14€",
         details: null,
       },
       {
         name: "Formule entrée/plat ou plat/café gourmand",
-        price: "17€",
+        price: "17,50€",
         details: "Entrée du jour + plat du jour",
       },
       {
         name: "Formule menu du jour",
-        price: "21,50€",
+        price: "22€",
         details: "Entrée du jour + plat du jour + dessert du jour",
       },
     ],
@@ -56,12 +56,20 @@ export const restaurant = {
     { day: "Mardi", service: "12h00 – 13h30", closed: false },
     { day: "Mercredi", service: "Fermé", closed: true },
     { day: "Jeudi", service: "12h00 – 13h30", closed: false },
-    { day: "Vendredi", service: "12h00 – 13h30 · 19h00 – 21h00", closed: false },
+    {
+      day: "Vendredi",
+      service: "12h00 – 13h30 · 19h00 – 21h00",
+      closed: false,
+    },
     { day: "Samedi", service: "19h00 – 21h00", closed: false },
     { day: "Dimanche", service: "12h00 – 13h30", closed: false },
   ],
   openingHoursSpecification: [
-    { dayOfWeek: ["Monday", "Tuesday", "Thursday"], opens: "12:00", closes: "13:30" },
+    {
+      dayOfWeek: ["Monday", "Tuesday", "Thursday"],
+      opens: "12:00",
+      closes: "13:30",
+    },
     { dayOfWeek: "Friday", opens: "12:00", closes: "13:30" },
     { dayOfWeek: "Friday", opens: "19:00", closes: "21:00" },
     { dayOfWeek: "Saturday", opens: "19:00", closes: "21:00" },
@@ -69,7 +77,8 @@ export const restaurant = {
   ],
   social: {
     instagram: "https://www.instagram.com/aupetitgourmet_/",
-    facebook: "https://www.facebook.com/people/Restaurant-Au-Petit-Gourmet/61554540119406/",
+    facebook:
+      "https://www.facebook.com/people/Restaurant-Au-Petit-Gourmet/61554540119406/",
   },
 } as const;
 
