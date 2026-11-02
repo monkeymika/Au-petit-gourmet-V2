@@ -11,7 +11,7 @@ export const menus: FixedMenu[] = [
   {
     slug: "menu-du-jour",
     title: "Menu",
-    price: 21.5,
+    price: 22,
     schedule: "Formules servies du lundi au vendredi midi",
     courses: [
       { label: "Entrée + Plat + Dessert" },
@@ -23,7 +23,7 @@ export const menus: FixedMenu[] = [
   {
     slug: "formule-express",
     title: "Formule Express",
-    price: 17,
+    price: 17.5,
     courses: [
       { label: "Entrée + Plat" },
       { label: "ou" },
@@ -34,7 +34,8 @@ export const menus: FixedMenu[] = [
     slug: "menu-gourmet",
     title: "Menu Gourmet",
     price: 35,
-    schedule: "Menu servi uniquement le vendredi soir, samedi soir et dimanche midi et les jours fériés",
+    schedule:
+      "Menu servi uniquement le vendredi soir, samedi soir et dimanche midi et les jours fériés",
     courses: [
       {
         label: "Entrées",
@@ -66,7 +67,8 @@ export const menus: FixedMenu[] = [
     slug: "menu-signature",
     title: "Menu Signature",
     price: 46,
-    schedule: "Menu servi uniquement le vendredi soir, samedi soir et dimanche midi et les jours fériés",
+    schedule:
+      "Menu servi uniquement le vendredi soir, samedi soir et dimanche midi et les jours fériés",
     courses: [
       {
         label: "Entrées",
@@ -132,18 +134,36 @@ export const menus: FixedMenu[] = [
 ];
 
 export const allergensList: { code: string; label: string }[] = [
-  { code: "1", label: "Céréales contenant du gluten (blé, seigle, orge, avoine, épeautre, kamut ou leurs souches hybridées) et produits à base de ces céréales" },
+  {
+    code: "1",
+    label:
+      "Céréales contenant du gluten (blé, seigle, orge, avoine, épeautre, kamut ou leurs souches hybridées) et produits à base de ces céréales",
+  },
   { code: "2", label: "Crustacés et produits à base de crustacés" },
   { code: "3", label: "Œufs et produits à base d'œufs" },
   { code: "4", label: "Arachides et produits à base d'arachides" },
   { code: "5", label: "Poissons et produits à base de poisson" },
   { code: "6", label: "Soja et produits à base de soja" },
-  { code: "7", label: "Lait et produits à base de lait (y compris le lactose)" },
-  { code: "8", label: "Fruits à coques (amandes, noisettes, noix, noix de cajou, pécan, macadamia, du brésil, du queensland, pistaches) et produits à base de ces fruits" },
+  {
+    code: "7",
+    label: "Lait et produits à base de lait (y compris le lactose)",
+  },
+  {
+    code: "8",
+    label:
+      "Fruits à coques (amandes, noisettes, noix, noix de cajou, pécan, macadamia, du brésil, du queensland, pistaches) et produits à base de ces fruits",
+  },
   { code: "9", label: "Céleri et produits à base de céleri" },
   { code: "10", label: "Moutarde et produits à base de moutarde" },
-  { code: "11", label: "Graines de sésames et produits à base de graines de sésame" },
-  { code: "12", label: "Anhydride sulfureux et sulfites en concentration de plus de 10mg/kg ou 10mg/L" },
+  {
+    code: "11",
+    label: "Graines de sésames et produits à base de graines de sésame",
+  },
+  {
+    code: "12",
+    label:
+      "Anhydride sulfureux et sulfites en concentration de plus de 10mg/kg ou 10mg/L",
+  },
   { code: "13", label: "Lupin et produits à base de lupin" },
   { code: "14", label: "Mollusques et produits à base de mollusque" },
 ];
