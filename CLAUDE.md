@@ -134,6 +134,7 @@ Section 220vh/260vh avec `sticky top-0 h-screen` → **scroll pin**.
 - Préférence : feedback visuel itératif (screenshots), inspiration Mooser Hotel
 
 ## Ce qu'il reste à faire
+- [ ] **Après le 1er janvier 2027 : retirer le menu du Nouvel An** → supprimer l'entrée `menu-nouvel-an` dans `src/data/menus.ts` (l'onglet doré « ✦ Nouvel An » de `/la-carte/` disparaît tout seul) + l'entrée dans `src/data/events.ts` + `public/affiches/menu-nouvel-an.webp`. L'encadré festif est réutilisable pour d'autres menus de fête via `festive: true` (composant `src/components/MenuCard.astro`).
 - [ ] **Empreintes hérisson au scroll** (`src/components/PawTrail.astro`, home only) : effet en place (paires diagonales, côtés alternés, pose séquentielle droite→gauche, asset `public/loader/foot.png`). **À retravailler** + étendre aux autres pages quand validé. Détails : mémoire `paw-trail.md`.
 - [x] ~~Recevoir vidéo hero définitive~~ → **nouvelle vidéo reçue le 2026-06-09** et en place (`hero.mp4` 1600×900 24fps, compressée 52,7 Mo → 5,67 Mo, muette ; mobile 960×540 2,2 Mo ; poster q65 78 Ko). Original conservé dans `Img/hero-nouveau.mp4`. Anciens fichiers (`hero-placeholder.mp4`, `video_hero-original.mp4`) supprimés.
 - [ ] Recevoir PDF carte (cliente) → bonus téléchargeable sur `/la-carte/`

@@ -4,10 +4,62 @@ export type FixedMenu = {
   subtitle?: string;
   price: number;
   schedule?: string;
+  /** Habillage festif (confettis dorés) — menus de fête ponctuels */
+  festive?: boolean;
   courses?: { label: string; items?: string[]; allergens?: string }[];
 };
 
 export const menus: FixedMenu[] = [
+  {
+    slug: "menu-nouvel-an",
+    title: "Menu du jour de l'An",
+    subtitle: "Menu de fête",
+    price: 65,
+    festive: true,
+    schedule:
+      "Servi le 31 décembre au réveillon et le 1er janvier au déjeuner",
+    courses: [
+      {
+        label: "Mise en bouche",
+        items: [
+          "Velouté de châtaignes.",
+          "Blini's au saumon fumé et mousse citronnée.",
+        ],
+      },
+      {
+        label: "Entrée marine",
+        items: [
+          "Carpaccio de Saint-Jacques, pomme verte et fenouil croquant, marinade aux agrumes et huile d'aneth.",
+        ],
+      },
+      {
+        label: "Entrée gourmande",
+        items: [
+          "Foie gras au whisky de Rozelieures, gelée de coing et pain d'épices.",
+        ],
+      },
+      {
+        label: "Plats principaux",
+        items: [
+          "Pavé de cerf, sauce aux airelles, pommes dauphine truffées et carottes fanes caramélisées au miel de nos ruchers.",
+          "ou",
+          "Dos de cabillaud en nage, coquillages, sauce safranée et petits légumes.",
+        ],
+      },
+      {
+        label: "Fromage",
+        items: [
+          "Brie truffé, éclats de noix, raisin, salade verte et gelée de groseilles.",
+        ],
+      },
+      {
+        label: "Dessert",
+        items: [
+          "Farandole de gourmandises — mini baba au rhum, quenelle de sorbet au litchi, écrin chocolaté, douceur de fève de tonka et marrons glacés, poire pochée aux épices de Noël, mini tartelette au citron et meringue italienne.",
+        ],
+      },
+    ],
+  },
   {
     slug: "menu-du-jour",
     title: "Menu",

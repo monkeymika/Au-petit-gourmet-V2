@@ -9,14 +9,21 @@ import { vins, formatWinePrice } from "@data/vins";
 import Hero from "@components/Hero.astro";
 import BookingCTA from "@components/BookingCTA.astro";
 import Botanical from "@components/Botanical.astro";
+import MenuCard from "@components/MenuCard.astro";
 import heroLaCarte from "@/assets/page-lacarte/hero-lacarte.webp";
+
+// Menus de fête (ex. Nouvel An) : onglet provisoire dédié, retiré de « Menus & Formules ».
+// Il disparaît automatiquement quand plus aucun menu n'a `festive: true` dans menus.ts.
+const festiveMenus = menus.filter((m) => m.festive);
+const regularMenus = menus.filter((m) => !m.festive);
 
 const tabs = [
   { id: "carte", label: "La carte" },
+  ...(festiveMenus.length > 0 ? [{ id: "nouvel-an", label: "Nouvel An", festive: true }] : []),
   { id: "menus", label: "Menus & Formules" },
   { id: "boissons", label: "Boissons" },
   { id: "vins", label: "Vins" },
-];
+] as { id: string; label: string; festive?: boolean }[];
 
 const accentClasses: Record<"forest" | "terracotta" | "magenta", { text: string }> = {
   forest: { text: "text-forest-700" },
@@ -49,9 +56,23 @@ const accentClasses: Record<"forest" | "terracotta" | "magenta", { text: string 
         <button
           type="button"
           data-tab-target={tab.id}
-          class="tab-btn rounded-full px-3 py-1.5 font-serif text-xs text-ink-500 transition-all hover:text-forest-900 data-[active=true]:bg-forest-700 data-[active=true]:text-cream-50 sm:px-4 sm:py-2 sm:text-sm md:px-5 md:text-base"
+          class:list={[
+            "tab-btn rounded-full px-3 py-1.5 font-serif text-xs transition-all sm:px-4 sm:py-2 sm:text-sm md:px-5 md:text-base",
+            tab.festive
+              ? "tab-festive text-[#8F6E25] hover:text-[#6E5418]"
+              : "text-ink-500 hover:text-forest-900 data-[active=true]:bg-forest-700 data-[active=true]:text-cream-50",
+          ]}
         >
-          {tab.label}
+          {tab.festive ? (
+            <>
+              <span class="tab-festive-star" aria-hidden="true">✦</span> {tab.label}
+              <span class="tab-sparkle" style="top:-8px;right:4px;animation-delay:0s" aria-hidden="true">✦</span>
+              <span class="tab-sparkle" style="bottom:-7px;left:8px;font-size:10px;animation-delay:-0.9s" aria-hidden="true">✦</span>
+              <span class="tab-sparkle" style="top:30%;right:-9px;font-size:9px;animation-delay:-1.6s" aria-hidden="true">✦</span>
+              <span class="tab-sparkle" style="top:-7px;left:30%;font-size:8px;animation-delay:-2.1s" aria-hidden="true">✦</span>
+              <span class="tab-sparkle" style="bottom:-6px;right:28%;font-size:8px;animation-delay:-0.4s" aria-hidden="true">✦</span>
+            </>
+          ) : tab.label}
         </button>
       ))}
     </nav>
@@ -132,46 +153,24 @@ const accentClasses: Record<"forest" | "terracotta" | "magenta", { text: string 
     </div>
   </section>
 
+  <!-- Onglet provisoire : menu de fête (s'affiche seulement si un menu a `festive: true`) -->
+  {festiveMenus.length > 0 && (
+    <section id="nouvel-an" data-tab="nouvel-an" class="tab-panel hidden">
+      <div class="container-content space-y-12 pt-16 pb-16 md:space-y-16 md:pt-20 md:pb-20">
+        {festiveMenus.map((m) => <MenuCard menu={m} />)}
+      </div>
+      <div class="container-content pb-12">
+        <div class="border-t border-ink-900/10 pt-8 text-center">
+          <p class="text-sm text-ink-500">{menuFooter.pricingNote}</p>
+        </div>
+      </div>
+    </section>
+  )}
+
   <!-- Onglet 2 : Menus & formules -->
   <section id="menus" data-tab="menus" class="tab-panel hidden">
     <div class="container-content space-y-12 pt-16 pb-16 md:space-y-16 md:pt-20 md:pb-20">
-      {menus.map((m) => (
-        <article class="relative overflow-hidden rounded-3xl border border-ink-900/10 bg-cream-100/40 p-8 md:p-12">
-          <div class="grid gap-8 md:grid-cols-12 md:gap-12">
-            <header class="md:col-span-4">
-              {m.subtitle && <p class="eyebrow">{m.subtitle}</p>}
-              <h3 class="mt-3 font-serif text-3xl text-forest-900 md:text-4xl">{m.title}</h3>
-              <p class="mt-4 font-serif text-3xl text-terracotta-500 md:text-4xl">
-                {formatWinePrice(m.price)}
-              </p>
-              {m.schedule && (
-                <p class="mt-4 text-xs font-medium uppercase tracking-[0.18em] text-ink-500">
-                  {m.schedule}
-                </p>
-              )}
-            </header>
-            <div class="md:col-span-8">
-              <ul class="space-y-6">
-                {m.courses?.map((c) => (
-                  <li class="border-l-2 border-forest-700/40 pl-5">
-                    <p class="font-serif text-lg text-forest-900">{c.label}</p>
-                    {c.items && c.items.length > 0 && (
-                      <ul class="mt-2 space-y-1.5 text-base italic text-ink-700">
-                        {c.items.map((line) => <li>· {line}</li>)}
-                      </ul>
-                    )}
-                    {c.allergens && (
-                      <p class="mt-2 text-[11px] font-medium uppercase tracking-[0.18em] text-ink-500">
-                        Allergènes&nbsp;: {c.allergens}
-                      </p>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </article>
-      ))}
+      {regularMenus.map((m) => <MenuCard menu={m} />)}
     </div>
 
     <div class="container-content pb-12">
@@ -403,6 +402,60 @@ const accentClasses: Record<"forest" | "terracotta" | "magenta", { text: string 
   .vins-nav-pill {
     transition: color 500ms, background-color 300ms, border-color 300ms;
   }
+
+  /* Onglet provisoire « Nouvel An » — pill dorée qui scintille */
+  .tab-festive {
+    position: relative;
+    background: linear-gradient(110deg, rgba(201, 162, 74, 0.14), rgba(243, 221, 158, 0.32) 50%, rgba(201, 162, 74, 0.14));
+    background-size: 200% 100%;
+    box-shadow: inset 0 0 0 1px rgba(201, 162, 74, 0.55);
+    animation:
+      tab-festive-shimmer 2.2s linear infinite,
+      tab-festive-glow 2.4s ease-in-out infinite;
+  }
+  /* Actif : or métallique brillant, texte brun foncé pour rester lisible */
+  .tab-festive[data-active="true"] {
+    color: #3B2A08;
+    background: linear-gradient(110deg, #B8892B 0%, #E9C766 30%, #FFF1BF 45%, #E9C766 60%, #B8892B 100%);
+    background-size: 220% 100%;
+  }
+  .tab-festive[data-active="true"]:hover {
+    color: #2A1E05;
+  }
+  .tab-festive-star {
+    display: inline-block;
+    animation: tab-festive-twinkle 1.6s ease-in-out infinite;
+  }
+  /* Petites étincelles autour de la pill */
+  .tab-sparkle {
+    position: absolute;
+    font-size: 13px;
+    line-height: 1;
+    color: #D4AF37;
+    text-shadow: 0 0 4px rgba(255, 225, 140, 0.9);
+    pointer-events: none;
+    animation: tab-sparkle 2.4s ease-in-out infinite;
+  }
+  @keyframes tab-festive-shimmer {
+    from { background-position: 200% 0; }
+    to { background-position: 0 0; }
+  }
+  @keyframes tab-festive-glow {
+    0%, 100% { box-shadow: inset 0 0 0 1px rgba(201, 162, 74, 0.55), 0 0 0 0 rgba(233, 199, 102, 0); }
+    50% { box-shadow: inset 0 0 0 1px rgba(201, 162, 74, 0.8), 0 0 18px 2px rgba(233, 199, 102, 0.55); }
+  }
+  @keyframes tab-sparkle {
+    0%, 100% { opacity: 0; transform: scale(0.3) rotate(0deg); }
+    40%, 60% { opacity: 1; transform: scale(1.2) rotate(45deg); }
+  }
+  @keyframes tab-festive-twinkle {
+    0%, 100% { transform: scale(0.85) rotate(0deg); opacity: 0.7; }
+    50% { transform: scale(1.2) rotate(25deg); opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tab-festive, .tab-festive-star, .tab-sparkle { animation: none; }
+    .tab-sparkle { opacity: 0.8; }
+  }
 </style>
 
 <script>
@@ -450,7 +503,7 @@ const accentClasses: Record<"forest" | "terracotta" | "magenta", { text: string 
 
   // Au chargement, ouvrir l'onglet correspondant au hash si présent, sinon "carte".
   const hash = window.location.hash.replace("#", "");
-  const validTabs = ["carte", "menus", "boissons", "vins"];
+  const validTabs = Array.from(tabButtons, (b) => b.dataset.tabTarget!);
   if (hash && validTabs.includes(hash)) {
     activateTab(hash, false);
   } else if (hash) {

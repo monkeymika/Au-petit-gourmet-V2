@@ -9,6 +9,16 @@ export type EventItem = {
 
 export const events: EventItem[] = [
   {
+    id: "menu-nouvel-an",
+    title: "Menu du jour de l'An",
+    period: "31 décembre au soir & 1er janvier midi",
+    excerpt:
+      "Menu de fête à 65€ par personne : mise en bouche, carpaccio de Saint-Jacques, foie gras au whisky de Rozelieures, pavé de cerf ou dos de cabillaud, brie truffé et farandole de gourmandises.",
+    poster: "/affiches/menu-nouvel-an.webp",
+    posterAlt:
+      "Affiche du menu du jour de l'An à 65€ par personne, servi le 31 décembre au réveillon et le 1er janvier au déjeuner, Au Petit Gourmet",
+  },
+  {
     id: "foie-gras-a-emporter",
     title: "Foie gras à emporter",
     period: "Disponible à la vente",
